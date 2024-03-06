@@ -8,24 +8,24 @@ import SwiftUI
 struct GameLobbyView: View {
 
     var body: some View {
-       
-        HStack{
+
+        HStack {
             Spacer()
-                
+
             Text("Game Lobby")
                     .font(.largeTitle)
                     .foregroundColor(.black)
                     .bold()
-    
+
             Spacer()
        }
-        
-        VStack{
+
+        VStack {
             Text("Messages: .....")
-            //TODO: Add websocket text component to display recieved websocket information 
-            
+            // TODO: Add websocket text component to display recieved websocket information 
+
         }.padding()
-        
+
         Spacer()
     }
 }
