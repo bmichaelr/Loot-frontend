@@ -15,12 +15,12 @@ struct HomeMenuView: View {
         // Display the game title.
         Text("Loot!")
             .font(.largeTitle)
-        
+
         VStack {
             Spacer()
-            
+
             Button {
-                //Create Game Logic
+                // Create Game Logic
                 gameRoomKey = createGame()
             } label: {
                 Text("Create Game")
@@ -33,9 +33,9 @@ struct HomeMenuView: View {
                 .fill(.gray)
                 .frame(width: 250, height: 50)
             )
-            
+
             Spacer()
-            
+
             VStack {
                 TextField(
                     "Enter Game Room Key ",
@@ -46,12 +46,11 @@ struct HomeMenuView: View {
                     .disableAutocorrection(true).onSubmit {
                         print("Authenticating…")
                     }
-               
-                    
+
                 Button("Join Game") {
-                    //Join Game Logic
+                    // Join Game Logic
                     joinGame(gameKey: gameRoomKey)
-            
+
                 } .foregroundColor(.black)
                     .font(.title2)
                     .bold()
@@ -63,16 +62,16 @@ struct HomeMenuView: View {
             }
 
           Spacer()
-            
+
         }
     }
-    
+
     func joinGame(gameKey: String) {
         print("\nAuthenticating ... ")
-        //Validate Game Logic
+        // Validate Game Logic
         print("Joining game ...." + gameKey)
     }
-    
+
     func createGame() -> String {
         print("\nCreating game .....")
         return "FAKE_GAME_CODE"
