@@ -77,7 +77,7 @@ struct HomeMenuView: View {
 
     func createGame() -> String {
         print("\nCreating game .....")
-        displayViewController.changeView(view: .tus)
+        displayViewController.changeView(view: .gameLobbyView)
         return "FAKE_GAME_CODE"
     }
 }
