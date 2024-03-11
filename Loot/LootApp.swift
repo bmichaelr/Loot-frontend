@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct LootApp: App {
+    @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            switch displayViewController.currentView {
+            case .gameLobbyView:
+                GameLobbyView()
+            case .homeMenuView:
+                HomeMenuView()
+            case .gameView:
+                GameView()
+            case .startNewGameView:
+                HomeMenuView()
+            }
         }
     }
 }
