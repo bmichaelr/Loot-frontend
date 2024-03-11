@@ -1,14 +1,15 @@
 //
-//  ContentView.swift
+//  GameView.swift
 //  Loot
 //
-//  Created by Benjamin Michael on 2/25/24.
+//  Created by Kenna Chase on 3/11/24.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct GameView: View {
     var body: some View {
+        Text("Game View")
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
@@ -20,5 +21,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    GameView()
 }

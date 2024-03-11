@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeMenuView: View {
+    @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
+
     @State private var gameRoomKey: String = ""
 
     var body: some View {
@@ -70,10 +72,12 @@ struct HomeMenuView: View {
         print("\nAuthenticating ... ")
         // Validate Game Logic
         print("Joining game ...." + gameKey)
+        displayViewController.changeView(view: .gameLobbyView)
     }
 
     func createGame() -> String {
         print("\nCreating game .....")
+        displayViewController.changeView(view: .gameLobbyView)
         return "FAKE_GAME_CODE"
     }
 }

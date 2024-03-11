@@ -6,13 +6,14 @@
 import SwiftUI
 
 struct GameLobbyView: View {
+    @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
 
     var body: some View {
 
         HStack {
             Spacer()
 
-            Text("Game Lobby")
+            Text("Game Room Key: XXX-XXX")
                     .font(.largeTitle)
                     .foregroundColor(.black)
                     .bold()
@@ -21,8 +22,19 @@ struct GameLobbyView: View {
        }
 
         VStack {
-            Text("Messages: .....")
-            // TODO: Add websocket text component to display recieved websocket information 
+            Button {
+                displayViewController.changeView(view: .gameView)
+            } label: {
+                Text("Temp Button: Start Game")
+                    .foregroundColor(.black)
+                    .font(.title2)
+                    .bold()
+            }
+            .background(
+                Capsule(style: .continuous)
+                .fill(.gray)
+                .frame(width: 250, height: 50)
+            )
 
         }.padding()
 
