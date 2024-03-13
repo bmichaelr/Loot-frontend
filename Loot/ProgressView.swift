@@ -11,10 +11,10 @@ struct ProgressView: View {
     @State private var isActive = false
     @State private var size = 0.0
     @State private var opacity = 0.5
-
+    
     var body: some View {
         if isActive {
-            ProgressView()
+            ContentView()
         } else {
             VStack {
                 VStack {
@@ -38,7 +38,6 @@ struct ProgressView: View {
                 }
             }
         }
-
     }
 }
 
