@@ -10,12 +10,30 @@
       }
     },
     {
+      "identity" : "reachability.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ashleymills/Reachability.swift",
+      "state" : {
+        "revision" : "98e968e7b6c1318fb61df23e347bc319761e8acb",
+        "version" : "5.0.0"
+      }
+    },
+    {
       "identity" : "sourcekitten",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jpsim/SourceKitten.git",
       "state" : {
         "revision" : "b6dc09ee51dfb0c66e042d2328c017483a1a5d56",
         "version" : "0.34.1"
+      }
+    },
+    {
+      "identity" : "starscream",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/daltoniam/Starscream.git",
+      "state" : {
+        "revision" : "df8d82047f6654d8e4b655d1b1525c64e1059d21",
+        "version" : "4.0.4"
       }
     },
     {
@@ -43,6 +61,15 @@
       "state" : {
         "revision" : "eb85125a5f293de3d3248af259980c98bc2b1faa",
         "version" : "0.51.0"
+      }
+    },
+    {
+      "identity" : "swiftstomp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Romixery/SwiftStomp",
+      "state" : {
+        "revision" : "99dcfa7f428485b92de2359c9df9c778fd2d5599",
+        "version" : "1.1.1"
       }
     },
     {

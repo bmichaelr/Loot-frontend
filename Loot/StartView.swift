@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct StartView: View {
+    @EnvironmentObject var viewModel: AppViewModel
 
     var body: some View {
-        if true {
-            HomeMenuView()
-                .transition(.slide)
-        } else {
-            if true {
-                ProgressView()
+        if viewModel.connecting {
+            ProgressView()
+                .progressViewStyle(.circular)
             } else {
                 ZStack(alignment: .top) {
                     Text("Welcome to Loot!")
@@ -32,7 +30,8 @@ struct StartView: View {
                         .padding()
                 }
                 VStack(alignment: .center) {
-                    // HStack horizontal allows for us to be able to move fields from .leading (left side) & .trailing (right side)
+                    // HStack horizontal allows for us to be able to move fields 
+                    // from .leading (left side) & .trailing (right side)
                     HStack {
                         Text(" Create Name:")
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -41,11 +40,11 @@ struct StartView: View {
                             .font(.headline)
                     }
                     // name will become unique identifier in later development. UID, Username, etc.
-                    TextField("Enter your name here...", text: .constant(""))
+                    TextField("Enter your name here...", text: $viewModel.playerName)
                         // .padding()
                         .textFieldStyle(.roundedBorder)
-                        .autocorrectionDisabled(true) // disable autocorrect so it does not mess up user input for eventual unique identifier.
-                    Button("Connect", action: {print("print")})
+                        .autocorrectionDisabled(true)
+                    Button("Connect", action: viewModel.connectToSocket)
                         .buttonStyle(.bordered)
                         .frame(width: 100)
                         // .frame(width: 225)
@@ -66,11 +65,11 @@ struct StartView: View {
                 .padding()
             }
         }
-    }
 }
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
         StartView()
+            .environmentObject(AppViewModel())
     }
 }
