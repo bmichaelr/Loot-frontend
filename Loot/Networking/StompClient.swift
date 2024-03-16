@@ -13,7 +13,7 @@ class StompClient {
     var channelListeners: [String: (Data) -> Void] = [:]
     var connectedCall: ((Bool) -> Void)?
     init() {
-        let url = URL(string: "http://ciloot.lol/game-websocket")
+        let url = URL(string: "http://172.235.36.92:8080/game-websocket")
         swiftStomp = SwiftStomp(host: url!)
         swiftStomp.delegate = self
         swiftStomp.autoReconnect = true
@@ -81,6 +81,6 @@ extension StompClient: SwiftStompDelegate {
     }
     func onError(swiftStomp: SwiftStomp, briefDescription: String, fullDescription: String?, receiptId: String?, type: StompErrorType) {
         // Handle error
-        print("error occured in connection")
+        print("error occured in connection: \(briefDescription), full description: \(fullDescription ?? "not available")")
     }
 }
