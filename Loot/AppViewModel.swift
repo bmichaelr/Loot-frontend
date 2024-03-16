@@ -14,6 +14,7 @@ class AppViewModel: ObservableObject {
     @Published var lobbyData: LobbyResponse = LobbyResponse()
     @Published var viewController: DisplayViewController = DisplayViewController.sharedViewDisplayController
     var firstLobbyLoad: Bool = true
+    let clientUUID: UUID = UUID.init()
     deinit {
         stompClient.swiftStomp.disconnect(force: true)
     }
@@ -27,11 +28,12 @@ class AppViewModel: ObservableObject {
         })
     }
     func subscribeToMatchmakingChannels() {
-        stompClient.registerListener("/topic/matchmaking/\(playerName)", using: handleLobbyResponse)
-        stompClient.registerListener("/topic/error/\(playerName)", using: handleErrorResponse)
+        print("Registering listener for channel: /topic/matchmaking/\(clientUUID.uuidString.lowercased())")
+        stompClient.registerListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())", using: handleLobbyResponse)
+        stompClient.registerListener("/topic/error/\(clientUUID.uuidString.lowercased())", using: handleErrorResponse)
     }
     func unsubscribeFromMatchmakingChannels() {
-        stompClient.unregisterListener("/topic/matchmaking/\(playerName)")
+        stompClient.unregisterListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())")
     }
     func subscribeToLobbyChannels() {
         stompClient.registerListener("/topic/lobby/\(lobbyData.roomKey)", using: handleLobbyResponse)
@@ -40,18 +42,18 @@ class AppViewModel: ObservableObject {
         stompClient.unregisterListener("/topic/lobby/\(lobbyData.roomKey)")
     }
     func createGame() {
-        let player = Player(name: playerName, id: Int.random(in: 0...150))
-        let request = LobbyRequest(playerDto: player, roomKey: "")
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: "")
         stompClient.sendData(body: request as LobbyRequest, to: "/app/createGame")
     }
     func joinGame(_ key: String) {
-        let player = Player(name: playerName, id: Int.random(in: 150...200))
-        let request = LobbyRequest(playerDto: player, roomKey: key)
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: key)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
     }
     func changeReadyStatus(_ ready: Bool) {
-        let player = Player(name: playerName, id: Int.random(in: 150...200), ready: ready)
-        let request = LobbyRequest(playerDto: player, roomKey: lobbyData.roomKey)
+        let player = Player(name: playerName, id: clientUUID, ready: ready)
+        let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/ready")
     }
     func handleLobbyResponse(_ message: Data) {

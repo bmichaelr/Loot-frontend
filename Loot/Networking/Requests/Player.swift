@@ -8,14 +8,14 @@
 import Foundation
 
 struct Player: Codable {
-    init(name: String, id: CLong) {
+    init(name: String, id: UUID) {
         self.name = name
         self.id = id
         self.isSafe = false
         self.loadedIn = false
         self.ready = false
     }
-    init(name: String, id: CLong, ready: Bool) {
+    init(name: String, id: UUID, ready: Bool) {
         self.name = name
         self.id = id
         self.ready = ready
@@ -23,7 +23,7 @@ struct Player: Codable {
         self.loadedIn = false
     }
     let name: String
-    let id: CLong
+    let id: UUID
     let ready: Bool
     let isSafe: Bool
     let loadedIn: Bool

@@ -11,10 +11,6 @@ struct StartView: View {
     @EnvironmentObject var viewModel: AppViewModel
 
     var body: some View {
-        if viewModel.connecting {
-            ProgressView()
-                .progressViewStyle(.circular)
-            } else {
                 ZStack(alignment: .top) {
                     Text("Welcome to Loot!")
                         // .padding()
@@ -44,7 +40,15 @@ struct StartView: View {
                         // .padding()
                         .textFieldStyle(.roundedBorder)
                         .autocorrectionDisabled(true)
-                    Button("Connect", action: viewModel.connectToSocket)
+                    Button {
+                        viewModel.connectToSocket()
+                    } label: {
+                        if viewModel.connecting {
+                            ProgressView()
+                        } else {
+                            Text("Connect")
+                        }
+                    }
                         .buttonStyle(.bordered)
                         .frame(width: 100)
                         // .frame(width: 225)
@@ -64,7 +68,6 @@ struct StartView: View {
                 }
                 .padding()
             }
-        }
 }
 
 struct StartView_Previews: PreviewProvider {

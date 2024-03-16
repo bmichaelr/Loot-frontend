@@ -8,6 +8,6 @@
 import Foundation
 
 struct LobbyRequest: Codable {
-    let playerDto: Player
+    let player: Player
     let roomKey: String
 }

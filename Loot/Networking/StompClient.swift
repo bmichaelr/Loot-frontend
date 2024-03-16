@@ -13,7 +13,7 @@ class StompClient {
     var channelListeners: [String: (Data) -> Void] = [:]
     var connectedCall: ((Bool) -> Void)?
     init() {
-        let url = URL(string: "http://192.168.1.93:8080/game-websocket")
+        let url = URL(string: "http://ciloot.lol/game-websocket")
         swiftStomp = SwiftStomp(host: url!)
         swiftStomp.delegate = self
         swiftStomp.autoReconnect = true
@@ -71,6 +71,8 @@ extension StompClient: SwiftStompDelegate {
             } else {
                 print("There is no subscription found for \(destination)")
             }
+        } else {
+            print("Message in some other format than string")
         }
     }
     func onReceipt(swiftStomp: SwiftStomp, receiptId: String) {

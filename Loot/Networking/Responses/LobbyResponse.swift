@@ -9,18 +9,11 @@ import Foundation
 
 struct LobbyResponse: Codable {
     var roomKey: String
-    var players: [GamePlayer]
+    var players: [Player]
     var allReady: Bool
     init() {
         self.roomKey = ""
         self.players = []
         self.allReady = false
     }
-}
-struct GamePlayer: Codable {
-    let id: CLong
-    var ready: Bool
-    var loadedIn: Bool
-    var isSafe: Bool
-    var name: String
 }
