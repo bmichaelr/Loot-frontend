@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct HomeMenuView: View {
-    @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
-
-    @State private var gameRoomKey: String = ""
+    @EnvironmentObject var viewModel: AppViewModel
+    @State var gameRoomKey: String = ""
 
     var body: some View {
         Spacer()
@@ -22,8 +21,7 @@ struct HomeMenuView: View {
             Spacer()
 
             Button {
-                // Create Game Logic
-                gameRoomKey = createGame()
+                viewModel.createGame()
             } label: {
                 Text("Create Game")
                     .foregroundColor(.black)
@@ -50,9 +48,7 @@ struct HomeMenuView: View {
                     }
 
                 Button("Join Game") {
-                    // Join Game Logic
-                    joinGame(gameKey: gameRoomKey)
-
+                    viewModel.joinGame(gameRoomKey)
                 } .foregroundColor(.black)
                     .font(.title2)
                     .bold()
@@ -66,22 +62,12 @@ struct HomeMenuView: View {
           Spacer()
 
         }
-    }
-
-    func joinGame(gameKey: String) {
-        print("\nAuthenticating ... ")
-        // Validate Game Logic
-        print("Joining game ...." + gameKey)
-        displayViewController.changeView(view: .gameLobbyView)
-    }
-
-    func createGame() -> String {
-        print("\nCreating game .....")
-        displayViewController.changeView(view: .gameLobbyView)
-        return "FAKE_GAME_CODE"
+        .onAppear(perform: self.viewModel.subscribeToMatchmakingChannels)
+        .onDisappear(perform: self.viewModel.unsubscribeFromMatchmakingChannels)
     }
 }
 
 #Preview {
     HomeMenuView()
+        .environmentObject(AppViewModel())
 }

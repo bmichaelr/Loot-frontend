@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct ProgressView: View {
+struct CustomLoadingView: View {
     @State private var isActive = false
     @State private var size = 0.0
     @State private var opacity = 0.5
-
     var body: some View {
         if isActive {
-            ProgressView()
+            GameLobbyView()
         } else {
             VStack {
                 VStack {
@@ -38,12 +37,11 @@ struct ProgressView: View {
                 }
             }
         }
-
     }
 }
 
 struct ProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressView()
+        CustomLoadingView()
     }
 }

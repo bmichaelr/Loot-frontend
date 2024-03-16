@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct LootApp: App {
     @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
+    @ObservedObject var model: AppViewModel = AppViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -21,8 +22,9 @@ struct LootApp: App {
             case .gameView:
                 GameView()
             case .startNewGameView:
-                HomeMenuView()
+                StartView()
             }
         }
+        .environmentObject(model)
     }
 }
