@@ -16,7 +16,7 @@ struct GameView: View {
         let width = geometry.size.width
         let height = geometry.size.height
         let center = CGPoint(x: width / 2, y: height / 2)
-        let spacing: CGFloat = 20
+        // let spacing: CGFloat = 20
         switch totalPlayers {
         case 2:
             return playerIndex == 0 ? CGPoint(x: center.x, y: height - 50) : CGPoint(x: center.x, y: 50)
@@ -44,7 +44,7 @@ struct PlayerView: View {
         ZStack {
             // Main player's individual card
             if playerIndex == 0 {
-                var playerCards = CardStackView(cards: numberOfCards) // Main player's card stack
+                let playerCards = CardStackView(cards: numberOfCards) // Main player's card stack
                 HStack(spacing: 10) {
                     CardView(number: Int.random(in: 1..<8)).onTapGesture {
                         numberOfCards+=1
@@ -52,10 +52,10 @@ struct PlayerView: View {
                     playerCards
                 }
                 .position(x: position.x, y: position.y + 30)
-                
+
             } else {
                 CardStackView(cards: 3) // Other players' card stack
-                //let result = [2, 3, 4].contains(number) ? number : defaultValue
+                // let result = [2, 3, 4].contains(number) ? number : defaultValue
                     .rotationEffect(angleForPlayer(playerIndex: playerIndex, playerCount: playerCount))
                     .position(position)
             }
@@ -74,14 +74,14 @@ struct PlayerView: View {
 
 struct CardView: View {
     var number: Int
-    
+
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.white)
                 .frame(width: 50, height: 75)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
-            
+
             Text("\(number)")
                 .font(.system(size: 14))
                 .foregroundColor(.black)
@@ -94,7 +94,7 @@ struct CardStackView: View {
     var cards: Int
     var body: some View {
         HStack(spacing: -30) {
-            ForEach(0..<cards, id: \.self) { index in
+            ForEach(0..<cards, id: \.self) { _ in
                 CardView(number: Int.random(in: 1..<8))
             }
         }

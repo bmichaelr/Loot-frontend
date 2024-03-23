@@ -10,7 +10,10 @@ import SwiftUI
 @main
 struct LootApp: App {
     @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
+    @ObservedObject var model: AppViewModel = AppViewModel()
 
+    @State private var showCustomLoadingView: Bool = true
+    
     var body: some Scene {
         WindowGroup {
             switch displayViewController.currentView {
@@ -21,8 +24,9 @@ struct LootApp: App {
             case .gameView:
                 GameView()
             case .startNewGameView:
-                HomeMenuView()
+                StartView()
             }
         }
+        .environmentObject(model)
     }
 }
