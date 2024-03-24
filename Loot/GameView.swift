@@ -29,6 +29,7 @@ struct GameView: View {
     }
     func createCenterCards() {
         for index in game.players.indices {
+            print(game.players[index].position)
             // Asynchronously update the numberOfCards variable after a delay
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.5) {
                 // Update the state of numberOfCards
@@ -37,23 +38,28 @@ struct GameView: View {
         }
     }
     func createPlayerViews(geometry: GeometryProxy) {
+        // Find the index of the current player (if any)
+        if let currentPlayerIndex = viewModel.lobbyData.players.firstIndex(where: { $0.id == viewModel.clientUUID }) {
+            let currentPlayer = viewModel.lobbyData.players[currentPlayerIndex]
+            let currentPlayerInGame = GamePlayer(name: currentPlayer.name, cards: [])
+            game.players.insert(currentPlayerInGame, at: 0)
+        }
+        // Append other players to game.players
         for playerIndex in 0..<viewModel.lobbyData.players.count {
             let playerId = viewModel.lobbyData.players[playerIndex].id
-            let playerName = viewModel.lobbyData.players[playerIndex].name
-            // Find the corresponding player in the game
-            var gamePlayer: GamePlayer?
-            if let index = game.players.firstIndex(where: { $0.id == playerId }) {
-                gamePlayer = game.players[index]
-            } else {
-                // If the player is not found in the game, create a new one
-                gamePlayer = GamePlayer(name: playerName, cards: [])
-                game.players.append(gamePlayer!)
+            if playerId != viewModel.clientUUID {
+                let playerName = viewModel.lobbyData.players[playerIndex].name
+                let playerInGame = GamePlayer(name: playerName, cards: [])
+                game.players.append(playerInGame)
             }
-            let playerView = PlayerView(player: gamePlayer!, game: game)
-            // Update player properties
-            gamePlayer!.index = playerIndex
-            gamePlayer!.rotation = angleForPlayer(playerIndex: playerIndex)
-            gamePlayer!.position = playerPosition(playerIndex: playerIndex)
+        }
+        // Update player properties
+        for playerIndex in 0..<game.players.count {
+            let player = game.players[playerIndex]
+            player.index = playerIndex
+            player.rotation = angleForPlayer(playerIndex: playerIndex)
+            player.position = playerPosition(playerIndex: playerIndex)
+            let playerView = PlayerView(player: player, game: game)
             playerViews.append(playerView)
         }
     }
