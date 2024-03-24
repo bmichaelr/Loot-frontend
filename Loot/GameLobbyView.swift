@@ -17,7 +17,6 @@ struct GameLobbyView: View {
                 Spacer()
                 Text("Game Room Key: " + viewModel.lobbyData.roomKey)
                     .font(.title)
-                    .foregroundColor(.black)
                     .bold()
                 Spacer()
            }

@@ -9,37 +9,53 @@ import SwiftUI
 
 struct StartView: View {
     @EnvironmentObject var viewModel: AppViewModel
-
+    @FocusState private var nameFieldFocused: Bool
+    private func hideKeyboard() {
+            nameFieldFocused = false
+        }
     var body: some View {
-                ZStack(alignment: .top) {
-                    Text("Welcome to Loot!")
-                        // .padding()
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .background(.blue)
-                        .cornerRadius(8)
-                        .padding()
-                    // temp logo for top center of load in/create name page
-                    Image("lootlogotemp")
-                        .resizable()
-                        .scaledToFit()
-                        .padding()
+        ZStack {
+            Rectangle()
+                .ignoresSafeArea(.keyboard)
+                .onTapGesture {
+                    hideKeyboard()
                 }
-                VStack(alignment: .center) {
-                    // HStack horizontal allows for us to be able to move fields 
-                    // from .leading (left side) & .trailing (right side)
-                    HStack {
-                        Text(" Create Name:")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .bold()
-                            .foregroundColor(.white)
-                            .font(.headline)
+            VStack {
+                Text("Welcome to Loot!")
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                    .bold()
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.yellow)
+                    .shadow(color: .black, radius: 2, x: 0, y: 0)
+                Spacer()
+                Image("lootlogotemp")
+                    .resizable()
+                    .scaledToFit()
+                    .padding()
+                VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 25)
+                                .foregroundColor(.clear)
+                                .border(.black, width: 2)
+                                .frame(width: 120, height: 30)
+                            
+                            Text("Create Name:")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .bold()
+                                .foregroundColor(.black)
+                                .font(.headline)
+                                .padding(.leading, 5)
+                        }
+                        TextField("Enter your name here...", text: $viewModel.playerName)
+                            .textFieldStyle(.roundedBorder)
+                            .autocorrectionDisabled(true) //disable autocorrect
+                            .focused($nameFieldFocused)
+                            .padding()
                     }
-                    // name will become unique identifier in later development. UID, Username, etc.
-                    TextField("Enter your name here...", text: $viewModel.playerName)
-                        // .padding()
-                        .textFieldStyle(.roundedBorder)
-                        .autocorrectionDisabled(true)
                     Button {
                         viewModel.connectToSocket()
                     } label: {
@@ -49,25 +65,19 @@ struct StartView: View {
                             Text("Connect")
                         }
                     }
-                        .buttonStyle(.bordered)
-                        .frame(width: 100)
-                        // .frame(width: 225)
-                        .foregroundColor(.white)
-                        .background(.blue)
-                        .cornerRadius(10)
-                        .padding()
-                    Text("WIP by:")
-                        .font(.headline)
-                    HStack {
-                        Text("Ben")
-                        Text("Josh")
-                        Text("Kenna")
-                        Text("Ian")
-                    }
-
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .foregroundColor(.white)
+                    .background(.blue)
+                    .cornerRadius(25)
                 }
                 .padding()
             }
+        }.onTapGesture {
+            hideKeyboard()
+        }
+    }
 }
 
 struct StartView_Previews: PreviewProvider {
