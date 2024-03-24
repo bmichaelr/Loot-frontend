@@ -6,14 +6,11 @@ struct GameView: View {
     @State var playerViews: [PlayerView] = []
     @State var numberOfCards: Int = 0
     @StateObject var game: Game
+    let centerPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     init() {
         var gamePlayers = [GamePlayer]()
-        for index in 0..<4 {
-            gamePlayers.append(GamePlayer(name: "Player\(index)", cards: []))
-        }
         self._game = StateObject(wrappedValue: Game(players: gamePlayers))
     }
-    let centerPosition = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -23,19 +20,6 @@ struct GameView: View {
                 ForEach(0..<numberOfCards, id: \.self) { index in
                     CenterCard(number: 0, player: game.players[index])
                 }
-                PlayedCards(game: game).position(CGPoint(x: UIScreen.main.bounds.width / 2,
-                                                         y: (UIScreen.main.bounds.height / 2) + 50))
-                Button(action: {
-                    print(numberOfCards)
-                    if numberOfCards <= 3 {
-                        createCenterCards()
-                    } else {
-                        numberOfCards = 0
-                        createCenterCards()
-                    }
-                }, label: {
-                    Text("Deal!")
-                })
             }
             .onAppear {
                 createPlayerViews(geometry: geometry) // Create PlayerView instances when the view appears
@@ -53,18 +37,24 @@ struct GameView: View {
         }
     }
     func createPlayerViews(geometry: GeometryProxy) {
-        for playerIndex in 0..<game.players.count {
-            let playerView = PlayerView(
-                player: game.players[playerIndex], game: game
-            )
-            // game.players[playerIndex].id = viewModel.lobbyData.players[index].id
-            game.players[playerIndex].index = playerIndex
-            game.players[playerIndex].rotation = angleForPlayer(
-                playerIndex: playerIndex
-            )
-            game.players[playerIndex].position = playerPosition(
-                playerIndex: playerIndex)
-            playerViews.append(playerView) // Add PlayerView instance to the array
+        for playerIndex in 0..<viewModel.lobbyData.players.count {
+            let playerId = viewModel.lobbyData.players[playerIndex].id
+            let playerName = viewModel.lobbyData.players[playerIndex].name
+            // Find the corresponding player in the game
+            var gamePlayer: GamePlayer?
+            if let index = game.players.firstIndex(where: { $0.id == playerId }) {
+                gamePlayer = game.players[index]
+            } else {
+                // If the player is not found in the game, create a new one
+                gamePlayer = GamePlayer(name: playerName, cards: [])
+                game.players.append(gamePlayer!)
+            }
+            let playerView = PlayerView(player: gamePlayer!, game: game)
+            // Update player properties
+            gamePlayer!.index = playerIndex
+            gamePlayer!.rotation = angleForPlayer(playerIndex: playerIndex)
+            gamePlayer!.position = playerPosition(playerIndex: playerIndex)
+            playerViews.append(playerView)
         }
     }
     func angleForPlayer(playerIndex: Int) -> Angle {
@@ -76,8 +66,6 @@ struct GameView: View {
         }
     }
     func playerPosition(playerIndex: Int) -> CGPoint {
-        // let width = geometry.size.width
-        // let height = geometry.size.height
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             if let window = windowScene.windows.first {
                 let safeAreaInsets = window.safeAreaInsets
@@ -86,7 +74,7 @@ struct GameView: View {
                 let center = CGPoint(x: width / 2, y: height / 2)
                 switch game.players.count {
                 case 2:
-                    return playerIndex == 0 ? CGPoint(x: center.x, y: height) : CGPoint(x: center.x, y: 0)
+                    return playerIndex == 0 ? CGPoint(x: center.x, y: height - 50) : CGPoint(x: center.x, y: 50)
                 case 3:
                     return playerIndex == 0 ?
                     CGPoint(
@@ -100,12 +88,12 @@ struct GameView: View {
                 case 4:
                     switch playerIndex {
                     case 0: return CGPoint(x: center.x, y: height - 50) // Bottom
-                    case 1: return CGPoint(x: 20, y: center.y) // Left
-                    case 2: return CGPoint(x: center.x, y: 20) // Top
-                    default: return CGPoint(x: width - 20, y: center.y) // Right
+                    case 1: return CGPoint(x: 60, y: center.y) // Left
+                    case 2: return CGPoint(x: center.x, y: 50) // Top
+                    default: return CGPoint(x: width - 60, y: center.y) // Right
                     }
                 default:
-                    return .zero
+                    return CGPoint(x: center.x, y: height - 50)
                 }
             }
         }
@@ -116,56 +104,56 @@ struct GameView: View {
         @ObservedObject var game: Game
         var body: some View {
             ZStack {
-                 if player.index == 0 {
-                     HStack {
-                         VStack {
-                             Circle()
-                                 .fill(.white)
-                                 .frame(width: 30, height: 30)
-                             Text(player.name).font(.caption)
-                             HStack(spacing: 10) {
-                                 CardStackView(player: player, type: "hand")
-                                     .onTapGesture {
-                                         game.addToPlayedCards(card: Card(number: 8, flipped: false))
-                                 }
-                             }
-                         }.position(player.position)
-                     }
-                 } else if player.position.x < UIScreen.main.bounds.width / 2 { // Left Side
-                     HStack {
-                         HStack(spacing: 10) {
-                             CardStackView(player: player, type: "hand")
-                         }.rotationEffect(player.rotation)
-                         VStack {
-                             Circle()
-                                 .fill(.white)
-                                 .frame(width: 30, height: 30)
-                             Text(player.name).font(.caption)
-                         }.padding(10)
-                     }.position(player.position)
-                 } else if player.position.x > UIScreen.main.bounds.width / 2 { // Right Side
-                     HStack {
-                         VStack {
-                             Circle()
-                                 .fill(.white)
-                                 .frame(width: 30, height: 30)
-                             Text(player.name).font(.caption)
-                         }
-                         HStack(spacing: 10) {
-                             CardStackView(player: player, type: "hand")
-                         }.rotationEffect(player.rotation)
-                     }.position(player.position)
-                 } else {
-                     VStack {
-                         HStack(spacing: 10) {
-                             CardStackView(player: player, type: "hand")
-                         }.rotationEffect(player.rotation)
-                         Circle()
-                             .fill(.white)
-                             .frame(width: 30, height: 30)
-                         Text(player.name).font(.caption)
-                     }.position(player.position)
-                 }
+                if player.index == 0 {
+                    HStack {
+                        VStack {
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 30, height: 30)
+                            Text(player.name).font(.caption)
+                            HStack(spacing: 10) {
+                                CardStackView(player: player, type: "hand")
+                                    .onTapGesture {
+                                        game.addToPlayedCards(card: Card(number: 8, flipped: false))
+                                    }
+                            }
+                        }.position(player.position)
+                    }
+                } else if player.position.x < UIScreen.main.bounds.width / 2 { // Left Side
+                    ZStack {
+                        HStack(spacing: 10) {
+                            CardStackView(player: player, type: "hand")
+                        }.rotationEffect(player.rotation)
+                        VStack {
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 30, height: 30)
+                            Text(player.name).font(.caption)
+                        }.offset(CGSize(width: 65, height: 0))
+                    }.position(player.position)
+                } else if player.position.x > UIScreen.main.bounds.width / 2 { // Right Side
+                    ZStack {
+                        VStack {
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 30, height: 30)
+                            Text(player.name).font(.caption)
+                        }.offset(CGSize(width: -65, height: 0))
+                        HStack(spacing: 10) {
+                            CardStackView(player: player, type: "hand")
+                        }.rotationEffect(player.rotation)
+                    }.position(player.position)
+                } else {
+                    VStack {
+                        HStack(spacing: 10) {
+                            CardStackView(player: player, type: "hand")
+                        }.rotationEffect(player.rotation)
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 30, height: 30)
+                        Text(player.name).font(.caption)
+                    }.position(player.position)
+                }
             }
         }
     }
