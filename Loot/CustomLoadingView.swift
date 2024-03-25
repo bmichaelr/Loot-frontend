@@ -52,7 +52,6 @@ struct CustomLoadingView: View {
                                         Text(loadingLoot[index])
                                         .font(.title)
                                             .fontWeight(.heavy)
-                                            .foregroundColor(.white)
                                             .bold()
                                             .offset(y: counter == index ? -5 : 0)
                                 }
