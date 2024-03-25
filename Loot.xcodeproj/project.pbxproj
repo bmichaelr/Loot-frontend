@@ -8,17 +8,41 @@
 
 /* Begin PBXBuildFile section */
 		0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F37D52B8BCDE60018B090 /* LootApp.swift */; };
-		0F0F37D82B8BCDE60018B090 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F37D72B8BCDE60018B090 /* ContentView.swift */; };
 		0F0F37DA2B8BCDE80018B090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F37D92B8BCDE80018B090 /* Assets.xcassets */; };
 		0F0F37DD2B8BCDE80018B090 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F37DC2B8BCDE80018B090 /* Preview Assets.xcassets */; };
+		0FD38A8E2BA261D3003982B7 /* StompClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38A8D2BA261D3003982B7 /* StompClient.swift */; };
+		0FD38A912BA2620A003982B7 /* SwiftStomp in Frameworks */ = {isa = PBXBuildFile; productRef = 0FD38A902BA2620A003982B7 /* SwiftStomp */; };
+		0FD38A942BA26242003982B7 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 0FD38A932BA26242003982B7 /* Starscream */; };
+		0FD38A9C2BA26F18003982B7 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */; };
+		0FD38A9E2BA26F92003982B7 /* LobbyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38A9D2BA26F92003982B7 /* LobbyResponse.swift */; };
+		0FD38AA02BA274BC003982B7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38A9F2BA274BC003982B7 /* Player.swift */; };
+		0FD38AA22BA27502003982B7 /* LobbyRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38AA12BA27502003982B7 /* LobbyRequest.swift */; };
+		3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */; };
+		3C016C162BA24BDA0004F3D2 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C152BA24BDA0004F3D2 /* StartView.swift */; };
+		6F566CFE2B9F609A00EC7C3D /* DisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayViewController.swift */; };
+		6F566D002B9F624100EC7C3D /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* DisplayView.swift */; };
+		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
+		6FA3BFBE2B8FB92A005A6846 /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */; };
+		6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F0F37D22B8BCDE60018B090 /* Loot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F0F37D52B8BCDE60018B090 /* LootApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LootApp.swift; sourceTree = "<group>"; };
-		0F0F37D72B8BCDE60018B090 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0F0F37D92B8BCDE80018B090 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F0F37DC2B8BCDE80018B090 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0FD38A8D2BA261D3003982B7 /* StompClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StompClient.swift; sourceTree = "<group>"; };
+		0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		0FD38A9D2BA26F92003982B7 /* LobbyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyResponse.swift; sourceTree = "<group>"; };
+		0FD38A9F2BA274BC003982B7 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		0FD38AA12BA27502003982B7 /* LobbyRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRequest.swift; sourceTree = "<group>"; };
+		3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
+		3C016C152BA24BDA0004F3D2 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		6F566CFD2B9F609A00EC7C3D /* DisplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayViewController.swift; sourceTree = "<group>"; };
+		6F566CFF2B9F624100EC7C3D /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
+		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
+		6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FD38A912BA2620A003982B7 /* SwiftStomp in Frameworks */,
+				0FD38A942BA26242003982B7 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,10 +77,18 @@
 		0F0F37D42B8BCDE60018B090 /* Loot */ = {
 			isa = PBXGroup;
 			children = (
+				0FD38AA32BA2833D003982B7 /* Networking */,
 				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
-				0F0F37D72B8BCDE60018B090 /* ContentView.swift */,
+				6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */,
+				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
+				6F566D012B9F676C00EC7C3D /* GameView.swift */,
 				0F0F37D92B8BCDE80018B090 /* Assets.xcassets */,
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
+				6F566CFD2B9F609A00EC7C3D /* DisplayViewController.swift */,
+				6F566CFF2B9F624100EC7C3D /* DisplayView.swift */,
+				3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */,
+				3C016C152BA24BDA0004F3D2 /* StartView.swift */,
+				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 			);
 			path = Loot;
 			sourceTree = "<group>";
@@ -67,6 +101,33 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0FD38AA32BA2833D003982B7 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				0FD38AA52BA28351003982B7 /* Responses */,
+				0FD38AA42BA2834A003982B7 /* Requests */,
+				0FD38A8D2BA261D3003982B7 /* StompClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		0FD38AA42BA2834A003982B7 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				0FD38A9F2BA274BC003982B7 /* Player.swift */,
+				0FD38AA12BA27502003982B7 /* LobbyRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		0FD38AA52BA28351003982B7 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				0FD38A9D2BA26F92003982B7 /* LobbyResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,12 +138,18 @@
 				0F0F37CE2B8BCDE60018B090 /* Sources */,
 				0F0F37CF2B8BCDE60018B090 /* Frameworks */,
 				0F0F37D02B8BCDE60018B090 /* Resources */,
+				6F9B19D52B9901A70081582F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6F9B19DA2B990CBF0081582F /* PBXTargetDependency */,
 			);
 			name = Loot;
+			packageProductDependencies = (
+				0FD38A902BA2620A003982B7 /* SwiftStomp */,
+				0FD38A932BA26242003982B7 /* Starscream */,
+			);
 			productName = Loot;
 			productReference = 0F0F37D22B8BCDE60018B090 /* Loot.app */;
 			productType = "com.apple.product-type.application";
@@ -94,6 +161,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
@@ -111,6 +181,11 @@
 				Base,
 			);
 			mainGroup = 0F0F37C92B8BCDE60018B090;
+			packageReferences = (
+				6F9B19D62B990C8D0081582F /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				0FD38A8F2BA2620A003982B7 /* XCRemoteSwiftPackageReference "SwiftStomp" */,
+				0FD38A922BA26242003982B7 /* XCRemoteSwiftPackageReference "Starscream" */,
+			);
 			productRefGroup = 0F0F37D32B8BCDE60018B090 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -132,17 +207,56 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6F9B19D52B9901A70081582F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This line is required to make sure it works on Apple Silicon.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint --autocorrect\nelse\n  echo \"Warning: SwiftLint not installed, run command: brew install swiftlint from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0F0F37CE2B8BCDE60018B090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F0F37D82B8BCDE60018B090 /* ContentView.swift in Sources */,
+				6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */,
+				6F566CFE2B9F609A00EC7C3D /* DisplayViewController.swift in Sources */,
+				0FD38A9C2BA26F18003982B7 /* AppViewModel.swift in Sources */,
+				6F566D002B9F624100EC7C3D /* DisplayView.swift in Sources */,
+				0FD38AA02BA274BC003982B7 /* Player.swift in Sources */,
+				3C016C162BA24BDA0004F3D2 /* StartView.swift in Sources */,
 				0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */,
+				3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */,
+				0FD38AA22BA27502003982B7 /* LobbyRequest.swift in Sources */,
+				6FA3BFBE2B8FB92A005A6846 /* HomeMenuView.swift in Sources */,
+				0FD38A8E2BA261D3003982B7 /* StompClient.swift in Sources */,
+				0FD38A9E2BA26F92003982B7 /* LobbyResponse.swift in Sources */,
+				6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F9B19DA2B990CBF0081582F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 6F9B19D92B990CBF0081582F /* SwiftLintPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0F0F37DE2B8BCDE80018B090 /* Debug */ = {
@@ -197,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -254,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -272,19 +386,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
+				DEVELOPMENT_TEAM = ZBJTG9HM32;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.comp350.Loot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.Loot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -300,19 +417,22 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
+				DEVELOPMENT_TEAM = ZBJTG9HM32;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.comp350.Loot;
+				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.Loot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -342,6 +462,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0FD38A8F2BA2620A003982B7 /* XCRemoteSwiftPackageReference "SwiftStomp" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Romixery/SwiftStomp";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+		0FD38A922BA26242003982B7 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = exactVersion;
+				version = 4.0.4;
+			};
+		};
+		6F9B19D62B990C8D0081582F /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = exactVersion;
+				version = 0.51.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0FD38A902BA2620A003982B7 /* SwiftStomp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FD38A8F2BA2620A003982B7 /* XCRemoteSwiftPackageReference "SwiftStomp" */;
+			productName = SwiftStomp;
+		};
+		0FD38A932BA26242003982B7 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FD38A922BA26242003982B7 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+		6F9B19D92B990CBF0081582F /* SwiftLintPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6F9B19D62B990C8D0081582F /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0F0F37CA2B8BCDE60018B090 /* Project object */;
 }
