@@ -42,7 +42,6 @@ struct StartView: View {
                                 .foregroundColor(.clear)
                                 .border(.black, width: 2)
                                 .frame(width: 120, height: 30)
-                            
                             Text("Create Name:")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .bold()
@@ -52,7 +51,7 @@ struct StartView: View {
                         }
                         TextField("Enter your name here...", text: $viewModel.playerName)
                             .textFieldStyle(.roundedBorder)
-                            .autocorrectionDisabled(true) //disable autocorrect
+                            .autocorrectionDisabled(true)
                             .focused($nameFieldFocused)
                             .padding()
                     }

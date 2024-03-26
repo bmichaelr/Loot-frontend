@@ -77,12 +77,10 @@ struct CustomLoadingView: View {
                         } else {
                             counter += 1
                         }
-        
                     }
                 })
             }
         }
-        
     }
 }
 
