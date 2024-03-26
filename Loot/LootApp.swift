@@ -24,7 +24,7 @@ struct LootApp: App {
                     case .gameView:
                         GameView()
                     case .startNewGameView:
-                        StartView()
+                        StartViewTest()
                     }
                 }
                 if showCustomLoadingView {
@@ -37,4 +37,3 @@ struct LootApp: App {
         }
     }
 }
-
