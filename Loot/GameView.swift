@@ -160,7 +160,6 @@ struct GameView: View {
 
 class Game: ObservableObject {
     @Published var players: [GamePlayer]
-    @Published var playedCards: [Card] = []
     init(players: [GamePlayer]) {
         self.players = players
     }
@@ -175,9 +174,6 @@ class Game: ObservableObject {
     func addToPlayed(toPlayer playerIndex: Int, card: Card) {
         guard playerIndex >= 0 && playerIndex < players.count else { return }
         players[playerIndex].addToPlayed(card)
-    }
-    func addToPlayedCards(card: Card) {
-        playedCards.append(card)
     }
 }
 
