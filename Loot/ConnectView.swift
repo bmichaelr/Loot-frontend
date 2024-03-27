@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StartViewTest: View {
+struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
@@ -109,6 +109,6 @@ struct StartViewTest: View {
 }
 
 #Preview {
-    StartViewTest()
+    ConnectView()
         .environmentObject(AppViewModel())
 }
