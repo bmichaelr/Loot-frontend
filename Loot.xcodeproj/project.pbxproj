@@ -10,6 +10,9 @@
 		0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F0F37D52B8BCDE60018B090 /* LootApp.swift */; };
 		0F0F37DA2B8BCDE80018B090 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F37D92B8BCDE80018B090 /* Assets.xcassets */; };
 		0F0F37DD2B8BCDE80018B090 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F0F37DC2B8BCDE80018B090 /* Preview Assets.xcassets */; };
+		0F23D1932BB3BDDD00D75431 /* ServerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23D1922BB3BDDD00D75431 /* ServerResponse.swift */; };
+		0F23D1952BB3C4B200D75431 /* testHomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23D1942BB3C4B200D75431 /* testHomeMenuView.swift */; };
+		0F23D1972BB3CE1C00D75431 /* CustomAlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F23D1962BB3CE1C00D75431 /* CustomAlertDialog.swift */; };
 		0FD38A8E2BA261D3003982B7 /* StompClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD38A8D2BA261D3003982B7 /* StompClient.swift */; };
 		0FD38A912BA2620A003982B7 /* SwiftStomp in Frameworks */ = {isa = PBXBuildFile; productRef = 0FD38A902BA2620A003982B7 /* SwiftStomp */; };
 		0FD38A942BA26242003982B7 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 0FD38A932BA26242003982B7 /* Starscream */; };
@@ -34,6 +37,9 @@
 		0F0F37D52B8BCDE60018B090 /* LootApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LootApp.swift; sourceTree = "<group>"; };
 		0F0F37D92B8BCDE80018B090 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F0F37DC2B8BCDE80018B090 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0F23D1922BB3BDDD00D75431 /* ServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponse.swift; sourceTree = "<group>"; };
+		0F23D1942BB3C4B200D75431 /* testHomeMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testHomeMenuView.swift; sourceTree = "<group>"; };
+		0F23D1962BB3CE1C00D75431 /* CustomAlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertDialog.swift; sourceTree = "<group>"; };
 		0FD38A8D2BA261D3003982B7 /* StompClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StompClient.swift; sourceTree = "<group>"; };
 		0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		0FD38A9D2BA26F92003982B7 /* LobbyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyResponse.swift; sourceTree = "<group>"; };
@@ -85,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				32FF75A32BB337250046B2B8 /* Info.plist */,
-				32FF75A02BB336830046B2B8 /* ui */,
+				32FF75A02BB336830046B2B8 /* Utilites */,
 				0FD38AA32BA2833D003982B7 /* Networking */,
 				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
 				6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */,
@@ -99,6 +105,8 @@
 				3C016C152BA24BDA0004F3D2 /* StartView.swift */,
 				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 				32FF759E2BB331860046B2B8 /* testStartView.swift */,
+				0F23D1942BB3C4B200D75431 /* testHomeMenuView.swift */,
+				0F23D1962BB3CE1C00D75431 /* CustomAlertDialog.swift */,
 			);
 			path = Loot;
 			sourceTree = "<group>";
@@ -134,17 +142,18 @@
 			isa = PBXGroup;
 			children = (
 				0FD38A9D2BA26F92003982B7 /* LobbyResponse.swift */,
+				0F23D1922BB3BDDD00D75431 /* ServerResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		32FF75A02BB336830046B2B8 /* ui */ = {
+		32FF75A02BB336830046B2B8 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
 				32FF75A12BB336930046B2B8 /* quasimodo.ttf */,
 				32FF759C2BB331000046B2B8 /* Colors.swift */,
 			);
-			path = ui;
+			path = Utilites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,9 +265,12 @@
 				6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */,
 				32FF759F2BB331860046B2B8 /* testStartView.swift in Sources */,
 				6F566CFE2B9F609A00EC7C3D /* DisplayViewController.swift in Sources */,
+				0F23D1972BB3CE1C00D75431 /* CustomAlertDialog.swift in Sources */,
 				0FD38A9C2BA26F18003982B7 /* AppViewModel.swift in Sources */,
 				32FF759D2BB331000046B2B8 /* Colors.swift in Sources */,
+				0F23D1932BB3BDDD00D75431 /* ServerResponse.swift in Sources */,
 				6F566D002B9F624100EC7C3D /* DisplayView.swift in Sources */,
+				0F23D1952BB3C4B200D75431 /* testHomeMenuView.swift in Sources */,
 				0FD38AA02BA274BC003982B7 /* Player.swift in Sources */,
 				3C016C162BA24BDA0004F3D2 /* StartView.swift in Sources */,
 				0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */,

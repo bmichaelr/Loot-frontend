@@ -20,7 +20,7 @@ struct LootApp: App {
                     case .gameLobbyView:
                         GameLobbyView()
                     case .homeMenuView:
-                        HomeMenuView()
+                        TestHomeMenuView()
                     case .gameView:
                         GameView()
                     case .startNewGameView:
