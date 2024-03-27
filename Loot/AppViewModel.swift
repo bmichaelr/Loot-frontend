@@ -12,7 +12,8 @@ class AppViewModel: ObservableObject {
     @Published var playerName: String = ""
     @Published var connecting: Bool = false
     @Published var lobbyData: LobbyResponse = LobbyResponse()
-    @Published var viewController: DisplayViewController = DisplayViewController.sharedViewDisplayController
+    @Published var serverList: [ServerResponse] = []
+    @Published var viewController: DisplayedViewController = DisplayedViewController.sharedViewDisplayController
     var firstLobbyLoad: Bool = true
     let clientUUID: UUID = UUID.init()
     deinit {
@@ -28,9 +29,13 @@ class AppViewModel: ObservableObject {
         })
     }
     func subscribeToMatchmakingChannels() {
-        print("Registering listener for channel: /topic/matchmaking/\(clientUUID.uuidString.lowercased())")
-        stompClient.registerListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())", using: handleLobbyResponse)
-        stompClient.registerListener("/topic/error/\(clientUUID.uuidString.lowercased())", using: handleErrorResponse)
+        let id = clientUUID.uuidString.lowercased()
+        stompClient.registerListener("/topic/matchmaking/servers/\(id)", using: handleServerListResponse)
+        stompClient.registerListener("/topic/matchmaking/\(id)", using: handleLobbyResponse)
+        stompClient.registerListener("/topic/error/\(id)", using: handleErrorResponse)
+        // also send inital server list ping
+        print("Sending request for server data")
+        stompClient.sendData(body: Player(name: playerName, id: clientUUID), to: "/app/loadAvailableServers")
     }
     func unsubscribeFromMatchmakingChannels() {
         stompClient.unregisterListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())")
@@ -41,9 +46,13 @@ class AppViewModel: ObservableObject {
     func unsubscribeFromLobbyChannels() {
         stompClient.unregisterListener("/topic/lobby/\(lobbyData.roomKey)")
     }
-    func createGame() {
+    func reloadServerList() {
         let player = Player(name: playerName, id: clientUUID)
-        let request = LobbyRequest(player: player, roomKey: "")
+        stompClient.sendData(body: player, to: "/app/loadAvailableServers")
+    }
+    func createGame(_ name: String) {
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: name)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/createGame")
     }
     func joinGame(_ key: String) {
@@ -69,6 +78,15 @@ class AppViewModel: ObservableObject {
         if firstLobbyLoad {
             firstLobbyLoad = false
             viewController.changeView(view: .gameLobbyView)
+        }
+    }
+    func handleServerListResponse(_ message: Data) {
+        do {
+            let parsed = try JSONDecoder().decode([ServerResponse].self, from: message)
+            serverList = parsed
+            print("Servers: \(serverList)")
+        } catch {
+            print("Unable to decode the server response")
         }
     }
     func handleErrorResponse(_ data: Data) {

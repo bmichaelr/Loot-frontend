@@ -12,8 +12,10 @@ class StompClient {
     let swiftStomp: SwiftStomp
     var channelListeners: [String: (Data) -> Void] = [:]
     var connectedCall: ((Bool) -> Void)?
+    var debug: Bool = false
     init() {
-        let url = URL(string: "http://172.235.36.92:8080/game-websocket")
+        let urlString = debug ? "http://localhost:8080/game-websocket" : "http://ciloot.lol:8080/game-websocket"
+        let url = URL(string: urlString)
         swiftStomp = SwiftStomp(host: url!)
         swiftStomp.delegate = self
         swiftStomp.autoReconnect = true
