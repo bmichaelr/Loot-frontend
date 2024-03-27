@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TestHomeMenuView: View {
+struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
     var body: some View {
         NavigationStack {
@@ -73,6 +73,6 @@ struct ColoredNavigationBar: ViewModifier {
 }
 
 #Preview {
-    TestHomeMenuView()
+    MatchmakingView()
         .environmentObject(AppViewModel())
 }

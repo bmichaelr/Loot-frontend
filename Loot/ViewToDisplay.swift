@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DisplayView {
+enum ViewToDisplay {
     case startNewGameView
     case homeMenuView
     case gameLobbyView

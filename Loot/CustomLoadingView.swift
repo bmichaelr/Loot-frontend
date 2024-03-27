@@ -11,8 +11,8 @@ struct CustomLoadingView: View {
     @State private var isActive = false
     @State private var size = 0.8
     @State private var opacity = 0.5
-    @State private var loadingLoot: [String] = "LOOT!...".map { String($0) }
-    @State private var showLoadingLoot: Bool = false
+    @State private var loadingText: [String] = "LOOT!...".map { String($0) }
+    @State private var showLoadingText: Bool = false
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @State private var counter: Int = 0
     @State private var loops: Int = 0
@@ -46,10 +46,10 @@ struct CustomLoadingView: View {
                             .frame(width: 100, height: 100)
                     }
                     ZStack {
-                        if showLoadingLoot {
+                        if showLoadingText {
                             HStack(spacing: 0) {
-                                ForEach(loadingLoot.indices) { index in
-                                        Text(loadingLoot[index])
+                                ForEach(loadingText.indices) { index in
+                                        Text(loadingText[index])
                                         .font(.title)
                                             .fontWeight(.heavy)
                                             .bold()
@@ -63,11 +63,11 @@ struct CustomLoadingView: View {
                     Spacer()
                 }
                 .onAppear {
-                    showLoadingLoot.toggle()
+                    showLoadingText.toggle()
                 }
                 .onReceive(timer, perform: { _ in
                     withAnimation(.spring()) {
-                        let lastIndex = loadingLoot.count - 1
+                        let lastIndex = loadingText.count - 1
                         if counter == lastIndex {
                             counter = 0
                             loops += 1

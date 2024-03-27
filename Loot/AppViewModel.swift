@@ -13,7 +13,7 @@ class AppViewModel: ObservableObject {
     @Published var connecting: Bool = false
     @Published var lobbyData: LobbyResponse = LobbyResponse()
     @Published var serverList: [ServerResponse] = []
-    @Published var viewController: DisplayViewController = DisplayViewController.sharedViewDisplayController
+    @Published var viewController: DisplayedViewController = DisplayedViewController.sharedViewDisplayController
     var firstLobbyLoad: Bool = true
     let clientUUID: UUID = UUID.init()
     deinit {
