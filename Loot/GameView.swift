@@ -15,6 +15,9 @@ struct GameView: View {
         ZStack {
             CardView(card: Card(number: 0, faceDown: true))
                 .position(CGPoint(x: UIScreen.main.bounds.width - 50, y: 0))
+                .onTapGesture {
+                    numberOfAnimatedCards += 1
+                }
             ForEach(0..<numberOfAnimatedCards, id: \.self) { index in
                 AnimatedCard(number: 0, player: game.players[index])
             }
@@ -212,13 +215,15 @@ struct CardView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(faceDown ? Color.red : Color.white) // Change color based on flipped status
+                .fill(faceDown ? Color.lootBeige : Color.white) // Change color based on flipped status
                 .frame(width: 75, height: 100)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
-            Text(faceDown ? "Loot!" : "\(number)")
-                .font(.system(size: 14))
-                .foregroundColor(.black)
-                .padding(4)
+            VStack{
+                Text(faceDown ? "Loot!" : "\(number)")
+                    .font(.custom("Quasimodo", size: 14))
+                    .foregroundColor(.black)
+                    .padding(4)
+            }
         }
     }
 }
