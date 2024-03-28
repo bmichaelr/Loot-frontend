@@ -16,16 +16,15 @@ struct GameView: View {
             CardView(card: Card(number: 0, faceDown: true))
                 .position(CGPoint(x: UIScreen.main.bounds.width - 50, y: 0))
                 .onTapGesture {
-                    numberOfAnimatedCards += 1
+                    animateDealingCards()
                 }
             ForEach(0..<numberOfAnimatedCards, id: \.self) { index in
-                AnimatedCard(number: 0, player: game.players[index])
+                AnimatedCard(number: index + 1, player: game.players[index])
             }
             ForEach(playerViews.indices, id: \.self) { index in
                 playerViews[index]
             }
-        }.background(Image("wood_texture")
-            .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/).ignoresSafeArea())
+        }.background(Image("woodlong"))
         .onAppear {
             createPlayerViews()
             animateDealingCards()
@@ -40,6 +39,7 @@ struct GameView: View {
                 numberOfAnimatedCards += 1
             }
         }
+        numberOfAnimatedCards = 0
     }
     func createPlayerViews() {
         // Find the index of the current player (if any)
@@ -87,11 +87,11 @@ struct GameView: View {
                             HStack(spacing: 10) {
                                 CardStackView(player: player, type: "hand")
                             }.scaleEffect(CGSize(width: 1.5, height: 1.5))
-                        }.position(player.position)
+                        }
                     }
                 } else {
                     HStack {
-                        VStack {
+                        VStack(spacing: 20) {
                             Circle()
                                 .fill(.white)
                                 .frame(width: 30, height: 30)
@@ -100,56 +100,58 @@ struct GameView: View {
                         HStack(spacing: 10) {
                             CardStackView(player: player, type: "hand")
                         }
-                    }.position(player.position)
+                    }
+                }
+            }.position(player.position)
+        }
+    }
+}
+struct CardStackView: View {
+    @ObservedObject var player: GamePlayer
+    let type: String
+    var body: some View {
+        HStack(spacing: -70) {
+            if type == "hand" {
+                ForEach(player.hand.indices, id: \.self) { index in
+                    if player.index == 0 {
+                        CardView(card: player.hand[index]).rotationEffect(Angle(degrees: Double((15 * index + 1))))
+                    } else { CardView(card: player.hand[index]) }
+                }
+            } else {
+                ForEach(player.playedCards.indices, id: \.self) { index in
+                    CardView(card: player.playedCards[index])
+                }.border(.white)
+            }
+        }
+    }
+}
+struct AnimatedCard: View {
+    var number: Int
+    let player: GamePlayer
+    @State var position: CGPoint = CGPoint(x: UIScreen.main.bounds.width - 50, y: 0)
+    @State private var isHidden = false // Control visibility
+    var body: some View {
+        if !isHidden { // Only show the view if it's not hidden
+            CardView(card: Card(number: number, faceDown: true))
+            .position(position)
+            .onAppear {
+                withAnimation {
+                    move(to: player.position)
+                } completion: {
+                    // Add card to player
+                    if player.index == 0 {
+                        player.addToHand(Card(number: number, faceDown: false))
+                    } else {
+                        player.addToHand(Card(number: number, faceDown: true))
+                    }
+                    // Hide the view
+                    isHidden = true
                 }
             }
         }
     }
-    struct CardStackView: View {
-        @ObservedObject var player: GamePlayer
-        let type: String
-        var body: some View {
-            HStack {
-                if type == "hand" {
-                    ForEach(player.hand.indices, id: \.self) { index in
-                        CardView(card: player.hand[index])
-                    }
-                } else {
-                    ForEach(player.playedCards.indices, id: \.self) { index in
-                        CardView(card: player.playedCards[index])
-                    }.border(.white)
-                }
-            }
-        }
-    }
-    struct AnimatedCard: View {
-        var number: Int
-        let player: GamePlayer
-        @State var position: CGPoint = CGPoint(x: UIScreen.main.bounds.width - 50, y: 0)
-        @State private var isHidden = false // Control visibility
-        var body: some View {
-            if !isHidden { // Only show the view if it's not hidden
-                CardView(card: Card(number: 9, faceDown: true))
-                .position(position)
-                .onAppear {
-                    withAnimation {
-                        move(to: player.position)
-                    } completion: {
-                        // Add card to player
-                        if player.index == 0 {
-                            player.addToHand(Card(number: number, faceDown: false))
-                        } else {
-                            player.addToHand(Card(number: number, faceDown: true))
-                        }
-                        // Hide the view
-                        isHidden = true
-                    }
-                }
-            }
-        }
-        func move(to new: CGPoint) {
-            position = new
-        }
+    func move(to new: CGPoint) {
+        position = new
     }
 }
 
@@ -208,6 +210,8 @@ class Card: ObservableObject {
 struct CardView: View {
     var number: Int
     var faceDown: Bool
+    let width: CGFloat = 100
+    let scale: CGFloat = 2.0 / 3.0
     init(card: Card) {
         self.number = card.number
         self.faceDown = card.faceDown
@@ -215,20 +219,21 @@ struct CardView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             RoundedRectangle(cornerRadius: 10)
-                .fill(faceDown ? Color.lootBeige : Color.white) // Change color based on flipped status
-                .frame(width: 75, height: 100)
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2))
-            VStack{
-                Text(faceDown ? "Loot!" : "\(number)")
-                    .font(.custom("Quasimodo", size: 14))
-                    .foregroundColor(.black)
-                    .padding(4)
-            }
+                .fill(faceDown ? Color.lootBrown : Color.lootBeige) // Change color based on flipped status
+                .frame(width: width, height: width * scale + width)
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.lootBrown, lineWidth: 8))
+            Image(faceDown ? "dragon" : "loot_\(number)")
+                .frame(width: width, height: width * scale + width)
+                .scaleEffect(0.2 * scale + 0.2)
+            Text(faceDown ? "Loot!" : "\(number)")
+                .font(.custom("Quasimodo", size: 14 * scale + 14))
+                .foregroundColor(faceDown ? Color.lootBeige : .black)
+                .frame(alignment: .leading)
+                .padding(faceDown ? 6 * scale + 6 : 7 * scale + 7)
         }
     }
 }
 
 #Preview {
-    GameView()
-        .environmentObject(AppViewModel())
+    CardView(card: Card(number: 1, faceDown: false))
 }
