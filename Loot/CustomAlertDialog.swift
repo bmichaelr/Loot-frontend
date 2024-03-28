@@ -7,24 +7,46 @@
 
 import SwiftUI
 
-struct CustomAlertDialog: ViewModifier {
+extension View {
+    func customAlertDialog(title: String, message: String, buttonTitle: String, action: @escaping () -> Void, isActive: Binding<Bool>) -> some View {
+        return ZStack {
+            self
+            if isActive.wrappedValue {
+                CustomAlertDialog(title: title, message: message, buttonTitle: buttonTitle, action: action, isActive: isActive)
+            }
+        }
+    }
+}
+
+struct CustomAlertDialogTest: View {
+    @State private var showAlert: Bool = false
+    var body: some View {
+        VStack {
+            Button {
+                showAlert.toggle()
+            } label: {
+                Text("Press me")
+            }
+        }
+        .customAlertDialog(title: "Hello", message: "You have brought up the alert dialog!", buttonTitle: "Awesome", action: doSomethingCool, isActive: $showAlert)
+    }
+    private func doSomethingCool() {
+        print("Oh yeah, we are doing something cool 😎")
+    }
+}
+
+struct CustomAlertDialog: View {
     let title: String
     let message: String
     let buttonTitle: String
     let action: () -> Void
     @State private var offset: CGFloat = 1000
-    var isPresented: Binding<Bool>
-    init(isPresented: Binding<Bool>) {
-        self.isPresented = isPresented
-    }
-    mutating func body(content: Content) -> some View {
-        content.overlay(alertContent())
-    }
-    @ViewBuilder
-    private mutating func alertContent() -> some View {
+    @State private var opacity: Double = 0.0
+    @Binding var isActive: Bool
+    var body: some View {
         ZStack {
             Color.black
-                .opacity(0.15)
+                .opacity(opacity)
                 .ignoresSafeArea()
                 .onTapGesture {
                     close()
@@ -44,7 +66,7 @@ struct CustomAlertDialog: ViewModifier {
                     .padding()
                 HStack {
                     Button {
-                        self.close()
+                        close()
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -80,17 +102,20 @@ struct CustomAlertDialog: ViewModifier {
             .onAppear {
                 withAnimation(.spring()) {
                     offset = 0
+                    opacity = 0.15
                 }
             }
         }
     }
-    private mutating func close() {
+    private func close() {
         withAnimation(.spring) {
             offset = 1000
-            isPresented.wrappedValue.toggle()
+            opacity = 0
+            isActive = false
         }
     }
 }
-func customAlert(isPresented: Binding<Bool>) -> some View {
-    return modifier(CustomAlertDialog(isPresented: isPresented))
+
+#Preview {
+    CustomAlertDialogTest()
 }

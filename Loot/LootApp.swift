@@ -20,11 +20,11 @@ struct LootApp: App {
                     case .gameLobbyView:
                         GameLobbyView()
                     case .homeMenuView:
-                        TestHomeMenuView()
+                        CustomAlertDialogTest()
                     case .gameView:
                         GameView()
                     case .startNewGameView:
-                        StartViewTest()
+                        CustomAlertDialogTest()
                     }
                 }
                 if showCustomLoadingView {
