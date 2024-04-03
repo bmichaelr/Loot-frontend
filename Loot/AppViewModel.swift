@@ -60,12 +60,27 @@ class AppViewModel: ObservableObject {
         let request = LobbyRequest(player: player, roomKey: key)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
     }
+    func leaveGame(_ key: String) {
+        unsubscribeFromLobbyChannels()
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: key)
+        stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
+        self.lobbyData = LobbyResponse()
+        self.firstLobbyLoad = true
+        viewController.changeView(view: .homeMenuView)
+    }
+    func syncPlayers() {
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
+        stompClient.sendData(body: request, to: "/app/game/sync")
+    }
     func changeReadyStatus(_ ready: Bool) {
         let player = Player(name: playerName, id: clientUUID, ready: ready)
         let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/ready")
     }
     func handleLobbyResponse(_ message: Data) {
+        print("Got lobby response")
         do {
             let parsed = try JSONDecoder().decode(LobbyResponse.self, from: message)
             lobbyData.roomKey = parsed.roomKey
@@ -78,6 +93,10 @@ class AppViewModel: ObservableObject {
         if firstLobbyLoad {
             firstLobbyLoad = false
             viewController.changeView(view: .gameLobbyView)
+        }
+        if lobbyData.allReady {
+            unsubscribeFromLobbyChannels()
+            viewController.changeView(view: .gameView)
         }
     }
     func handleServerListResponse(_ message: Data) {

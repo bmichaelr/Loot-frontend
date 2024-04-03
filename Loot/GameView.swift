@@ -24,6 +24,7 @@ struct GameView: View {
             .onAppear {
                 createPlayerViews(geometry: geometry) // Create PlayerView instances when the view appears
                 createCenterCards()
+                viewModel.syncPlayers()
             }
         }
     }

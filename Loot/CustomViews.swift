@@ -37,12 +37,13 @@ struct CustomButton: View {
     let text: String
     let onClick: () -> Void
     var enabled: Bool = true
+    var buttonColor: Color = Color.lootGreen
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
                 .foregroundColor(.clear)
                 .frame(height: 50)
-                .background(enabled ? Color.lootGreen : Color.gray)
+                .background(enabled ? buttonColor : Color.gray)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)

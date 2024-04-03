@@ -29,6 +29,7 @@
 		0FEB84D82BBD0C97000C4894 /* PlayedCardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */; };
 		3268B6772BBDDDEA00F6218A /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6762BBDDDEA00F6218A /* CustomViews.swift */; };
 		3268B6792BBDE2D100F6218A /* CreateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6782BBDE2D100F6218A /* CreateGameView.swift */; };
+		3268B67B2BBDFDCB00F6218A /* LobbyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */; };
 		32FF759D2BB331000046B2B8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FF759C2BB331000046B2B8 /* Colors.swift */; };
 		32FF759F2BB331860046B2B8 /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FF759E2BB331860046B2B8 /* ConnectView.swift */; };
 		32FF75A22BB336930046B2B8 /* quasimodo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32FF75A12BB336930046B2B8 /* quasimodo.ttf */; };
@@ -73,6 +74,7 @@
 		0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardResponse.swift; sourceTree = "<group>"; };
 		3268B6762BBDDDEA00F6218A /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		3268B6782BBDE2D100F6218A /* CreateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameView.swift; sourceTree = "<group>"; };
+		3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyPlayerView.swift; sourceTree = "<group>"; };
 		32FF759C2BB331000046B2B8 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		32FF759E2BB331860046B2B8 /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
 		32FF75A12BB336930046B2B8 /* quasimodo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = quasimodo.ttf; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
 				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
 				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
+				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
 			);
 			path = Loot;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				0FD38A8E2BA261D3003982B7 /* StompClient.swift in Sources */,
 				3268B6772BBDDDEA00F6218A /* CustomViews.swift in Sources */,
 				0FD38A9E2BA26F92003982B7 /* LobbyResponse.swift in Sources */,
+				3268B67B2BBDFDCB00F6218A /* LobbyPlayerView.swift in Sources */,
 				6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +525,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
+				DEVELOPMENT_TEAM = 886646DU8M;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -552,6 +557,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
+				DEVELOPMENT_TEAM = 886646DU8M;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
