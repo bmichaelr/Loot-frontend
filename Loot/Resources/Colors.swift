@@ -12,6 +12,7 @@ extension Color {
     static let lootBrown: Color = Color(hex: "#4B1E18")
     static let lootBeige: Color = Color(hex: "#EED9A2")
     static let lootGreen: Color = Color(hex: "#57A955")
+    static let lootRed: Color = Color(hex: "#921717")
 }
 extension Color {
     init(hex: String) {

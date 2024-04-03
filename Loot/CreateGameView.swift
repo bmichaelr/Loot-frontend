@@ -2,8 +2,6 @@
 //  CreateGameView.swift
 //  Loot
 //
-//  Created by Michael, Ben on 4/3/24.
-//
 
 import SwiftUI
 
@@ -58,7 +56,8 @@ struct CreateGameView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.black, lineWidth: 2)
                 ))
-                CustomButton(text: "Create Game", onClick:  { viewModel.createGame(roomName) }, enabled: buttonEnabled)
+                Spacer()
+                CustomButton(text: "Create Game", onClick: { viewModel.createGame(roomName) }, enabled: buttonEnabled)
                 Spacer()
             }
             .padding()
