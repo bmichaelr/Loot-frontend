@@ -21,7 +21,7 @@ struct HomeMenuView: View {
             Spacer()
 
             Button {
-                viewModel.createGame("Room Name")
+                viewModel.createGame("Room!")
             } label: {
                 Text("Create Game")
                     .foregroundColor(.black)

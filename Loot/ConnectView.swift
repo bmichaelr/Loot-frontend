@@ -11,6 +11,7 @@ struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
+    @State private var roomName: String = ""
     private func hideKeyboard() {
             nameFieldFocused = false
         }
@@ -50,8 +51,7 @@ struct ConnectView: View {
                         .offset(y: -50)
                 }
                 VStack {
-                    CustomTextField(text: $viewModel.playerName, 
-                                    isFocused: _nameFieldFocused, prompt: "Enter your name here...")
+                    CustomTextField(text: $viewModel.playerName, isFocused: _nameFieldFocused, prompt: "Enter your name here...")
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
                 .offset(y: -30)

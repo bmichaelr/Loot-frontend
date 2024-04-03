@@ -36,12 +36,13 @@ struct CustomButton: View {
     @State private var scaleEffect: CGFloat = 1.0
     let text: String
     let onClick: () -> Void
+    var enabled: Bool = true
     var body: some View {
         ZStack(alignment: .center) {
             Rectangle()
                 .foregroundColor(.clear)
                 .frame(height: 50)
-                .background(Color.lootGreen)
+                .background(enabled ? Color.lootGreen : Color.gray)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
@@ -56,6 +57,7 @@ struct CustomButton: View {
                 .foregroundColor(.black)
         }
         .onTapGesture {
+            if !enabled { return }
             withAnimation {
                 scaleEffect = 0.9
             }
