@@ -12,7 +12,11 @@ class StompClient {
     let swiftStomp: SwiftStomp
     var channelListeners: [String: (Data) -> Void] = [:]
     var connectedCall: ((Bool) -> Void)?
-    var debug: Bool = true
+    var debug: Bool = false
+    private var gameRoomName: String = ""
+    var buttonClickable: Bool {
+        gameRoomName.count > 0
+    }
     init() {
         let urlString = debug ? "http://localhost:8080/game-websocket" : "http://ciloot.lol:8080/game-websocket"
         let url = URL(string: urlString)
