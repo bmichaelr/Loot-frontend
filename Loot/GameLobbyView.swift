@@ -58,18 +58,17 @@ struct GameLobbyView: View {
                 .padding([.leading, .trailing], 20)
             }
             .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
-            .onDisappear(perform: self.viewModel.unsubscribeFromLobbyChannels)
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackground()
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                        
-                } label: {
-                    Text("Leave")
-                        .font(.custom("Quasimodo", size: 14))
-                        .foregroundStyle(Color.lootBeige)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackground()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.leaveGame(viewModel.lobbyData.roomKey)
+                    } label: {
+                        Text("Leave")
+                            .font(.custom("Quasimodo", size: 14))
+                            .foregroundStyle(Color.lootBeige)
+                    }
                 }
             }
         }

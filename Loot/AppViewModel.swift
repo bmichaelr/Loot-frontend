@@ -41,9 +41,11 @@ class AppViewModel: ObservableObject {
         stompClient.unregisterListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())")
     }
     func subscribeToLobbyChannels() {
+        print("Calling subscribe to lobby channels")
         stompClient.registerListener("/topic/lobby/\(lobbyData.roomKey)", using: handleLobbyResponse)
     }
     func unsubscribeFromLobbyChannels() {
+        print("Calling unsubscribe from lobby channels")
         stompClient.unregisterListener("/topic/lobby/\(lobbyData.roomKey)")
     }
     func reloadServerList() {
@@ -51,6 +53,7 @@ class AppViewModel: ObservableObject {
         stompClient.sendData(body: player, to: "/app/loadAvailableServers")
     }
     func createGame(_ roomName: String) {
+        print("Call to create game with room name: \(roomName)")
         let player = Player(name: playerName, id: clientUUID)
         let request = CreateLobbyRequest(roomName: roomName, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
@@ -61,10 +64,12 @@ class AppViewModel: ObservableObject {
         stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
     }
     func leaveGame(_ key: String) {
+        unsubscribeFromLobbyChannels()
         let player = Player(name: playerName, id: clientUUID)
         let request = LobbyRequest(player: player, roomKey: key)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
         self.lobbyData = LobbyResponse()
+        self.firstLobbyLoad = true
         viewController.changeView(view: .homeMenuView)
     }
     func changeReadyStatus(_ ready: Bool) {
@@ -73,6 +78,7 @@ class AppViewModel: ObservableObject {
         stompClient.sendData(body: request as LobbyRequest, to: "/app/ready")
     }
     func handleLobbyResponse(_ message: Data) {
+        print("Got lobby response")
         do {
             let parsed = try JSONDecoder().decode(LobbyResponse.self, from: message)
             lobbyData.roomKey = parsed.roomKey
