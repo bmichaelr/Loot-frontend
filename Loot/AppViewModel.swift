@@ -60,6 +60,13 @@ class AppViewModel: ObservableObject {
         let request = LobbyRequest(player: player, roomKey: key)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
     }
+    func leaveGame(_ key: String) {
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: key)
+        stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
+        self.lobbyData = LobbyResponse()
+        viewController.changeView(view: .homeMenuView)
+    }
     func changeReadyStatus(_ ready: Bool) {
         let player = Player(name: playerName, id: clientUUID, ready: ready)
         let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)

@@ -7,95 +7,79 @@ import SwiftUI
 
 struct GameLobbyView: View {
     @EnvironmentObject var viewModel: AppViewModel
-
-    @State var isReadyButton: Bool = false
-
+    @State private var ready: Bool = true
     var body: some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Text("Game Room Key: " + viewModel.lobbyData.roomKey)
-                    .font(.title)
-                    .bold()
-                Spacer()
-           }
-            Section {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.lobbyData.players, id: \.id) { player in
-                        HStack {
-                            Image(systemName: "circle.fill")
-                                .resizable()
-                                .frame(width: 32.0, height: 32.0)
-                                .padding()
-                            Spacer()
-                            Text(player.name)
-                            Spacer()
-
-                            if player.ready {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(Color.green)
-                            } else {
-                                Image(systemName: "xmark")
-                                    .foregroundColor(Color.red)
+        NavigationStack {
+            ZStack {
+                Color.lootBeige.ignoresSafeArea(.all)
+                VStack(alignment: .leading) {
+                    Text("Room Name - \(viewModel.lobbyData.name)")
+                        .font(.custom("Quasimodo", size: 28))
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(height: 280)
+                            .background(Color.lootBrown)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.black, lineWidth: 2)
+                            )
+                        VStack(alignment: .center) {
+                            HStack {
+                                Text("Player")
+                                    .font(.custom("Quasimodo", size: 16))
+                                    .foregroundStyle(Color.lootBeige)
+                                Spacer()
+                                Text("Ready")
+                                    .font(.custom("Quasimodo", size: 16))
+                                    .foregroundStyle(Color.lootBeige)
                             }
-                            Spacer()
-                        }.overlay(
-                            RoundedRectangle(cornerRadius: 10, style: .circular)
-                                .stroke(Color.black, lineWidth: 1)
-                                .frame(width: 350, height: 50)
-                        )
-                        .padding(20)
-                    }
-                    Spacer()
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button {
-                            // Ready Up Button Logic
-                            isReadyButton.toggle()
-                            print("ReadyButton Status: " + String(isReadyButton))
-                            viewModel.changeReadyStatus(isReadyButton)
-                        } label: {
-                            Text("Ready")
-                                .foregroundColor(.black)
-                                .font(.title2)
-                                .bold()
+                            .padding([.leading, .trailing], 30)
+                            .padding(.top, 20)
+                            let numberOfPlayers = viewModel.lobbyData.players.count
+                            ForEach(0..<4, id: \.self) { num in
+                                if num < numberOfPlayers {
+                                    let player = viewModel.lobbyData.players[num]
+                                    LobbyPlayerView(name: player.name, ready: player.ready)
+                                        .padding([.leading, .trailing], 15)
+                                } else {
+                                    LobbyPlayerView()
+                                        .padding([.leading, .trailing], 15)
+                                }
+                            }
                         }
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(isReadyButton ? .gray : .green)
-                                .frame(width: 250, height: 50)
-                        )
-                        Spacer()
                     }
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button {
-                            // Start Game Transition Logic for testing
-                            viewModel.viewController.changeView(view: .gameView)
-                        } label: {
-                            Text("Start Game")
-                                .foregroundColor(.black)
-                                .font(.title2)
-                                .bold()
-                        }
-                        .background(
-                            Capsule(style: .continuous)
-                                .fill(.orange)
-                                .frame(width: 250, height: 50)
-                        )
-                        Spacer()
-                    }
-                    Spacer()
+                    CustomButton(text: ready ? "Ready" : "Unready",
+                                 onClick: readyButtonClicked,
+                                 buttonColor: ready ? Color.lootGreen : Color.red)
+                    .padding(.top, 30)
+                }
+                .padding([.leading, .trailing], 20)
+            }
+            .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
+            .onDisappear(perform: self.viewModel.unsubscribeFromLobbyChannels)
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackground()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                        
+                } label: {
+                    Text("Leave")
+                        .font(.custom("Quasimodo", size: 14))
+                        .foregroundStyle(Color.lootBeige)
                 }
             }
         }
-        .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
-        .onDisappear(perform: self.viewModel.unsubscribeFromLobbyChannels)
     }
-
+    func readyButtonClicked() {
+        viewModel.changeReadyStatus(ready)
+        withAnimation(.spring) {
+            ready.toggle()
+        }
+    }
 }
 
 #Preview {
