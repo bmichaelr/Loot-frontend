@@ -50,9 +50,9 @@ class AppViewModel: ObservableObject {
         let player = Player(name: playerName, id: clientUUID)
         stompClient.sendData(body: player, to: "/app/loadAvailableServers")
     }
-    func createGame(_ name: String) {
+    func createGame(_ roomName: String) {
         let player = Player(name: playerName, id: clientUUID)
-        let request = CreateLobbyRequest(roomName: name, player: player)
+        let request = CreateLobbyRequest(roomName: roomName, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
     }
     func joinGame(_ key: String) {
