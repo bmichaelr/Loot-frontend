@@ -41,11 +41,9 @@ class AppViewModel: ObservableObject {
         stompClient.unregisterListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())")
     }
     func subscribeToLobbyChannels() {
-        print("Calling subscribe to lobby channels")
         stompClient.registerListener("/topic/lobby/\(lobbyData.roomKey)", using: handleLobbyResponse)
     }
     func unsubscribeFromLobbyChannels() {
-        print("Calling unsubscribe from lobby channels")
         stompClient.unregisterListener("/topic/lobby/\(lobbyData.roomKey)")
     }
     func reloadServerList() {
@@ -53,7 +51,6 @@ class AppViewModel: ObservableObject {
         stompClient.sendData(body: player, to: "/app/loadAvailableServers")
     }
     func createGame(_ roomName: String) {
-        print("Call to create game with room name: \(roomName)")
         let player = Player(name: playerName, id: clientUUID)
         let request = CreateLobbyRequest(roomName: roomName, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
@@ -71,6 +68,11 @@ class AppViewModel: ObservableObject {
         self.lobbyData = LobbyResponse()
         self.firstLobbyLoad = true
         viewController.changeView(view: .homeMenuView)
+    }
+    func syncPlayers() {
+        let player = Player(name: playerName, id: clientUUID)
+        let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
+        stompClient.sendData(body: request, to: "/app/game/sync")
     }
     func changeReadyStatus(_ ready: Bool) {
         let player = Player(name: playerName, id: clientUUID, ready: ready)
@@ -91,6 +93,10 @@ class AppViewModel: ObservableObject {
         if firstLobbyLoad {
             firstLobbyLoad = false
             viewController.changeView(view: .gameLobbyView)
+        }
+        if lobbyData.allReady {
+            unsubscribeFromLobbyChannels()
+            viewController.changeView(view: .gameView)
         }
     }
     func handleServerListResponse(_ message: Data) {
