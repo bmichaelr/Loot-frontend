@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct LootApp: App {
+    @StateObject var createGameViewController = CreateGameViewController()
     @ObservedObject var displayViewController = DisplayedViewController.sharedViewDisplayController
     @ObservedObject var model: AppViewModel = AppViewModel()
     @State private var showCustomLoadingView: Bool = true
@@ -34,6 +35,7 @@ struct LootApp: App {
             }
             .zIndex(2.0) // This zIndex will ensure that the loading view is on top of other views
             .environmentObject(model)
+            .environmentObject(createGameViewController)
         }
     }
 }

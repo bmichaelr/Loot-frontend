@@ -38,7 +38,6 @@
 		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
 		6FA3BFBE2B8FB92A005A6846 /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */; };
 		6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */; };
-		6FD281632BBA4F6000603C6E /* CreateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD281622BBA4F6000603C6E /* CreateGameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +83,6 @@
 		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMenuView.swift; sourceTree = "<group>"; };
 		6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLobbyView.swift; sourceTree = "<group>"; };
-		6FD281622BBA4F6000603C6E /* CreateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,12 +140,8 @@
 				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 				32FF759E2BB331860046B2B8 /* ConnectView.swift */,
 				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
-<<<<<<< HEAD
 				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
 				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
-=======
-				6FD281622BBA4F6000603C6E /* CreateGameView.swift */,
->>>>>>> 4f18e58 (Created view for create game pop-up and refactored matchmaking screen)
 			);
 			path = Loot;
 			sourceTree = "<group>";
@@ -365,11 +359,7 @@
 				0FD38AA02BA274BC003982B7 /* Player.swift in Sources */,
 				0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */,
 				3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */,
-<<<<<<< HEAD
 				0FEB84D82BBD0C97000C4894 /* PlayedCardResponse.swift in Sources */,
-=======
-				6FD281632BBA4F6000603C6E /* CreateGameView.swift in Sources */,
->>>>>>> 4f18e58 (Created view for create game pop-up and refactored matchmaking screen)
 				0FD38AA22BA27502003982B7 /* LobbyRequest.swift in Sources */,
 				0FEB84D22BBD0BE6000C4894 /* CardResponse.swift in Sources */,
 				6FA3BFBE2B8FB92A005A6846 /* HomeMenuView.swift in Sources */,
@@ -531,7 +521,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -563,7 +552,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

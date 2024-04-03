@@ -17,6 +17,8 @@ struct MatchmakingView: View {
     @State private var createButtonPressed = false
     @State private var refreshedPressed = false
 
+    @EnvironmentObject var createGameViewController: CreateGameViewController
+
     var body: some View {
         let testServerList: [ServerResponse] = [testServer1, testServer2, testServer3, testServer4]
 
@@ -96,6 +98,10 @@ struct MatchmakingView: View {
                         withAnimation {
                             createButtonPressed.toggle()
                             // Create Game Logic
+                            // Present Game View
+                            withAnimation(.spring()) {
+                                createGameViewController.present()
+                            }
                         }
                     }
                     // Create Game Button End
@@ -111,6 +117,12 @@ struct MatchmakingView: View {
                                 .scaledToFit()
                         }
                     }
+                }
+            }// ZStack
+            // Create Game Pop Up
+            .overlay(alignment: .bottom) {
+                if createGameViewController.action.isPresented {
+                    CreateGameView()
                 }
             }
         }
@@ -167,4 +179,5 @@ struct ColoredNavigationBar: ViewModifier {
 #Preview {
     MatchmakingView()
         .environmentObject(AppViewModel())
+        .environmentObject(CreateGameViewController())
 }
