@@ -11,7 +11,6 @@ struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
-    @State private var roomName: String = ""
     private func hideKeyboard() {
             nameFieldFocused = false
         }
