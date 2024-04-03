@@ -68,29 +68,7 @@ struct MatchmakingView: View {
 
                     Spacer()
 
-                    // CreateGameButton
-                    ZStack(alignment: .center) {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: CGFloat(mainBoxWidth), height: 50)
-                            .background(Color.lootGreen)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.lootBrown, lineWidth: 2)
-                            )
-                            .shadow(
-                                color: Color(red: 0, green: 0, blue: 0, opacity: 0.25), radius: 4, y: 4
-                            )
-                            .scaleEffect(createButtonPressed ? 0.95 : 1.0)
-                        Text("Create Game")
-                            .font(Font.custom("Quasimodo", size: 18).weight(.heavy))
-                            .foregroundColor(.black)
-                    }.onTapGesture {
-                        withAnimation {
-                            createButtonPressed.toggle()
-                        }
-                    } // Create Game Button End
+                    CustomButton(text: "Create Game", onClick: { createButtonPressed.toggle() })
 
                     Spacer()
 
