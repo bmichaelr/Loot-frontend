@@ -2,8 +2,6 @@
 //  CreateGameView.swift
 //  Loot
 //
-//  Created by Michael, Ben on 4/3/24.
-//
 
 import SwiftUI
 

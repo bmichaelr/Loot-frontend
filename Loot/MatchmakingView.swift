@@ -1,5 +1,5 @@
 //
-//  testHomeMenuView.swift
+//  MatchmakingView.swift
 //  Loot
 //
 //  Created by Benjamin Michael on 3/26/24.
@@ -15,6 +15,7 @@ struct MatchmakingView: View {
     var testServer4: ServerResponse = ServerResponse(name: "Server 4", key: "3", maximumPlayers: 4, numberOfPlayers: 4, status: "In Game")
 
     @State private var createButtonPressed = false
+    @State private var refreshedPressed = false
 
     var body: some View {
         let testServerList: [ServerResponse] = [testServer1, testServer2, testServer3, testServer4]
@@ -34,18 +35,20 @@ struct MatchmakingView: View {
                         VStack {
                             HStack {
                                 Spacer()
-                                Text("Name").font(Font.custom("Quasimodo", size: 16).weight(.medium)).foregroundColor(.lootBeige)
+                                Text("Name")
                                 Spacer()
-                                Text("Players").font(Font.custom("Quasimodo", size: 16).weight(.medium)).foregroundColor(.lootBeige)
+                                Text("Players")
                                 Spacer()
-                                Text("Status").font(Font.custom("Quasimodo", size: 16).weight(.medium)).foregroundColor(.lootBeige)
+                                Text("Status")
                                 Spacer()
-                            }.padding()
+                            }
+                            .font(Font.custom("Quasimodo", size: 16).weight(.medium))
+                            .foregroundColor(.lootBeige)
+                            .padding()
 
                             ScrollView {
                                 Spacer()
                                 ForEach(testServerList, id: \.key) { server in
-
                                     Server(server: server)
                                         .onTapGesture {
                                             // This is where the connect to server function goes
@@ -54,21 +57,17 @@ struct MatchmakingView: View {
                                 }
                             }.frame(width: 350, height: 400)
 
-                            HStack {
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Spacer()
-                                Image(systemName: "arrow.clockwise")
-                                    .foregroundColor(.lootBeige)
-                                    .bold()
-                                    .onTapGesture {
-                                    print("Refreshing server list...")
-                                }
-                                Spacer()
+                            // Refresh Button
+                            Image(systemName: "arrow.clockwise")
+                                .frame(width: CGFloat(mainBoxWidth - 50), alignment: .trailing)
+                                .foregroundColor(.lootBeige)
+                                .bold()
+                                .onTapGesture {
+                                print("Refreshing server list...")
+                                // Refresh Server List Logic
+                                    // TODO:
+                                    refreshedPressed.toggle()
                             }
-
                         }
 
                     }.padding()
@@ -84,19 +83,19 @@ struct MatchmakingView: View {
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.black, lineWidth: 2)
+                                    .stroke(Color.lootBrown, lineWidth: 2)
                             )
                             .shadow(
                                 color: Color(red: 0, green: 0, blue: 0, opacity: 0.25), radius: 4, y: 4
                             )
                             .scaleEffect(createButtonPressed ? 0.95 : 1.0)
-                            .animation(.easeInOut(duration: 0.1))
                         Text("Create Game")
                             .font(Font.custom("Quasimodo", size: 18).weight(.heavy))
                             .foregroundColor(.black)
                     }.onTapGesture {
                         withAnimation {
                             createButtonPressed.toggle()
+                            // Create Game Logic
                         }
                     }
                     // Create Game Button End
