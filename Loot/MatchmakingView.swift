@@ -9,21 +9,13 @@ import SwiftUI
 
 struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
-//    var testServer1: ServerResponse = ServerResponse(name: "Server 1", key: "0", maximumPlayers: 4, numberOfPlayers: 2, status: "Available")
-//    var testServer2: ServerResponse = ServerResponse(name: "Server 2", key: "4", maximumPlayers: 4, numberOfPlayers: 1, status: "In Game")
-//    var testServer3: ServerResponse = ServerResponse(name: "Server 3", key: "2", maximumPlayers: 4, numberOfPlayers: 2, status: "Available")
-//    var testServer4: ServerResponse = ServerResponse(name: "Server 4", key: "3", maximumPlayers: 4, numberOfPlayers: 4, status: "In Game")
 
     @State private var createButtonPressed = false
     @State private var refreshedPressed = false
 
-    @EnvironmentObject var createGameViewController: CreateGameViewController
-
     var body: some View {
-//        let testServerList: [ServerResponse] = [testServer1, testServer2, testServer3, testServer4]
 
         let mainBoxWidth = 350
-        let innerBoxWidth = 320
 
         NavigationStack {
             ZStack {
@@ -68,7 +60,6 @@ struct MatchmakingView: View {
                                 .onTapGesture {
                                     refreshedPressed.toggle()
                                     print("Refreshing server list...")
-                                    // Refresh Server List Logic
                                     viewModel.reloadServerList()
                             }
                         }
@@ -98,14 +89,8 @@ struct MatchmakingView: View {
                     }.onTapGesture {
                         withAnimation {
                             createButtonPressed.toggle()
-                            // Create Game Logic
-                            // Present Game View
-                            withAnimation(.spring()) {
-                                createGameViewController.present()
-                            }
                         }
-                    }
-                    // Create Game Button End
+                    } // Create Game Button End
 
                     Spacer()
 
@@ -121,10 +106,9 @@ struct MatchmakingView: View {
                 }
             }// ZStack
             // Create Game Pop Up
-            .overlay(alignment: .bottom) {
-                if createGameViewController.action.isPresented {
-                    CreateGameView()
-                }
+            .sheet(isPresented: $createButtonPressed) {
+                CreateGameView()
+                    .presentationDetents([.medium])
             }
         }
         .onAppear(perform: self.viewModel.subscribeToMatchmakingChannels)
@@ -180,5 +164,4 @@ struct ColoredNavigationBar: ViewModifier {
 #Preview {
     MatchmakingView()
         .environmentObject(AppViewModel())
-        .environmentObject(CreateGameViewController())
 }
