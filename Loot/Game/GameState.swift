@@ -85,7 +85,7 @@ class GameState: ObservableObject {
             return
         }
         switch response.outcome {
-        case .base(_):
+        case .base(let baseResult):
             animationHandler.playCard(player: gamePlayer, card: gameCard)
             break
         case .potted(let pottedResult):
