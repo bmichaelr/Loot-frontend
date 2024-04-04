@@ -26,7 +26,8 @@ struct LootApp: App {
                                                     players: model.lobbyData.players,
                                                     stompClient: model.stompClient,
                                                     roomKey: model.lobbyData.roomKey,
-                                                    id: model.clientUUID
+                                                    id: model.clientUUID,
+                                                    name: model.playerName
                                                 ))
                     case .startNewGameView:
                         ConnectView()

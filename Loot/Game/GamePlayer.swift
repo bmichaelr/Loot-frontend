@@ -11,10 +11,14 @@ class GamePlayer: ObservableObject {
     @Published var playerHand = Hand()
     @Published var playerPlayedCards = Hand()
     @Published var test: CGFloat = 0
+    @Published var isCurrentTurn: Bool
+    var isLocalPlayer: Bool
     var position: CGPoint = .zero
     let player: Player
     init(from player: Player) {
         self.player  = player
+        self.isLocalPlayer = false
+        self.isCurrentTurn = false
     }
     func addToHand(_ card: Card) {
         playerHand.cards.append(card)

@@ -20,10 +20,14 @@ struct PlayerView: View {
                     VStack(spacing: 10) {
                         HandView(hand: gamePlayer.playerPlayedCards, namespace: namespace) { card in }
                         HandView(hand: gamePlayer.playerHand, namespace: namespace) { card in
-                            game.animationHandler.playCard(player: gamePlayer, card: card)
+                            if gamePlayer.isCurrentTurn {
+                                game.playCard(gamePlayer: gamePlayer, card: card)
+                                // game.animationHandler.playCard(player: gamePlayer, card: card)
+                            }
                         }
                     }
                 }.position(gamePlayer.position)
+                .border(gamePlayer.isCurrentTurn ? .white : .clear)
             } else {
                 HStack {
                     VStack(spacing: 20) {
@@ -44,7 +48,7 @@ struct PlayerView: View {
                         HandView(hand: gamePlayer.playerPlayedCards, namespace: namespace) { card in
                         }
                     }
-                }
+                }.border(gamePlayer.isCurrentTurn ? .white : .clear)
             }
         }
     }

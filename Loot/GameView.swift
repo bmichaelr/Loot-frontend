@@ -21,11 +21,11 @@ struct GameView: View {
             }.position(CGPoint(x: UIScreen.main.bounds.width / 2, y: 150))
                 .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.height / 2)
             localPlayer
-        }.background(Image("woodlong"))
+        }.background(Image("woodbackground"))
             .onAppear {
-                viewModel.syncPlayers()
                 createPlayerViews()
                 game.subscribeToGameChannels()
+                viewModel.syncPlayers()
             }
             .onDisappear {
                 game.unsubscribeFromGameChannels()
@@ -67,4 +67,3 @@ class Card: Identifiable, Equatable, ObservableObject {
         self.faceDown = true
     }
 }
- 

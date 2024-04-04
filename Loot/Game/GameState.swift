@@ -16,17 +16,26 @@ class GameState: ObservableObject {
     var gamePlayerMap: [UUID: GamePlayer] = [:]
     let roomKey: String
     let clientId: UUID
-    init(players: [Player], stompClient: StompClient, roomKey: String, id: UUID) {
+    let clientName: String
+    init(players: [Player], stompClient: StompClient, roomKey: String, id: UUID, name: String) {
         self.stompClient = stompClient
         self.roomKey = roomKey
         self.clientId = id
+        self.clientName = name
         for player in players {
-            gamePlayers.append(GamePlayer(from: player))
+            let gamePlayerObject = GamePlayer(from: player)
+            if player.id == clientId {gamePlayerObject.isLocalPlayer = true}
+            gamePlayers.append(gamePlayerObject)
         }
         addToDeck(Card(power: 0, faceDown: true))
     }
     func addToDeck(_ card: Card) {
         self.deck.cards.append(card)
+    }
+    func syncPlayers() {
+        let player = Player(name: clientName, id: clientId)
+        let request = LobbyRequest(player: player, roomKey: roomKey)
+        stompClient.sendData(body: request, to: "/app/game/sync")
     }
     func handleStartRoundResponse(_ message: Data) {
         // Call the dealing animation and extract the card that pertains to specific player from payload
@@ -34,10 +43,13 @@ class GameState: ObservableObject {
             print("Error getting the start round response")
             return
         }
-        animationHandler.dealToAll(playerCardPair: response.playersAndCards, gamePlayers: gamePlayers, deck: deck)
+        animationHandler.dealToAll(playerCardPair: response.playersAndCards, gamePlayers: gamePlayers, deck: deck) {
+            self.syncPlayers()
+        }
     }
     func handleNextTurnResponse(_ message: Data) {
         // Animate dealing card to player and if its us, show the card
+        print("Got nextTurn resonse")
         guard let response = try? JSONDecoder().decode(NextTurnResponse.self, from: message) else {
             print("Error getting the start round response")
             return
@@ -50,7 +62,9 @@ class GameState: ObservableObject {
         if response.player.id == clientId {
             gameCard.faceDown = false
         }
-        animationHandler.dealCard(card: gameCard, player: gamePlayer)
+        animationHandler.dealCard(card: gameCard, player: gamePlayer, deck: deck) {
+            gamePlayer.isCurrentTurn = true
+        }
     }
     func handleRoundStatusResponse(_ message: Data) {
         // Round over so show who won
@@ -105,11 +119,18 @@ class GameState: ObservableObject {
             }
             animationHandler.playCard(player: pickedPlayer, card: pickedCard)
             if !pickedPlayer.player.isOut {
-                animationHandler.dealCard(card: Card(from: netTrollResult.drawnCard!), player: pickedPlayer)
+                animationHandler.dealCard(card: Card(from: netTrollResult.drawnCard!), player: pickedPlayer, deck: deck) {
+                    //
+                }
             }
         case .gazebo(_):
             break
         }
+    }
+    func playCard(gamePlayer: GamePlayer, card: Card) {
+//        let player = Player(name: clientName, id: clientId)
+//        let request = LobbyRequest(player: player, roomKey: roomKey)
+//        stompClient.sendData(body: request, to: "/app/game/playCard")
     }
     func subscribeToGameChannels() {
         stompClient.registerListener("/topic/game/startRound/\(roomKey)", using: handleStartRoundResponse)

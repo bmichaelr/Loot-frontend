@@ -38,8 +38,8 @@ struct CardView: View {
                 .padding(card.faceDown ? 6 * scale + 6 : 7 * scale + 7)
                 .rotation3DEffect(card.faceDown ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: 0, y: 1, z: 0))
         }
-        .matchedGeometryEffect(id: "\(id)", in: namespace)
-        .rotation3DEffect(card.faceDown ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
+        .matchedGeometryEffect(id: "\(id)", in: namespace, isSource: true)
+        // .rotation3DEffect(card.faceDown ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
     }
 
 }
