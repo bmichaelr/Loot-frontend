@@ -33,6 +33,13 @@
 		32FF759D2BB331000046B2B8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FF759C2BB331000046B2B8 /* Colors.swift */; };
 		32FF759F2BB331860046B2B8 /* ConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FF759E2BB331860046B2B8 /* ConnectView.swift */; };
 		32FF75A22BB336930046B2B8 /* quasimodo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32FF75A12BB336930046B2B8 /* quasimodo.ttf */; };
+		336C98B92BBF098B005053DA /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B02BBF098B005053DA /* CardView.swift */; };
+		336C98BA2BBF098B005053DA /* HandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B12BBF098B005053DA /* HandView.swift */; };
+		336C98BB2BBF098B005053DA /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B22BBF098B005053DA /* PlayerView.swift */; };
+		336C98BC2BBF098B005053DA /* AnimationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B42BBF098B005053DA /* AnimationHandler.swift */; };
+		336C98BD2BBF098B005053DA /* GamePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B52BBF098B005053DA /* GamePlayer.swift */; };
+		336C98BE2BBF098B005053DA /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B62BBF098B005053DA /* GameState.swift */; };
+		336C98BF2BBF098B005053DA /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B72BBF098B005053DA /* Hand.swift */; };
 		3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */; };
 		6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */; };
 		6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */; };
@@ -79,6 +86,13 @@
 		32FF759E2BB331860046B2B8 /* ConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectView.swift; sourceTree = "<group>"; };
 		32FF75A12BB336930046B2B8 /* quasimodo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = quasimodo.ttf; sourceTree = "<group>"; };
 		32FF75A32BB337250046B2B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		336C98B02BBF098B005053DA /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		336C98B12BBF098B005053DA /* HandView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandView.swift; sourceTree = "<group>"; };
+		336C98B22BBF098B005053DA /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		336C98B42BBF098B005053DA /* AnimationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationHandler.swift; sourceTree = "<group>"; };
+		336C98B52BBF098B005053DA /* GamePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePlayer.swift; sourceTree = "<group>"; };
+		336C98B62BBF098B005053DA /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		336C98B72BBF098B005053DA /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
 		6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedViewController.swift; sourceTree = "<group>"; };
 		6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToDisplay.swift; sourceTree = "<group>"; };
@@ -135,6 +149,7 @@
 				6FA3BFBD2B8FB92A005A6846 /* HomeMenuView.swift */,
 				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
 				6F566D012B9F676C00EC7C3D /* GameView.swift */,
+				336C98B82BBF098B005053DA /* Game */,
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
 				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
 				6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */,
@@ -208,6 +223,28 @@
 				32FF759C2BB331000046B2B8 /* Colors.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		336C98B32BBF098B005053DA /* GameViews */ = {
+			isa = PBXGroup;
+			children = (
+				336C98B02BBF098B005053DA /* CardView.swift */,
+				336C98B12BBF098B005053DA /* HandView.swift */,
+				336C98B22BBF098B005053DA /* PlayerView.swift */,
+			);
+			path = GameViews;
+			sourceTree = "<group>";
+		};
+		336C98B82BBF098B005053DA /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				336C98B32BBF098B005053DA /* GameViews */,
+				336C98B42BBF098B005053DA /* AnimationHandler.swift */,
+				336C98B52BBF098B005053DA /* GamePlayer.swift */,
+				336C98B62BBF098B005053DA /* GameState.swift */,
+				336C98B72BBF098B005053DA /* Hand.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,9 +383,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				336C98BF2BBF098B005053DA /* Hand.swift in Sources */,
 				3268B6792BBDE2D100F6218A /* CreateGameView.swift in Sources */,
+				336C98BE2BBF098B005053DA /* GameState.swift in Sources */,
+				336C98BC2BBF098B005053DA /* AnimationHandler.swift in Sources */,
+				336C98BD2BBF098B005053DA /* GamePlayer.swift in Sources */,
 				0FEB84D42BBD0C2B000C4894 /* NextTurnResponse.swift in Sources */,
 				6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */,
+				336C98BA2BBF098B005053DA /* HandView.swift in Sources */,
 				0FEB84D62BBD0C4D000C4894 /* RoundStatusResponse.swift in Sources */,
 				32FF759F2BB331860046B2B8 /* ConnectView.swift in Sources */,
 				6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */,
@@ -366,7 +408,9 @@
 				0FD38AA22BA27502003982B7 /* LobbyRequest.swift in Sources */,
 				0FEB84D22BBD0BE6000C4894 /* CardResponse.swift in Sources */,
 				6FA3BFBE2B8FB92A005A6846 /* HomeMenuView.swift in Sources */,
+				336C98B92BBF098B005053DA /* CardView.swift in Sources */,
 				0FD38A8E2BA261D3003982B7 /* StompClient.swift in Sources */,
+				336C98BB2BBF098B005053DA /* PlayerView.swift in Sources */,
 				3268B6772BBDDDEA00F6218A /* CustomViews.swift in Sources */,
 				0FD38A9E2BA26F92003982B7 /* LobbyResponse.swift in Sources */,
 				3268B67B2BBDFDCB00F6218A /* LobbyPlayerView.swift in Sources */,

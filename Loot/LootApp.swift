@@ -22,7 +22,12 @@ struct LootApp: App {
                     case .homeMenuView:
                         MatchmakingView()
                     case .gameView:
-                        GameView()
+                        GameView(game: GameState(
+                                                    players: model.lobbyData.players,
+                                                    stompClient: model.stompClient,
+                                                    roomKey: model.lobbyData.roomKey,
+                                                    id: model.clientUUID
+                                                ))
                     case .startNewGameView:
                         ConnectView()
                     }
