@@ -182,5 +182,19 @@ final class ObjectDecodingTests: XCTestCase {
             }
         }
     }
+    func testPlayCardRequest() {
+        let player = Player(name: "Ben", id: UUID())
+        let playerToPlayOn = Player(name: "Josh", id: UUID())
+        let card1 = RegularCard(power: 4)
+        let card2 = GuessingCard(power: 1, guessedOn: playerToPlayOn, guessedCard: 6)
+        let card3 = TargetedCard(power: 5, playedOn: playerToPlayOn)
+        let request1 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .regular(card1))
+        let request2 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .guessing(card2))
+        let request3 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .targeted(card3))
+        
+        stompClient.sendData(body: request1, to: "/app/test/encoding")
+        stompClient.sendData(body: request2, to: "/app/test/encoding")
+        stompClient.sendData(body: request3, to: "/app/test/encoding")
+    }
 }
 
