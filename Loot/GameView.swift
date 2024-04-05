@@ -32,6 +32,15 @@ struct GameView: View {
             }
     }
     func createPlayerViews() {
+        game.gamePlayers.append(GamePlayer(from: Player(name: "Josh", id:game.clientId)))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 1, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 2, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 3, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 4, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 5, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 6, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 7, name: "potted plant", description: "")))
+        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 8, name: "potted plant", description: "")))
         for gamePlayer in game.gamePlayers {
             if gamePlayer.player.id == game.clientId {
                 gamePlayer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 200)
@@ -51,6 +60,12 @@ class Card: Identifiable, Equatable, ObservableObject {
         // Something
         return true
     }
+    enum CardType {
+        case guessing
+        case normal
+        case targeted
+    }
+    let type: CardType?
     let power: Int
     let id = UUID()
     var description: String = ""
@@ -59,11 +74,22 @@ class Card: Identifiable, Equatable, ObservableObject {
     init(power: Int, faceDown: Bool) {
         self.power = power
         self.faceDown = faceDown
+        self.type = .normal
     }
     init(from card: CardResponse) {
         self.power = card.power
         self.description = card.description
         self.name = card.name
         self.faceDown = true
+        switch power {
+        case 1:
+            self.type = .guessing
+        case 2, 3, 5, 6:
+            self.type = .targeted
+        case 4, 7, 8:
+            self.type = .normal
+        default:
+            self.type = .normal
+        }
     }
 }

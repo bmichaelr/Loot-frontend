@@ -7,11 +7,12 @@
 
 import Foundation
 
-class GamePlayer: ObservableObject {
+class GamePlayer: ObservableObject, Identifiable {
     @Published var playerHand = Hand()
     @Published var playerPlayedCards = Hand()
     @Published var test: CGFloat = 0
     @Published var isCurrentTurn: Bool
+    let id: UUID
     var isLocalPlayer: Bool
     var position: CGPoint = .zero
     let player: Player
@@ -19,6 +20,7 @@ class GamePlayer: ObservableObject {
         self.player  = player
         self.isLocalPlayer = false
         self.isCurrentTurn = false
+        self.id = player.id
     }
     func addToHand(_ card: Card) {
         playerHand.cards.append(card)
