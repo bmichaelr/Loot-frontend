@@ -9,6 +9,11 @@ import Foundation
 
 @Observable
 class GameState: ObservableObject {
+    enum GameplayError: Error {
+        case playerNotFound
+        case cardNotFound
+        case helperFunctionError
+    }
     var deck = Hand()
     var animationHandler = AnimationHandler()
     let stompClient: StompClient
@@ -26,6 +31,7 @@ class GameState: ObservableObject {
             let gamePlayerObject = GamePlayer(from: player)
             if player.id == clientId {gamePlayerObject.isLocalPlayer = true}
             gamePlayers.append(gamePlayerObject)
+            gamePlayerMap[player.id] = gamePlayerObject
         }
         addToDeck(Card(power: 0, faceDown: true))
     }
@@ -73,63 +79,111 @@ class GameState: ObservableObject {
         // Animate whoever played the card, discarding said card
         // Any other actions associated such as duck or rat (most complex)
         guard let response = try? JSONDecoder().decode(PlayedCardResponse.self, from: message) else {
-            print("Error getting the start round response")
+            print("FATAL ERROR : Could not decode the PlayedCardResponse!")
             return
         }
-        guard let gamePlayer = gamePlayers.first(where: {$0.player.id == response.playerWhoPlayed.id}) else {
-            print("Player not found")
+        
+        guard let (player, card) = try? getPlayerAndCard(fromResponse: response) else {
+            print("FATAL ERROR : Could not find the player who played or their card!")
             return
         }
-        guard let gameCard = gamePlayer.playerHand.cards.first(where: {$0.power == response.cardPlayed.power}) else {
-            print("card not found")
-            return
-        }
-        switch response.outcome {
-        case .base(let baseResult):
-            animationHandler.playCard(player: gamePlayer, card: gameCard)
-            break
-        case .potted(let pottedResult):
-            // Play card, if correct, then other player is out
+        // Play the card
+        animationHandler.playCard(player: player, card: card)
+        switch response.type.self {
+        case .pottedPlant(let pottedResult):
+            let outcome = pottedResult.outcome
+            if outcome.correctGuess {
+                guard let pair = try? getPlayerAndCard(fromPlayedOn: (outcome.playedOn, outcome.guessedCard)) else {
+                    print("FATAL ERROR : Could not find the opponent or their card from potted result!")
+                    return
+                }
+                animationHandler.playCard(player: pair.0, card: pair.1)
+            }
             break
         case .maulRat(let maulRatResult):
-            animationHandler.playCard(player: gamePlayer, card: gameCard)
-            guard let opPlayer = gamePlayers.first(where: {$0.player.id == maulRatResult.playedOn.id}) else {
+            let outcome = maulRatResult.outcome
+            guard let opPlayer = gamePlayers.first(where: {$0.player.id == outcome.playedOn.id}) else {
                 print("Player not found in MaulRatResponse")
                 return
             }
-            // Move opponents hand into this players hand, then move it back
-            guard let playedCard = opPlayer.playerHand.cards.first(where: {$0.power == maulRatResult.opponentsCard.power}) else {
+            guard let opCard = opPlayer.playerHand.cards.first(where: {$0.power == outcome.opponentsCard.power}) else {
                 print("Card not found in maulRatResponse")
                 return
             }
-            animationHandler.sendToPlayer(from: opPlayer, to: gamePlayer, card: playedCard)
-            animationHandler.sendToPlayer(from: gamePlayer, to: opPlayer, card: playedCard)
-        case .duck(_):
-            // Two players compare hands
+            animationHandler.sendToPlayer(from: opPlayer, to: player, card: opCard)
+            animationHandler.sendToPlayer(from: player, to: opPlayer, card: opCard)
+            break
+        case .duckOfDoom(let duckOfDoomResult):
+            let outcome = duckOfDoomResult.outcome
+            // TODO: Animate the comparing, for now just going to discard the lesser hand
+            if let playerToDiscard = outcome.playerToDiscard {
+                let cardToDiscard = (outcome.playedOn.id == playerToDiscard.id) ? outcome.opponentCard : outcome.playersCard
+                let player = gamePlayerMap[playerToDiscard.id]
+                if player == nil {
+                    print("FATAL ERROR : Unable to find the player to discard from duck of doom result.")
+                    return
+                }
+                guard let foundCard = player!.playerHand.cards.first(where: { $0.power == cardToDiscard.power}) else {
+                    print("FATAL ERROR : Unable to find the card to discard in duck of doom result!")
+                    return
+                }
+                animationHandler.playCard(player: player!, card: foundCard)
+            }
             break
         case .netTroll(let netTrollResult):
-            // Picked player has to pick a new card
-            guard let pickedPlayer = gamePlayers.first(where: {$0.player.id == netTrollResult.playedOn.id}) else {
-                print("Player not found in MaulRatResponse")
+            let outcome = netTrollResult.outcome
+            guard let pair = try? getPlayerAndCard(fromPlayedOn: (outcome.playedOn, outcome.discardedCard)) else {
+                print("FATAL ERROR : Unable to find player or discarded card in NetTrollResult!")
                 return
             }
-            guard let pickedCard = pickedPlayer.playerHand.cards.first(where: {$0.power == netTrollResult.discardedCard.power}) else {
-                print("Card not found in netTrollResponse")
-                return
+            animationHandler.playCard(player: pair.0, card: pair.1)
+            if let drawnCard = outcome.drawnCard {
+                animationHandler.dealCard(card: Card(from: drawnCard), player: pair.0, deck: deck, completion: {})
             }
-            animationHandler.playCard(player: pickedPlayer, card: pickedCard)
-            if !pickedPlayer.player.isOut {
-                animationHandler.dealCard(card: Card(from: netTrollResult.drawnCard!), player: pickedPlayer, deck: deck) {
-                    //
-                }
-            }
-        case .gazebo(_):
             break
+        case .dreadGazebo(let dreadGazeboResult):
+            let outcome = dreadGazeboResult.outcome
+            guard let selfPair = try? getPlayerAndCard(fromPlayedOn: (response.playerWhoPlayed, outcome.playersCard)) else {
+                print("FATAL ERROR : Unable to find the playing player and their card from DreadGazeboResponse!")
+                return
+            }
+            guard let opPair = try? getPlayerAndCard(fromPlayedOn: (outcome.playedOn, outcome.opponentCard)) else {
+                print("FATAL ERROR : Unable to find the playing player and their card from DreadGazeboResponse!")
+                return
+            }
+            animationHandler.sendToPlayer(from: selfPair.0, to: opPair.0, card: selfPair.1)
+            animationHandler.sendToPlayer(from: opPair.0, to: selfPair.0, card: opPair.1)
+            break
+        case .base(_):
+            // TODO: update the player views and what not here
+            print("Have a base card.")
         }
+        syncPlayers()
     }
+    private func getPlayerAndCard(fromResponse response: PlayedCardResponse? = nil, fromPlayedOn tuple: (Player, CardResponse)? = nil) throws -> (GamePlayer, Card) {
+        if let response = response {
+            guard let player = gamePlayerMap[response.playerWhoPlayed.id] else {
+                throw GameplayError.playerNotFound
+            }
+            guard let card = player.playerHand.cards.first(where: {$0.power == response.cardPlayed.power}) else {
+                throw GameplayError.cardNotFound
+            }
+            return (player, card)
+        } else if let tuple = tuple {
+            guard let player = gamePlayerMap[tuple.0.id] else {
+                throw GameplayError.playerNotFound
+            }
+            guard let card = player.playerHand.cards.first(where: { $0.power == tuple.1.power }) else {
+                throw GameplayError.cardNotFound
+            }
+            return (player, card)
+        }
+        throw GameplayError.helperFunctionError
+    }
+    
     func playCard(gamePlayer: GamePlayer, card: Card) {
 //        let player = Player(name: clientName, id: clientId)
-//        let request = LobbyRequest(player: player, roomKey: roomKey)
+//        let request = PlayCardRequest(roomKey: roomKey, player: player, card: .guessing(card))
 //        stompClient.sendData(body: request, to: "/app/game/playCard")
     }
     func subscribeToGameChannels() {

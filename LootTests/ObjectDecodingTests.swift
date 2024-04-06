@@ -16,7 +16,13 @@ final class ObjectDecodingTests: XCTestCase {
     let TEST_START_ROUND_RESPONSE = "START_ROUND"
     let TEST_NEXT_TURN_RESPONSE = "NEXT_TURN"
     let TEST_ROUND_STATUS_RESPONSE = "ROUND_STATUS"
-    let TEST_PLAYED_CARD_RESPONSE = "PLAYED_CARD"
+    let TEST_PLAYED_CARD_RESPONSE_1 = "PLAYED_CARD_1"
+    let TEST_PLAYED_CARD_RESPONSE_2 = "PLAYED_CARD_2"
+    let TEST_PLAYED_CARD_RESPONSE_3 = "PLAYED_CARD_3"
+    let TEST_PLAYED_CARD_RESPONSE_4 = "PLAYED_CARD_4"
+    let TEST_PLAYED_CARD_RESPONSE_5 = "PLAYED_CARD_5"
+    let TEST_PLAYED_CARD_RESPONSE_6 = "PLAYED_CARD_6"
+    
     struct ObjectDecodeTestRequest: Codable {
         let id: String
         let type: String
@@ -37,7 +43,7 @@ final class ObjectDecodingTests: XCTestCase {
             connectExpectation.fulfill()
         }
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for connection!")
             }
         }
@@ -80,7 +86,7 @@ final class ObjectDecodingTests: XCTestCase {
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for server list response!")
             }
         }
@@ -100,7 +106,7 @@ final class ObjectDecodingTests: XCTestCase {
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for Game Player response!")
             }
         }
@@ -119,7 +125,7 @@ final class ObjectDecodingTests: XCTestCase {
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for StartRoundResponse!")
             }
         }
@@ -138,7 +144,7 @@ final class ObjectDecodingTests: XCTestCase {
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for NextTurnResponse!")
             }
         }
@@ -157,28 +163,70 @@ final class ObjectDecodingTests: XCTestCase {
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
+            if error != nil {
                 XCTFail("Timeout waiting for RoundStatusResponse!")
             }
         }
     }
     func testPlayedCardResponse() {
-        let request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE)
-        let responseExpectation = expectation(description: "Recieved Played Card Response")
+        var request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_1)
+        var responseExpectation = expectation(description: "Recieved Played Card Response with Base Result")
         stompClient.registerListener("/topic/test/decoding/\(id.uuidString.lowercased())") { payload in
             do {
+                let jsonString = String(data: payload, encoding: .utf8)
+                print("Payload: \(jsonString ?? "COULD NOT GET STRING")")
                 let response = try JSONDecoder().decode(PlayedCardResponse.self, from: payload)
                 XCTAssertNotNil(response)
                 responseExpectation.fulfill()
-                print("The decoded StartRoundResponse: \n\(response)")
+                print("The decoded StartRoundResponse with result: \n\(response)")
             } catch {
                 XCTFail("Unable to decode PlayedCardResponse!")
             }
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")
         waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("Timeout waiting for PlayedCardResponse!")
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with base result!")
+            }
+        }
+        responseExpectation = expectation(description: "Recieved Played Card Response with Duck Result")
+        request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_2)
+        stompClient.sendData(body: request, to: "/app/test/decoding")
+        waitForExpectations(timeout: 10) { error in
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with duck result!")
+            }
+        }
+        responseExpectation = expectation(description: "Recieved Played Card Response with Gazebo Result")
+        request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_3)
+        stompClient.sendData(body: request, to: "/app/test/decoding")
+        waitForExpectations(timeout: 10) { error in
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with gazebo result!")
+            }
+        }
+        responseExpectation = expectation(description: "Recieved Played Card Response with Maul Rat Result")
+        request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_4)
+        stompClient.sendData(body: request, to: "/app/test/decoding")
+        waitForExpectations(timeout: 10) { error in
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with maul rat result!")
+            }
+        }
+        responseExpectation = expectation(description: "Recieved Played Card Response with Net Troll Result")
+        request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_5)
+        stompClient.sendData(body: request, to: "/app/test/decoding")
+        waitForExpectations(timeout: 10) { error in
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with net troll result!")
+            }
+        }
+        responseExpectation = expectation(description: "Recieved Played Card Response with Potted Result")
+        request = ObjectDecodeTestRequest(id: id, for: TEST_PLAYED_CARD_RESPONSE_6)
+        stompClient.sendData(body: request, to: "/app/test/decoding")
+        waitForExpectations(timeout: 10) { error in
+            if error != nil {
+                XCTFail("Timeout waiting for PlayedCardResponse with potted result!")
             }
         }
     }
