@@ -31,17 +31,6 @@ struct GameView: View {
             }
     }
     func createPlayerViews() {
-//        game.gamePlayers.append(GamePlayer(from: Player(name: "Josh", id: game.clientId)))
-//        game.gamePlayers.append(GamePlayer(from: Player(name: "Ben", id: UUID())))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 1, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 2, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 3, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 4, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 5, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 6, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 7, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 8, name: "potted plant", description: "")))
-//        game.gamePlayers.first!.isCurrentTurn = true
         for gamePlayer in game.gamePlayers {
             if gamePlayer.player.id == game.clientId {
                 gamePlayer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 200)

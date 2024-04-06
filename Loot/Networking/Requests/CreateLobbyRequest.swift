@@ -8,6 +8,12 @@
 import Foundation
 
 struct CreateLobbyRequest: Codable {
-    let roomName: String
+    let settings: GameSettings
     let player: Player
+}
+
+struct GameSettings: Codable {
+    let roomName: String
+    let numberOfPlayers: Int
+    let numberOfWinsNeeded: Int
 }

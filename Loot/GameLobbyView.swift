@@ -38,7 +38,7 @@ struct GameLobbyView: View {
                             .padding([.leading, .trailing], 30)
                             .padding(.top, 20)
                             let numberOfPlayers = viewModel.lobbyData.players.count
-                            ForEach(0..<4, id: \.self) { num in
+                            ForEach(0..<viewModel.lobbyData.maxPlayers, id: \.self) { num in
                                 if num < numberOfPlayers {
                                     let player = viewModel.lobbyData.players[num]
                                     LobbyPlayerView(name: player.name, ready: player.ready)
