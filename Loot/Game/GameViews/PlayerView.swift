@@ -23,11 +23,7 @@ struct PlayerView: View {
                     VStack(spacing: 10) {
                         HandView(hand: gamePlayer.playerPlayedCards, namespace: namespace) { card in }
                         HandView(hand: gamePlayer.playerHand, namespace: namespace) { card in
-                            //playCardMenu.toggle()
-                            //playCardView.layout.card = card
                             if gamePlayer.isCurrentTurn {
-                                // game.playCard(gamePlayer: gamePlayer, card: card)
-                                // game.animationHandler.playCard(player: gamePlayer, card: card)
                                 playCardView.layout.card = card
                                 playCardMenu.toggle()
                             }
@@ -149,6 +145,7 @@ struct PlayCardView: View {
                             break
                         }
                         game.animationHandler.playCard(player: player, card: layout.card)
+                        player.isCurrentTurn = false
                     })
                 }
             }
@@ -161,7 +158,3 @@ struct PlayCardView: View {
         }
     }
 }
-    
-//    #Preview(body: {
-//        PlayCardView()
-//    })

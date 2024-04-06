@@ -45,6 +45,7 @@ class GameState: ObservableObject {
     }
     func handleStartRoundResponse(_ message: Data) {
         // Call the dealing animation and extract the card that pertains to specific player from payload
+        print("got handle start round request")
         guard let response = try? JSONDecoder().decode(StartRoundResponse.self, from: message) else {
             print("Error getting the start round response")
             return
