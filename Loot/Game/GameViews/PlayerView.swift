@@ -107,7 +107,7 @@ struct PlayCardView: View {
                             HStack {
                                 Picker("Card", selection: $fieldValueCard) {
                                     ForEach(layout.cardNames, id: \.self) {
-                                        Text($0)
+                                        Text($0).tag($0)
                                     }
                                 }
                             }
@@ -144,7 +144,7 @@ struct PlayCardView: View {
                         case .none:
                             break
                         }
-                        game.animationHandler.playCard(player: player, card: layout.card)
+                        // game.animationHandler.playCard(player: player, card: layout.card)
                         player.isCurrentTurn = false
                     })
                 }
