@@ -7,7 +7,11 @@
 
 import Foundation
 
-class GamePlayer: ObservableObject, Identifiable {
+class GamePlayer: ObservableObject, Identifiable, Hashable {
+    static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
+        return true
+    }
+    
     @Published var playerHand = Hand()
     @Published var playerPlayedCards = Hand()
     @Published var test: CGFloat = 0
@@ -21,6 +25,10 @@ class GamePlayer: ObservableObject, Identifiable {
         self.isLocalPlayer = false
         self.isCurrentTurn = false
         self.id = player.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(player.name)
     }
     func addToHand(_ card: Card) {
         playerHand.cards.append(card)

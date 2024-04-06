@@ -64,6 +64,7 @@ class GameState: ObservableObject {
             print("Player not found")
             return
         }
+        print("current turn: ", response.player.name)
         let gameCard = Card(from: response.card)
         if response.player.id == clientId {
             gameCard.faceDown = false
@@ -180,12 +181,22 @@ class GameState: ObservableObject {
         }
         throw GameplayError.helperFunctionError
     }
-    
-    func playCard(gamePlayer: GamePlayer, card: Card) {
-//        let player = Player(name: clientName, id: clientId)
-//        let request = PlayCardRequest(roomKey: roomKey, player: player, card: .guessing(card))
-//        stompClient.sendData(body: request, to: "/app/game/playCard")
+    func playNormalCard(gamePlayer: GamePlayer, card: Card) {
+        let regularCard = RegularCard(power: card.power)
+        let request = PlayCardRequest(roomKey: roomKey, player: gamePlayer.player, card: .regular(regularCard))
+        stompClient.sendData(body: request, to: "/app/game/playCard")
     }
+    func playGuessingCard(gamePlayer: GamePlayer, guessedOn: GamePlayer, card: Card, guessedCard: Int) {
+        let guessingCard = GuessingCard(power: card.power, guessedOn: guessedOn.player, guessedCard: guessedCard)
+        let request = PlayCardRequest(roomKey: roomKey, player: gamePlayer.player, card: .guessing(guessingCard))
+        stompClient.sendData(body: request, to: "/app/game/playCard")
+    }
+    func playTargetCard(gamePlayer: GamePlayer, targetPlayer: GamePlayer, card: Card) {
+        let targetCard = TargetedCard(power: card.power, playedOn: targetPlayer.player)
+        let request = PlayCardRequest(roomKey: roomKey, player: gamePlayer.player, card: .targeted(targetCard))
+        stompClient.sendData(body: request, to: "/app/game/playCard")
+    }
+
     func subscribeToGameChannels() {
         stompClient.registerListener("/topic/game/startRound/\(roomKey)", using: handleStartRoundResponse)
         stompClient.registerListener("/topic/game/nextTurn/\(roomKey)", using: handleNextTurnResponse)

@@ -9,7 +9,6 @@ struct GameView: View {
     var body: some View {
         ZStack {
             DeckView(hand: game.deck, namespace: animation, onCardTap: { card in
-                // game.animationHandler.dealToAll(game: game)
                 game.animationHandler.showWinner(player: game.gamePlayers.first!)
             })
             .position(CGPoint(x: UIScreen.main.bounds.width - 70, y: 50))
@@ -32,15 +31,17 @@ struct GameView: View {
             }
     }
     func createPlayerViews() {
-        game.gamePlayers.append(GamePlayer(from: Player(name: "Josh", id:game.clientId)))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 1, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 2, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 3, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 4, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 5, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 6, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 7, name: "potted plant", description: "")))
-        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 8, name: "potted plant", description: "")))
+//        game.gamePlayers.append(GamePlayer(from: Player(name: "Josh", id: game.clientId)))
+//        game.gamePlayers.append(GamePlayer(from: Player(name: "Ben", id: UUID())))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 1, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 2, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 3, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 4, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 5, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 6, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 7, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.playerHand.cards.append(Card(from: CardResponse(power: 8, name: "potted plant", description: "")))
+//        game.gamePlayers.first!.isCurrentTurn = true
         for gamePlayer in game.gamePlayers {
             if gamePlayer.player.id == game.clientId {
                 gamePlayer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 200)
@@ -55,7 +56,7 @@ struct GameView: View {
     }
 }
 
-class Card: Identifiable, Equatable, ObservableObject {
+class Card: Identifiable, Equatable, ObservableObject, Hashable {
     static func == (lhs: Card, rhs: Card) -> Bool {
         // Something
         return true
@@ -64,6 +65,9 @@ class Card: Identifiable, Equatable, ObservableObject {
         case guessing
         case normal
         case targeted
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     let type: CardType?
     let power: Int

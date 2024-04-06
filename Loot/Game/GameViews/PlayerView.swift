@@ -17,17 +17,18 @@ struct PlayerView: View {
     @StateObject var layout: PlayCardLayout = PlayCardLayout()
     var body: some View {
         ZStack {
-            let playCardView = PlayCardView(layout: layout, players: game.gamePlayers)
+            let playCardView = PlayCardView(layout: layout, players: game.gamePlayers, toggle: $playCardMenu, game: game, player: gamePlayer)
             if localPlayer {
                 VStack(spacing: 30) {
                     VStack(spacing: 10) {
                         HandView(hand: gamePlayer.playerPlayedCards, namespace: namespace) { card in }
                         HandView(hand: gamePlayer.playerHand, namespace: namespace) { card in
-                            playCardMenu.toggle()
-                            playCardView.layout.card = card
+                            //playCardMenu.toggle()
+                            //playCardView.layout.card = card
                             if gamePlayer.isCurrentTurn {
                                 // game.playCard(gamePlayer: gamePlayer, card: card)
                                 // game.animationHandler.playCard(player: gamePlayer, card: card)
+                                playCardView.layout.card = card
                                 playCardMenu.toggle()
                             }
                         }
@@ -64,23 +65,33 @@ struct PlayerView: View {
 class PlayCardLayout: ObservableObject {
     @Published var card: Card
     @Published var pickedPlayer: GamePlayer?
+    @Published var pickedPlayerString: String = ""
+    @Published var pickedCard: Card?
+    let cardNames: [String] = ["Potted Plant", "Maul Rat", "Duck of Doom", "Wishing Ring", "Net Troll", "Gazebo", "Dragon", "Loot"]
     init(card: Card) {
         self.card = card
     }
     init() {
         self.card = Card(power: 0, faceDown: false)
+        self.pickedPlayer = GamePlayer(from: Player(name: "", id: UUID()))
+        self.pickedCard = Card(from: CardResponse(power: 0, name: "", description: ""))
     }
 }
 
 struct PlayCardView: View {
     // Take:
     // what card is being played, all the players, round that are not out, card options (only for potted)
-    @ObservedObject var layout: PlayCardLayout
+    @StateObject var layout: PlayCardLayout
     @State var players: [GamePlayer]
+    @State var fieldValuePlayer: String = ""
+    @State var fieldValueCard: String = ""
+    @Binding var toggle: Bool
+    @ObservedObject var game: GameState
+    @ObservedObject var player: GamePlayer
     var body: some View {
         ZStack {
             VStack {
-                Text("Playing: \(layout.card.power)")
+                Text("Playing: \(layout.card.name)")
                     .font(.custom("Quasimodo", size: 28))
                     .foregroundStyle(Color.lootBeige)
                     .padding([.leading, .trailing, .top], 20)
@@ -90,11 +101,19 @@ struct PlayCardView: View {
                 VStack {
                     if layout.card.type == .guessing || layout.card.type == .targeted {
                         HStack {
-                            Text("Player:")
+                            Picker("Choose a Player", selection: $fieldValuePlayer) {
+                                ForEach(players, id: \.id) {
+                                    Text($0.player.name).tag($0.player.name)
+                                }
+                            }
                         }
                         if layout.card.type == .guessing {
                             HStack {
-                                Text("Card: (pick card)")
+                                Picker("Card", selection: $fieldValueCard) {
+                                    ForEach(layout.cardNames, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
                             }
                         }
                     }
@@ -104,8 +123,33 @@ struct PlayCardView: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 HStack {
-                    CustomButton(text: "Cancel", onClick: {}, buttonColor: Color.red)
-                    CustomButton(text: "Play", onClick: {})
+                    CustomButton(text: "Cancel", onClick: {toggle.toggle()}, buttonColor: Color.red)
+                    CustomButton(text: "Play", onClick: {
+                        // switch on the type of card that was played
+                        switch layout.card.type {
+                        case .normal:
+                            game.playNormalCard(gamePlayer: player, card: layout.card)
+                        case .guessing:
+                            guard let guessedOn = players.first(where: {$0.player.name == fieldValuePlayer}) else {
+                                print("player not found when playing guessing card")
+                                return
+                            }
+                            guard let index = layout.cardNames.firstIndex(where: {$0 == fieldValueCard}) else {
+                                print("card not found from name")
+                                return
+                            }
+                            game.playGuessingCard(gamePlayer: player, guessedOn: guessedOn, card: layout.card, guessedCard: index + 1)
+                        case .targeted:
+                            guard let targeted = players.first(where: {$0.player.name == fieldValuePlayer}) else {
+                                print("player not found when playing targeted card")
+                                return
+                            }
+                            game.playTargetCard(gamePlayer: player, targetPlayer: targeted, card: layout.card)
+                        case .none:
+                            break
+                        }
+                        game.animationHandler.playCard(player: player, card: layout.card)
+                    })
                 }
             }
             .fixedSize(horizontal: false, vertical: true)
