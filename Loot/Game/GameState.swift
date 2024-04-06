@@ -76,6 +76,14 @@ class GameState: ObservableObject {
     }
     func handleRoundStatusResponse(_ message: Data) {
         // Round over so show who won
+        for player in gamePlayers {
+            for card in player.playerHand.cards {
+                animationHandler.sendToDeckFromHand(player: player, card: card, deck: deck)
+            }
+            for card in player.playerPlayedCards.cards {
+                animationHandler.sendToDeckFromPlayed(player: player, card: card, deck: deck)
+            }
+        }
     }
     func handlePlayedCardResponse(_ message: Data) {
         // Animate whoever played the card, discarding said card

@@ -11,7 +11,6 @@ class GamePlayer: ObservableObject, Identifiable, Hashable {
     static func == (lhs: GamePlayer, rhs: GamePlayer) -> Bool {
         return true
     }
-    
     @Published var playerHand = Hand()
     @Published var playerPlayedCards = Hand()
     @Published var test: CGFloat = 0
@@ -41,5 +40,11 @@ class GamePlayer: ObservableObject, Identifiable, Hashable {
             fatalError("card not found")
         }
         return playerHand.cards.remove(at: index)
+    }
+    func removeFromPlayed(_ card: Card) -> Card {
+        guard let index = playerPlayedCards.cards.firstIndex(where: {$0.id == card.id}) else {
+            fatalError("card not found")
+        }
+        return playerPlayedCards.cards.remove(at: index)
     }
 }

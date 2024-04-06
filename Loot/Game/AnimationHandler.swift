@@ -52,6 +52,16 @@ struct AnimationHandler {
             }
         }
     }
+    func sendToDeckFromHand(player: GamePlayer, card: Card, deck: Hand) {
+        withAnimation {
+            deck.cards.append(player.removeFromHand(card))
+        }
+    }
+    func sendToDeckFromPlayed(player: GamePlayer, card: Card, deck: Hand) {
+        withAnimation {
+            deck.cards.append(player.removeFromPlayed(card))
+        }
+    }
     func flipCard(card: Card) {
         withAnimation {
             card.faceDown.toggle()
