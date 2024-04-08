@@ -82,8 +82,7 @@ struct MatchmakingView: View {
                         }
                     }
                 }
-            }// ZStack
-            // Create Game Pop Up
+            }
             .sheet(isPresented: $createButtonPressed) {
                 CreateGameView()
                     .presentationDetents([.medium])

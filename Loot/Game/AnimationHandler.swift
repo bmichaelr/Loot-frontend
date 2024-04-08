@@ -9,12 +9,17 @@ import Foundation
 import SwiftUI
 
 struct AnimationHandler {
-    func dealCard(card: Card, player: GamePlayer) {
+    func dealCard(card: Card, player: GamePlayer, deck: Hand, completion: @escaping () -> Void) {
+        deck.cards.append(card)
         withAnimation(.spring) {
             player.addToHand(card)
+        }completion: {
+            completion()
         }
     }
-    func dealToAll(playerCardPair: [PlayerCardPair], gamePlayers: [GamePlayer], deck: Hand) {
+    func dealToAll(playerCardPair: [PlayerCardPair], gamePlayers: [GamePlayer], deck: Hand, completion: @escaping () -> Void) {
+        var remainingDeals = playerCardPair.count
+
         for (index, pair) in playerCardPair.enumerated() {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.5) {
                 guard let gamePlayer = gamePlayers.first(where: {$0.player.id == pair.player.id}) else {
@@ -22,8 +27,14 @@ struct AnimationHandler {
                     return
                 }
                 let card = Card(from: pair.card)
-                deck.cards.append(card)
-                dealCard(card: card, player: gamePlayer)
+                if gamePlayer.isLocalPlayer {card.faceDown = false}
+                dealCard(card: card, player: gamePlayer, deck: deck) {
+                    remainingDeals -= 1
+                    if remainingDeals == 0 {
+                        // All deals have been completed, call the completion closure
+                        completion()
+                    }
+                }
             }
         }
     }
@@ -39,6 +50,16 @@ struct AnimationHandler {
             withAnimation(.spring(duration: 0.3)) {
                 card.faceDown = false
             }
+        }
+    }
+    func sendToDeckFromHand(player: GamePlayer, card: Card, deck: Hand) {
+        withAnimation {
+            deck.cards.append(player.removeFromHand(card))
+        }
+    }
+    func sendToDeckFromPlayed(player: GamePlayer, card: Card, deck: Hand) {
+        withAnimation {
+            deck.cards.append(player.removeFromPlayed(card))
         }
     }
     func flipCard(card: Card) {

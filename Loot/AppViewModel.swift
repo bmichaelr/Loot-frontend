@@ -33,8 +33,6 @@ class AppViewModel: ObservableObject {
         stompClient.registerListener("/topic/matchmaking/servers/\(id)", using: handleServerListResponse)
         stompClient.registerListener("/topic/matchmaking/\(id)", using: handleLobbyResponse)
         stompClient.registerListener("/topic/error/\(id)", using: handleErrorResponse)
-        // also send inital server list ping
-        print("Sending request for server data")
         stompClient.sendData(body: Player(name: playerName, id: clientUUID), to: "/app/loadAvailableServers")
     }
     func unsubscribeFromMatchmakingChannels() {
@@ -50,9 +48,10 @@ class AppViewModel: ObservableObject {
         let player = Player(name: playerName, id: clientUUID)
         stompClient.sendData(body: player, to: "/app/loadAvailableServers")
     }
-    func createGame(_ roomName: String) {
+    func createGame(_ roomName: String, _ players: Int, _ wins: Int) {
         let player = Player(name: playerName, id: clientUUID)
-        let request = CreateLobbyRequest(roomName: roomName, player: player)
+        let settings = GameSettings(roomName: roomName, numberOfPlayers: players, numberOfWinsNeeded: wins)
+        let request = CreateLobbyRequest(settings: settings, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
     }
     func joinGame(_ key: String) {
@@ -80,13 +79,9 @@ class AppViewModel: ObservableObject {
         stompClient.sendData(body: request as LobbyRequest, to: "/app/ready")
     }
     func handleLobbyResponse(_ message: Data) {
-        print("Got lobby response")
         do {
             let parsed = try JSONDecoder().decode(LobbyResponse.self, from: message)
-            lobbyData.roomKey = parsed.roomKey
-            lobbyData.players = parsed.players
-            lobbyData.allReady = parsed.allReady
-            print(lobbyData)
+            lobbyData = parsed
         } catch {
             print("Error decoding lobby response!")
         }
@@ -103,7 +98,6 @@ class AppViewModel: ObservableObject {
         do {
             let parsed = try JSONDecoder().decode([ServerResponse].self, from: message)
             serverList = parsed
-            print("Servers: \(serverList)")
         } catch {
             print("Unable to decode the server response")
         }

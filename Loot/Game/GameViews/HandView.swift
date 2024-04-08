@@ -31,10 +31,9 @@ struct DeckView: View {
         ZStack {
             ForEach(hand.cards) { card in
                 CardView(card: card, namespace: namespace)
-                    .offset(x: hand.shuffled ? CGFloat.random(in: -100...100) : 0, y: hand.shuffled ? CGFloat.random(in: -100...100) : 0)                    .onTapGesture {
+                    .onTapGesture {
                         onCardTap(card)
                     }
-                    .rotationEffect(Angle(degrees: Double.random(in: 0..<3)))
 
             }
         }

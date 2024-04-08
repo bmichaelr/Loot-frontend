@@ -9,7 +9,6 @@ struct GameView: View {
     var body: some View {
         ZStack {
             DeckView(hand: game.deck, namespace: animation, onCardTap: { card in
-                // game.animationHandler.dealToAll(game: game)
                 game.animationHandler.showWinner(player: game.gamePlayers.first!)
             })
             .position(CGPoint(x: UIScreen.main.bounds.width - 70, y: 50))
@@ -21,11 +20,11 @@ struct GameView: View {
             }.position(CGPoint(x: UIScreen.main.bounds.width / 2, y: 150))
                 .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.height / 2)
             localPlayer
-        }.background(Image("woodlong"))
+        }.background(Image("woodbackground"))
             .onAppear {
-                viewModel.syncPlayers()
                 createPlayerViews()
                 game.subscribeToGameChannels()
+                viewModel.syncPlayers()
             }
             .onDisappear {
                 game.unsubscribeFromGameChannels()
@@ -46,11 +45,20 @@ struct GameView: View {
     }
 }
 
-class Card: Identifiable, Equatable, ObservableObject {
+class Card: Identifiable, Equatable, ObservableObject, Hashable {
     static func == (lhs: Card, rhs: Card) -> Bool {
         // Something
         return true
     }
+    enum CardType {
+        case guessing
+        case normal
+        case targeted
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    let type: CardType?
     let power: Int
     let id = UUID()
     var description: String = ""
@@ -59,12 +67,22 @@ class Card: Identifiable, Equatable, ObservableObject {
     init(power: Int, faceDown: Bool) {
         self.power = power
         self.faceDown = faceDown
+        self.type = .normal
     }
     init(from card: CardResponse) {
         self.power = card.power
         self.description = card.description
         self.name = card.name
         self.faceDown = true
+        switch power {
+        case 1:
+            self.type = .guessing
+        case 2, 3, 5, 6:
+            self.type = .targeted
+        case 4, 7, 8:
+            self.type = .normal
+        default:
+            self.type = .normal
+        }
     }
 }
- 

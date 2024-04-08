@@ -71,7 +71,7 @@ struct CustomLoadingView: View {
                         if counter == lastIndex {
                             counter = 0
                             loops += 1
-                            if loops >= 10 {
+                            if loops >= 1 {
                                 showCustomLoadingView = false
                             }
                         } else {

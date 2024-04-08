@@ -48,6 +48,9 @@ struct ConnectView: View {
                         .resizable()
                         .scaledToFit()
                         .offset(y: -50)
+                        .onTapGesture {
+                            viewModel.viewController.changeView(view: .gameView)
+                        }
                 }
                 VStack {
                     CustomTextField(text: $viewModel.playerName, isFocused: _nameFieldFocused, prompt: "Enter your name here...")

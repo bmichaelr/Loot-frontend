@@ -57,7 +57,7 @@ struct CreateGameView: View {
                         .stroke(.black, lineWidth: 2)
                 ))
                 Spacer()
-                CustomButton(text: "Create Game", onClick: { viewModel.createGame(roomName) }, enabled: buttonEnabled)
+                CustomButton(text: "Create Game", onClick: { viewModel.createGame(roomName, numberOfPlayers, numberOfRounds) }, enabled: buttonEnabled)
                 Spacer()
             }
             .padding()
