@@ -2,7 +2,7 @@
 //  Hand.swift
 //  Loot
 //
-//  Created by Singontiko, Joshua on 4/2/24.
+//  Created by Michael, Ben on 4/9/24.
 //
 
 import Foundation
@@ -10,8 +10,8 @@ import Foundation
 class Hand: ObservableObject, Identifiable {
     let id = UUID()
     @Published var cards = [Card]()
-    @Published var shuffled = false
-    func shuffleCards() {
-        shuffled.toggle()
-    }
+}
+
+enum HandType {
+    case holding, discard
 }
