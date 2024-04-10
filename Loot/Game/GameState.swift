@@ -301,7 +301,7 @@ class GameState: ObservableObject {
         discard(card: discardedCard, player: playedOn)
         if let drawnCard = result.drawnCard {
             dealCard(to: playedOn, card: Card(from: drawnCard))
-        }       
+        }
         syncPlayers()
     }
     private func handleDreadGazeboResult(playing: GamePlayer, result: DreadGazeboResult) {

@@ -56,7 +56,7 @@ struct CreateGameView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.black, lineWidth: 2)
                 ))
-                CustomButton(text: "Create", 
+                CustomButton(text: "Create",
                              onClick: { viewModel.createGame(roomName, numberOfPlayers, numberOfRounds) },
                              enabled: buttonEnabled)
                 Spacer()

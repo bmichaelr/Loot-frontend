@@ -26,7 +26,7 @@ struct GameView: View {
             }
             .environmentObject(gameState)
         }
-        .compareCards(isPresented: $gameState.showCompareCards,cardNames: gameState.cardNamesToCompare, onTap: {
+        .compareCards(isPresented: $gameState.showCompareCards, cardNames: gameState.cardNamesToCompare, onTap: {
             gameState.syncPlayers()
             gameState.cardNamesToCompare.removeAll()
         })
@@ -34,7 +34,7 @@ struct GameView: View {
             gameState.syncPlayers()
         })
         .showCard(isPresented: $gameState.showCard, show: gameState.cardToShow)
-        .showPlayCard(isPresented: $gameState.playCard, 
+        .showPlayCard(isPresented: $gameState.playCard,
                       show: gameState.cardToShow,
                       game: gameState,
                       myTurn: $gameState.myTurn
