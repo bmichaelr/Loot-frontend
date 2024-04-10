@@ -22,13 +22,13 @@ struct LootApp: App {
                     case .homeMenuView:
                         MatchmakingView()
                     case .gameView:
-                        GameView(game: GameState(
-                                                    players: model.lobbyData.players,
-                                                    stompClient: model.stompClient,
-                                                    roomKey: model.lobbyData.roomKey,
-                                                    id: model.clientUUID,
-                                                    name: model.playerName
-                                                ))
+                        GameView()
+                            .environmentObject(
+                                GameState(players: model.lobbyData.players, 
+                                          myId: model.clientUUID, roomKey:
+                                            model.lobbyData.roomKey,
+                                          stompClient: model.stompClient)
+                            )
                     case .startNewGameView:
                         ConnectView()
                     }
@@ -38,6 +38,7 @@ struct LootApp: App {
                         .transition(.move(edge: .leading))
                 }
             }
+            .showCustomAlert(alert: $model.alert)
             .zIndex(2.0) // This zIndex will ensure that the loading view is on top of other views
             .environmentObject(model)
         }

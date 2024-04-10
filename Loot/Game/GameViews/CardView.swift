@@ -8,38 +8,63 @@
 import SwiftUI
 
 struct CardView: View {
-    var number: Int
-    let namespace: Namespace.ID
-    let id: UUID
-    let width: CGFloat = 70
-    let scale: CGFloat = 2.0 / 3.0
     @ObservedObject var card: Card
-    @State var flipped: Bool = false
-    init(card: Card, namespace: Namespace.ID) {
-        self.card = card
-        self.number = card.power
-        self.namespace = namespace
-        self.id = card.id
-    }
+    @Namespace var animation
+    let namespace: Namespace.ID
+    let size: CardSize
+
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(card.faceDown ? Color.lootBrown : Color.lootBeige)
-                .frame(width: width, height: width * scale + width)
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.lootBrown, lineWidth: 8))
-            Image(card.faceDown ? "dragon" : "loot_\(number)")
+        let width: CGFloat = size == .small ? 60 : 80
+        let height: CGFloat = size == .small ? 90 : 110
+        let color = card.faceDown ? Color.lootBrown : Color.lootBeige
+        let strokeSize: CGFloat = card.faceDown ? 1 : 3
+        ZStack {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(color)
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: strokeSize))
+            buildCard()
+        }
+        .frame(width: width, height: height)
+        .matchedGeometryEffect(id: card.id, in: namespace, properties: .frame, anchor: .center)
+        .transition(.scale(scale: 1))
+        .rotation3DEffect(.degrees(card.faceDown ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+    }
+    @ViewBuilder
+    private func buildCard() -> some View {
+        if card.faceDown {
+            Image("dragon")
                 .resizable()
                 .scaledToFit()
-                .frame(width: width, height: width * scale + width)
-            Text(card.faceDown ? "Loot!" : "\(number)")
-                .font(.custom("Quasimodo", size: card.faceDown ? 13 * scale + 13 : 15 * scale + 15))
-                .foregroundColor(card.faceDown ? Color.lootBeige : .black)
-                .frame(alignment: .leading)
-                .padding(card.faceDown ? 6 * scale + 6 : 7 * scale + 7)
-                .rotation3DEffect(card.faceDown ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: 0, y: 1, z: 0))
+                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
+        } else {
+            VStack(alignment: .leading) {
+                Text(String(card.number))
+                    .font(.custom("Quasimodo", size: 16))
+                    .padding([.leading, .top], 8)
+                Image("loot_\(card.number)")
+                    .resizable()
+                    .scaledToFit()
+                    .offset(y: -10)
+            }
         }
-        .matchedGeometryEffect(id: "\(id)", in: namespace, isSource: true)
-        .rotation3DEffect(card.faceDown ? Angle(degrees: 180) : Angle(degrees: 0), axis: (x: 0, y: 1, z: 0), anchor: .center)
     }
+}
 
+struct CardView_Previews: PreviewProvider {
+    struct Wrapper: View {
+        @Namespace var animation
+        var card: Card {
+            let card = Card(number: 1)
+            card.faceDown = false
+            return card
+        }
+        var body: some View {
+            CardView(card: card, namespace: animation, size: .small)
+                .padding()
+                .background(Color.gray)
+        }
+    }
+    static var previews: some View {
+        Wrapper()
+    }
 }

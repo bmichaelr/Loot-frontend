@@ -1,88 +1,139 @@
 import SwiftUI
 
 struct GameView: View {
-    @StateObject var game: GameState
-    @State var playerViews: [PlayerView] = []
-    @State var localPlayer: PlayerView?
+    @EnvironmentObject var gameState: GameState
     @Namespace private var animation
-    @EnvironmentObject var viewModel: AppViewModel
     var body: some View {
         ZStack {
-            DeckView(hand: game.deck, namespace: animation, onCardTap: { card in
-                game.animationHandler.showWinner(player: game.gamePlayers.first!)
-            })
-            .position(CGPoint(x: UIScreen.main.bounds.width - 70, y: 50))
+            Color.white.ignoresSafeArea(.all)
             VStack {
-                ForEach(playerViews.indices, id: \.self) { index in
-                    playerViews[index]
-                        .frame(width: UIScreen.main.bounds.width, height: 150, alignment: .leading)
+                HStack {
+                    Text(gameState.message)
+                    Spacer()
+                    VStack {
+                        DeckView(deck: gameState.deck, namespace: animation)
+                        Text("Deck")
+                            .fontWeight(.bold)
+                    }
                 }
-            }.position(CGPoint(x: UIScreen.main.bounds.width / 2, y: 150))
-                .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.height / 2)
-            localPlayer
-        }.background(Image("woodbackground"))
-            .onAppear {
-                createPlayerViews()
-                game.subscribeToGameChannels()
-                viewModel.syncPlayers()
+                .padding([.leading, .trailing], 10)
+                ForEach(gameState.players) { player in
+                    buildPlayerView(from: player)
+                }
+                Spacer()
+                buildMyPlayingView(from: gameState.me)
+                    .offset(y: 20)
             }
-            .onDisappear {
-                game.unsubscribeFromGameChannels()
-            }
+            .environmentObject(gameState)
+        }
+        .compareCards(isPresented: $gameState.showCompareCards,cardNames: gameState.cardNamesToCompare, onTap: {
+            gameState.syncPlayers()
+            gameState.cardNamesToCompare.removeAll()
+        })
+        .viewSingleCard(isPresented: $gameState.showPeekCard, card: gameState.cardToPeek, onTap: {
+            gameState.syncPlayers()
+        })
+        .showCard(isPresented: $gameState.showCard, show: gameState.cardToShow)
+        .showPlayCard(isPresented: $gameState.playCard, 
+                      show: gameState.cardToShow,
+                      game: gameState,
+                      myTurn: $gameState.myTurn
+        )
+        .onAppear(perform: {
+            gameState.subscribeToGameChannels()
+            gameState.syncPlayers()
+        })
     }
-    func createPlayerViews() {
-        for gamePlayer in game.gamePlayers {
-            if gamePlayer.player.id == game.clientId {
-                gamePlayer.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 200)
-                localPlayer = PlayerView(gamePlayer: gamePlayer, game: game, localPlayer: true, namespace: animation)
-            } else {
-                print("creating playerview")
-                let playerView: PlayerView
-                playerView = PlayerView(gamePlayer: gamePlayer, game: game, localPlayer: false, namespace: animation)
-                playerViews.append(playerView)
+    @ViewBuilder
+    private func buildPlayerView(from player: GamePlayer) -> some View {
+        HStack {
+            VStack {
+                HandView(hand: player.getHand(type: .holding),
+                         player: player,
+                         namespace: animation,
+                         onCardTap: nil,
+                         cardSize: .small
+                )
+            }
+            VStack {
+                HandView(hand: player.getHand(type: .discard),
+                         player: player,
+                         namespace: animation,
+                         onCardTap: { gameState.showCard(card: $0)},
+                         cardSize: .large)
+            }
+            Spacer()
+        }
+        .padding(.leading, 10)
+    }
+    @ViewBuilder
+    private func buildMyPlayingView(from player: GamePlayer) -> some View {
+        VStack {
+            HandView(hand: player.getHand(type: .discard),
+                    player: player,
+                    isMe: true,
+                    namespace: animation,
+                    onCardTap: { gameState.showCard(card: $0) },
+                    cardSize: .small)
+            HandView(
+                hand: player.getHand(type: .holding),
+                player: player,
+                isMe: true,
+                namespace: animation,
+                onCardTap: { gameState.playCard(card: $0) },
+                cardSize: .large
+            )
+        }
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+        .padding(.leading, 10)
+    }
+    // MARK: Private functions
+    private func changeStatus() {
+        let thingToChange = Bool.random()
+        if thingToChange {
+            gameState.players.first!.isOut = false
+            gameState.players.first!.isSafe = true
+        } else {
+            gameState.players.first!.isSafe = false
+            gameState.players.first!.isOut = true
+        }
+    }
+}
+
+extension View {
+    func showCard(isPresented: Binding<Bool>, show card: Card) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ShowCardView(isShowing: isPresented, cardToShow: card)
+            }
+        }
+    }
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
+            }
+        }
+    }
+    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
             }
         }
     }
 }
 
-class Card: Identifiable, Equatable, ObservableObject, Hashable {
-    static func == (lhs: Card, rhs: Card) -> Bool {
-        // Something
-        return true
-    }
-    enum CardType {
-        case guessing
-        case normal
-        case targeted
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    let type: CardType?
-    let power: Int
-    let id = UUID()
-    var description: String = ""
-    var name: String = ""
-    @Published var faceDown: Bool
-    init(power: Int, faceDown: Bool) {
-        self.power = power
-        self.faceDown = faceDown
-        self.type = .normal
-    }
-    init(from card: CardResponse) {
-        self.power = card.power
-        self.description = card.description
-        self.name = card.name
-        self.faceDown = true
-        switch power {
-        case 1:
-            self.type = .guessing
-        case 2, 3, 5, 6:
-            self.type = .targeted
-        case 4, 7, 8:
-            self.type = .normal
-        default:
-            self.type = .normal
+extension View {
+    func showPlayCard(isPresented: Binding<Bool>, show card: Card, game: GameState, myTurn: Binding<Bool>) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                PlayCardView(isShowing: isPresented, isMyTurn: myTurn, gameState: game, cardToShow: card)
+            }
         }
     }
 }

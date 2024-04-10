@@ -114,6 +114,11 @@ struct GameLobbyView: View {
                             .foregroundStyle(Color.lootBeige)
                     }
                 }
+                ToolbarItem(placement: .principal) {
+                    Text("Lobby")
+                        .font(.custom("Quasimodo", size: 14))
+                        .foregroundStyle(Color.lootBeige)
+                }
             }
         }
     }

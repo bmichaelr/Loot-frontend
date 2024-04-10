@@ -30,30 +30,32 @@ struct ConnectView: View {
                                     .inset(by: 0.75)
                                     .stroke(.black, lineWidth: 2)
                             )
-                        Text("Munchkin")
+                        Text("Loot!")
                             .font(Font.custom("Quasimodo", size: 48).weight(.medium))
                             .foregroundColor(.black)
                             .offset(y: -35)
-                        Text("Loot")
-                            .font(Font.custom("Quasimodo", size: 42).weight(.medium))
+                        Text("based on munchkin:")
+                            .font(Font.custom("Quasimodo", size: 24).weight(.medium))
                             .foregroundColor(.black)
-                            .offset(y: 20)
-                        Text("LETTER!")
-                            .font(Font.custom("Quasimodo", size: 42).weight(.medium))
+                            .offset(y: 15)
+                        Text("loot letter")
+                            .font(Font.custom("Quasimodo", size: 30).weight(.medium))
                             .foregroundColor(.black)
-                            .offset(y: 55)
+                            .offset(y: 40)
                     }
                     .padding()
                     Image("dragon")
                         .resizable()
                         .scaledToFit()
-                        .offset(y: -50)
+                        .offset(y: -60)
                         .onTapGesture {
                             viewModel.viewController.changeView(view: .gameView)
                         }
                 }
                 VStack {
-                    CustomTextField(text: $viewModel.playerName, isFocused: _nameFieldFocused, prompt: "Enter your name here...")
+                    CustomTextField(text: $viewModel.playerName, 
+                                    isFocused: _nameFieldFocused,
+                                    prompt: "Enter your name here...")
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
                 .offset(y: -30)
