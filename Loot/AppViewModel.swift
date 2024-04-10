@@ -89,12 +89,6 @@ class AppViewModel: ObservableObject {
             firstLobbyLoad = false
             viewController.changeView(view: .gameLobbyView)
         }
-//        // HERE .....
-//        if lobbyData.allReady {
-//            unsubscribeFromLobbyChannels()
-//            viewController.changeView(view: .gameView)
-//            lobbyData.
-//        }
     }
     func startGame() {
         if lobbyData.allReady {
@@ -102,7 +96,6 @@ class AppViewModel: ObservableObject {
             viewController.changeView(view: .gameView)
         }
     }
-
     func handleServerListResponse(_ message: Data) {
         do {
             let parsed = try JSONDecoder().decode([ServerResponse].self, from: message)
