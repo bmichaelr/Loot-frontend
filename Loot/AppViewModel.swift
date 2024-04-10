@@ -89,6 +89,8 @@ class AppViewModel: ObservableObject {
             firstLobbyLoad = false
             viewController.changeView(view: .gameLobbyView)
         }
+    }
+    func startGame() {
         if lobbyData.allReady {
             unsubscribeFromLobbyChannels()
             viewController.changeView(view: .gameView)
