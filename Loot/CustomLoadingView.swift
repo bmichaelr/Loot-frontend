@@ -1,11 +1,21 @@
-//
-//  CustomLoadingView.swift
-//  CustomLoadingView
-//
-//  Created by ian on 3/12/24.
-//
-
 import SwiftUI
+
+enum ImageEnum: String {
+    case loot2 = "loot_2"
+    case loot3 = "loot_3"
+    case loot5 = "loot_5"
+    case loot7 = "loot_7"
+    case loot6 = "loot_6"
+    func next() -> ImageEnum {
+        switch self {
+            case .loot2: return .loot3
+            case .loot3: return .loot5
+            case .loot5: return .loot7
+            case .loot7: return .loot6
+            case .loot6: return .loot2
+        }
+    }
+}
 
 struct CustomLoadingView: View {
     @State private var isActive = false
@@ -14,71 +24,98 @@ struct CustomLoadingView: View {
     @State private var loadingText: [String] = "LOOT!...".map { String($0) }
     @State private var showLoadingText: Bool = false
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let imageTimer = Timer.publish(every: 2.0, on: .main, in: .common).autoconnect() // images timer
     @State private var counter: Int = 0
     @State private var loops: Int = 0
+    @State private var img = ImageEnum.loot2
+    @State private var fadeOut = false
     @Binding var showCustomLoadingView: Bool
     var body: some View {
         if isActive {
             GameLobbyView()
         } else {
-            VStack {
-                Text("Loading Content Please Wait!")
-                    .font(.headline)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.init(white: 1.00))
-                    .bold()
-                    .padding()
-                    .frame(width: 500)
-                    .background(Color.yellow)
-                    .cornerRadius(10)
-                    .padding()
-                Spacer(minLength: 0)
+            ZStack {
+                Color.lootBrown.ignoresSafeArea(.all)
                 VStack {
-                    Spacer()
-                    HStack(alignment: .center) {
-                        Image("ProgressView")
-                            .font(.system(size: 80))
-                            .cornerRadius(7)
-                            .padding(5)
-                            .background(Color.yellow)
-                            .cornerRadius(10)
-                            .shadow(radius: 10)
-                            .frame(width: 100, height: 100)
-                    }
-                    ZStack {
-                        if showLoadingText {
-                            HStack(spacing: 0) {
-                                ForEach(loadingText.indices) { index in
+                    VStack {
+                        Spacer()
+                        HStack(alignment: .center) {
+                            Image(img.rawValue)
+                                .resizable()
+                                .frame(width: 225, height: 225)
+                                .opacity(fadeOut ? 0 : 1)
+                                .animation(.easeInOut(duration: 0.25), value: fadeOut)
+                                .scaledToFit()
+                                .cornerRadius(7)
+                                .padding(5)
+                                .background(Color.lootBeige)
+                                .cornerRadius(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .inset(by: 0.50)
+                                        .stroke(.black, lineWidth: 2)
+                                )
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 20)
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(height: 100)
+                                .frame(width: 225)
+                                .background(Color.lootBeige)
+                                .cornerRadius(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .inset(by: 0.50)
+                                        .stroke(.black, lineWidth: 2)
+                                )
+                                .padding()
+                                .offset(y: -10)
+                            Spacer()
+                            if showLoadingText {
+                                HStack(spacing: 0) {
+                                    ForEach(loadingText.indices) { index in
                                         Text(loadingText[index])
-                                        .font(.title)
-                                            .fontWeight(.heavy)
+                                            .font(Font.custom("Quasimodo", size: 48).weight(.medium))
+                                            .foregroundColor(.black)
                                             .bold()
                                             .offset(y: counter == index ? -5 : 0)
+                                    }
                                 }
+                                .transition(AnyTransition.scale.animation(.easeIn))
                             }
-                            .transition(AnyTransition.scale.animation(.easeIn))
+                        }
+                        .offset(y: 70)
+                        Spacer()
+                    }
+                    .onAppear {
+                        showLoadingText.toggle()
+                    }
+                    .onReceive(timer) { _ in
+                        withAnimation(.spring()) {
+                            let lastIndex = loadingText.count - 1
+                            if counter == lastIndex {
+                                counter = 0
+                                loops += 1
+                                if loops >= 4 { // *** THIS is 4 sec timer adjust down to 1-2 ***
+                                    showCustomLoadingView = false
+                                }
+                            } else {
+                                counter += 1
+                            }
                         }
                     }
-                    .offset(y: 70)
-                    Spacer()
-                }
-                .onAppear {
-                    showLoadingText.toggle()
-                }
-                .onReceive(timer, perform: { _ in
-                    withAnimation(.spring()) {
-                        let lastIndex = loadingText.count - 1
-                        if counter == lastIndex {
-                            counter = 0
-                            loops += 1
-                            if loops >= 1 {
-                                showCustomLoadingView = false
+                    .onReceive(imageTimer) { _ in
+                        withAnimation {
+                            self.fadeOut.toggle()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                self.img = self.img.next()
+                                self.fadeOut.toggle()
                             }
-                        } else {
-                            counter += 1
                         }
                     }
-                })
+                }
             }
         }
     }

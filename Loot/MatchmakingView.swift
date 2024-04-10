@@ -21,6 +21,7 @@ struct MatchmakingView: View {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack {
+                    NavigationBar()
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color.lootBrown)
@@ -74,13 +75,7 @@ struct MatchmakingView: View {
 
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackground()
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Image("dragon")
-                                .resizable()
-                                .scaledToFit()
-                        }
-                    }
+                    
                 }
             }
             .sheet(isPresented: $createButtonPressed) {
