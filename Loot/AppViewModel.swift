@@ -14,6 +14,7 @@ class AppViewModel: ObservableObject {
     @Published var lobbyData: LobbyResponse = LobbyResponse()
     @Published var serverList: [ServerResponse] = []
     @Published var viewController: DisplayedViewController = DisplayedViewController.sharedViewDisplayController
+    @Published var alert: AlertToShow? = nil
     var firstLobbyLoad: Bool = true
     let clientUUID: UUID = UUID.init()
     deinit {
@@ -54,10 +55,12 @@ class AppViewModel: ObservableObject {
         let request = CreateLobbyRequest(settings: settings, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
     }
-    func joinGame(_ key: String) {
+    func joinGame(_ key: String, roomName: String) {
         let player = Player(name: playerName, id: clientUUID)
         let request = LobbyRequest(player: player, roomKey: key)
-        stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
+        alert = AlertToShow.joinGame(gameName: roomName, onOkPressed: {
+            self.stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
+        })
     }
     func leaveGame(_ key: String) {
         unsubscribeFromLobbyChannels()
@@ -103,6 +106,11 @@ class AppViewModel: ObservableObject {
         }
     }
     func handleErrorResponse(_ data: Data) {
-        print("We got an error...")
+        do {
+            let parsed = try JSONDecoder().decode(ErrorResponse.self, from: data)
+            alert = AlertToShow.serverError(errorReason: parsed.details)
+        } catch {
+            print("Unable to decode error response")
+        }
     }
 }

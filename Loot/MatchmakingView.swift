@@ -48,7 +48,7 @@ struct MatchmakingView: View {
                                 ForEach(viewModel.serverList, id: \.key) { server in
                                     Server(server: server)
                                         .onTapGesture {
-                                            viewModel.joinGame(server.key)
+                                            viewModel.joinGame(server.key, roomName: server.name)
                                         }
                                 }
                             }

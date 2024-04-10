@@ -38,6 +38,7 @@ struct LootApp: App {
                         .transition(.move(edge: .leading))
                 }
             }
+            .showCustomAlert(alert: $model.alert)
             .zIndex(2.0) // This zIndex will ensure that the loading view is on top of other views
             .environmentObject(model)
         }
