@@ -73,7 +73,6 @@ struct GameLobbyView: View {
                                     .font(.custom("Quasimodo", size: 20))
                                     .multilineTextAlignment(.center)
                                     .onReceive(readyTimer) {_ in
-                                        // Continue coutndown
                                         if readyTime.timeRemaining > 0 {
                                             readyTime.timeRemaining -= 1
                                         } else {
