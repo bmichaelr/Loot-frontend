@@ -18,7 +18,7 @@ struct CompareCardView: View {
                 .zIndex(1.0)
             VStack {
                 HStack {
-                    ForEach(cards){
+                    ForEach(cards) {
                         buildCompareCardView(card: $0)
                     }
                 }
@@ -94,5 +94,5 @@ struct CompareCardView: View {
 }
 
 #Preview {
-    CompareCardView(isShowing: .constant(true), cards: [Card(number: 4),Card(number: 5)])
+    CompareCardView(isShowing: .constant(true), cards: [Card(number: 4), Card(number: 5)])
 }

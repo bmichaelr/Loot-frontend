@@ -110,7 +110,7 @@ struct HandView: View {
     }
 }
 
-//struct HandView_Previews: PreviewProvider {
+// struct HandView_Previews: PreviewProvider {
 //    struct Wrapper: View {
 //        @Namespace var namespace
 //        
@@ -124,12 +124,12 @@ struct HandView: View {
 //        }
 //        
 //        var body: some View {
-//            // TODO: make some sample data to test
-//            //HandView(hand: hand, player: Player(from: player1), namespace: namespace, onCardTap: { _ in }, cardSize: .small)
+//            //HandView(hand: hand, player: Player(from: player1), 
+//              namespace: namespace, onCardTap: { _ in }, cardSize: .small)
 //        }
 //    }
 //    
 //    static var previews: some View {
 //        Wrapper()
 //    }
-//}
+// }

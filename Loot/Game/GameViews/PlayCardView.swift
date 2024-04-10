@@ -15,7 +15,7 @@ struct PlayCardView: View {
     @State private var playing: Bool = false
     @State private var pickedPlayer: String = ""
     @State private var pickedCard: String = ""
-    @Namespace var ns
+    @Namespace var animation
     var gameState: GameState
     var cardToShow: Card
     var body: some View {
@@ -28,19 +28,19 @@ struct PlayCardView: View {
             VStack(alignment: .center) {
                 if !playing {
                     buildCardView()
-                        .matchedGeometryEffect(id: "card", in: ns)
+                        .matchedGeometryEffect(id: "card", in: animation)
                     if isMyTurn {
                         CustomButton(text: "Play Card", onClick: {
                             withAnimation {
                                 playing.toggle()
                             }
                         })
-                        .matchedGeometryEffect(id: "playBtn", in: ns)
+                        .matchedGeometryEffect(id: "playBtn", in: animation)
                         .padding()
                     }
                 } else {
                     buildPlayingView()
-                        .matchedGeometryEffect(id: "card", in: ns)
+                        .matchedGeometryEffect(id: "card", in: animation)
                 }
             }
             .foregroundStyle(Color.black)
@@ -124,7 +124,7 @@ struct PlayCardView: View {
                             close()
                         }
                     })
-                    .matchedGeometryEffect(id: "playBtn", in: ns)
+                    .matchedGeometryEffect(id: "playBtn", in: animation)
                 }
                 .padding()
             }
@@ -201,7 +201,7 @@ struct PlayCardView: View {
     }
 }
 
-//#Preview {
+// #Preview {
 //    PlayCardView(isShowing: .constant(true), isMyTurn: .constant(true), cardToShow: Card(number: 5))
 //        .environmentObject(GameState(players: [Player](), myId: UUID(), roomKey: "beans", stompClient: StompClient()))
-//}
+// }

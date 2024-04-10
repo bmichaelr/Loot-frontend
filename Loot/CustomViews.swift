@@ -24,7 +24,7 @@ struct CustomTextField: View {
                 )
             TextField(prompt, text: $text)
                 .font(Font.custom("Quasimodo", size: 14).weight(.medium))
-                .foregroundColor(.black)
+                .foregroundStyle(.black)
                 .focused($isFocused)
                 .autocorrectionDisabled(true)
                 .padding(.leading, 20)

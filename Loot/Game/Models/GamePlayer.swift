@@ -34,4 +34,8 @@ class GamePlayer: ObservableObject, Identifiable {
         self.isOut = player.isOut
         self.isSafe = player.isSafe
     }
+    func resetBooleans() {
+        self.isOut = false
+        self.isSafe = false
+    }
 }

@@ -56,8 +56,9 @@ struct CreateGameView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.black, lineWidth: 2)
                 ))
-                Spacer()
-                CustomButton(text: "Create Game", onClick: { viewModel.createGame(roomName, numberOfPlayers, numberOfRounds) }, enabled: buttonEnabled)
+                CustomButton(text: "Create", 
+                             onClick: { viewModel.createGame(roomName, numberOfPlayers, numberOfRounds) },
+                             enabled: buttonEnabled)
                 Spacer()
             }
             .padding()

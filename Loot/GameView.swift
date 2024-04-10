@@ -21,7 +21,7 @@ struct GameView: View {
                     buildPlayerView(from: player)
                 }
                 Spacer()
-                buildMyPlayingView(from: gameState.me!)
+                buildMyPlayingView(from: gameState.me)
                     .offset(y: 20)
             }
             .environmentObject(gameState)
