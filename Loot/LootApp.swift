@@ -24,7 +24,7 @@ struct LootApp: App {
                     case .gameView:
                         GameView()
                             .environmentObject(
-                                GameState(players: model.lobbyData.players, 
+                                GameState(players: model.lobbyData.players,
                                           myId: model.clientUUID, roomKey:
                                             model.lobbyData.roomKey,
                                           stompClient: model.stompClient)

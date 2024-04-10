@@ -22,11 +22,11 @@ final class ObjectDecodingTests: XCTestCase {
     let TEST_PLAYED_CARD_RESPONSE_4 = "PLAYED_CARD_4"
     let TEST_PLAYED_CARD_RESPONSE_5 = "PLAYED_CARD_5"
     let TEST_PLAYED_CARD_RESPONSE_6 = "PLAYED_CARD_6"
-    
+
     struct ObjectDecodeTestRequest: Codable {
         let id: String
         let type: String
-        
+
         init(id: UUID, for response: String) {
             self.id = id.uuidString.lowercased()
             self.type = response
@@ -55,7 +55,7 @@ final class ObjectDecodingTests: XCTestCase {
     func testLobbyResponseDecode() {
         let request = ObjectDecodeTestRequest(id: id, for: TEST_LOBBY_RESPONSE)
         let responseExpectation = expectation(description: "Recieved Lobby Response")
-        
+
         stompClient.registerListener("/topic/test/decoding/\(id.uuidString.lowercased())") { data in
             do {
                 let lobbyResponse = try JSONDecoder().decode(LobbyResponse.self, from: data)
@@ -94,7 +94,7 @@ final class ObjectDecodingTests: XCTestCase {
     func testGamePlayerResponseDecode() {
         let request = ObjectDecodeTestRequest(id: id, for: TEST_GAME_PLAYER_RESPONSE)
         let responseExpectation = expectation(description: "Recieved Game Player Response")
-        
+
         stompClient.registerListener("/topic/test/decoding/\(id.uuidString.lowercased())") { payload in
             do {
                 let response = try JSONDecoder().decode(Player.self, from: payload)
@@ -239,10 +239,9 @@ final class ObjectDecodingTests: XCTestCase {
         let request1 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .regular(card1))
         let request2 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .guessing(card2))
         let request3 = PlayCardRequest(roomKey: "SomeRoomKey", player: player, card: .targeted(card3))
-        
+
         stompClient.sendData(body: request1, to: "/app/test/encoding")
         stompClient.sendData(body: request2, to: "/app/test/encoding")
         stompClient.sendData(body: request3, to: "/app/test/encoding")
     }
 }
-

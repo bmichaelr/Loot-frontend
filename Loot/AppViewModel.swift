@@ -14,7 +14,7 @@ class AppViewModel: ObservableObject {
     @Published var lobbyData: LobbyResponse = LobbyResponse()
     @Published var serverList: [ServerResponse] = []
     @Published var viewController: DisplayedViewController = DisplayedViewController.sharedViewDisplayController
-    @Published var alert: AlertToShow? = nil
+    @Published var alert: AlertToShow?
     var firstLobbyLoad: Bool = true
     let clientUUID: UUID = UUID.init()
     deinit {

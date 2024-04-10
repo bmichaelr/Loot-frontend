@@ -287,6 +287,8 @@ class GameState: ObservableObject {
             cardNamesToCompare.append(CardNameStruct(card: playersCard, name: playing.name))
             cardNamesToCompare.append(CardNameStruct(card: opponentsCard, name: opponent.name))
             showCompareCards = true
+        } else {
+            syncPlayers()
         }
     }
     private func handleNetTrollResult(playing: GamePlayer, result: NetTrollResult) {
@@ -301,7 +303,7 @@ class GameState: ObservableObject {
         discard(card: discardedCard, player: playedOn)
         if let drawnCard = result.drawnCard {
             dealCard(to: playedOn, card: Card(from: drawnCard))
-        }       
+        }
         syncPlayers()
     }
     private func handleDreadGazeboResult(playing: GamePlayer, result: DreadGazeboResult) {

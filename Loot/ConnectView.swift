@@ -53,7 +53,7 @@ struct ConnectView: View {
                         }
                 }
                 VStack {
-                    CustomTextField(text: $viewModel.playerName, 
+                    CustomTextField(text: $viewModel.playerName,
                                     isFocused: _nameFieldFocused,
                                     prompt: "Enter your name here...")
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
