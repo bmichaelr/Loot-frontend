@@ -19,7 +19,9 @@ class GameState: ObservableObject {
     @Published var cardToShow: Card = Card(number: 5)
     @Published var message: String = ""
     @Published var showCompareCards = false
-    @Published var cardsToCompare = [Card]()
+    @Published var cardNamesToCompare = [CardNameStruct]()
+    @Published var showPeekCard = false
+    @Published var cardToPeek: Card = Card(number: 5)
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
@@ -228,9 +230,9 @@ class GameState: ObservableObject {
             handleDreadGazeboResult(playing: playerWhoPlayed, result: outcome)
         case .base:
             print("Have a base card.")
+            syncPlayers()
         }
         playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
-        syncPlayers()
     }
     private func handlePottedResult(playing: GamePlayer, result: PottedPlantResult) {
         if result.correctGuess {
@@ -245,9 +247,19 @@ class GameState: ObservableObject {
             discard(card: guessedCard, player: guessedOn)
             guessedOn.updatePlayer(with: result.playedOn)
         }
+        syncPlayers()
     }
     private func handleMaulRatResult(playing: GamePlayer, result: MaulRatResult) {
-        
+        guard let opponent = getPlayer(from: result.playedOn.id) else {
+            print("unable to find opponent in mual rat")
+            return
+        }
+        if me.clientId == playing.clientId {
+            cardToPeek = Card(from: result.opponentsCard)
+            showPeekCard = true
+        } else {
+            syncPlayers()
+        }
     }
     private func handleDuckOfDoomResult(playing: GamePlayer, result: DuckOfDoomResult) {
         guard let playersCard = getCardFromPlayer(from: playing, card: result.playersCard) else {
@@ -262,7 +274,7 @@ class GameState: ObservableObject {
             print("Unable to find opponents card in duck result")
             return
         }
-        // TODO: Josh compare the cards here
+        // Compare for both people and sync after dismissal
         if let playerToDiscard = result.playerToDiscard {
             if playerToDiscard.id == playing.clientId {
                 discard(card: playersCard, player: playing)
@@ -271,6 +283,11 @@ class GameState: ObservableObject {
             }
         }
         opponent.updatePlayer(with: result.playedOn)
+        if me.clientId == playing.clientId || me.clientId == opponent.clientId {
+            cardNamesToCompare.append(CardNameStruct(card: playersCard, name: playing.name))
+            cardNamesToCompare.append(CardNameStruct(card: opponentsCard, name: opponent.name))
+            showCompareCards = true
+        }
     }
     private func handleNetTrollResult(playing: GamePlayer, result: NetTrollResult) {
         guard let playedOn = getPlayer(from: result.playedOn.id) else {
@@ -284,7 +301,8 @@ class GameState: ObservableObject {
         discard(card: discardedCard, player: playedOn)
         if let drawnCard = result.drawnCard {
             dealCard(to: playedOn, card: Card(from: drawnCard))
-        }
+        }       
+        syncPlayers()
     }
     private func handleDreadGazeboResult(playing: GamePlayer, result: DreadGazeboResult) {
         guard let playedOn = getPlayer(from: result.playedOn.id) else {
@@ -302,6 +320,7 @@ class GameState: ObservableObject {
         moveCard(card: opponentCard, from: playedOn, to: playing) {
             self.moveCard(card: otherCard, from: playing, to: playedOn)
         }
+        syncPlayers()
     }
 }
 
@@ -362,9 +381,13 @@ extension GameState {
             hand2.cards.append(card)
         } completion: {
             if player2.clientId == self.me.clientId {
-                card.faceDown = false
+                withAnimation {
+                    card.faceDown = false
+                }
             } else {
-                card.faceDown = true
+                withAnimation {
+                    card.faceDown = true
+                }
             }
             if let onComplete = onComplete {
                 onComplete()
@@ -414,4 +437,10 @@ extension GameState {
         }
         deck.cards.append(Card(number: 0))
     }
+}
+
+struct CardNameStruct: Identifiable {
+    var id = UUID()
+    let card: Card
+    let name: String
 }

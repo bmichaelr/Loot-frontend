@@ -26,7 +26,13 @@ struct GameView: View {
             }
             .environmentObject(gameState)
         }
-        .compareCards(isPresented: $gameState.showCompareCards, cards: gameState.cardsToCompare)
+        .compareCards(isPresented: $gameState.showCompareCards,cardNames: gameState.cardNamesToCompare, onTap: {
+            gameState.syncPlayers()
+            gameState.cardNamesToCompare.removeAll()
+        })
+        .viewSingleCard(isPresented: $gameState.showPeekCard, card: gameState.cardToPeek, onTap: {
+            gameState.syncPlayers()
+        })
         .showCard(isPresented: $gameState.showCard, show: gameState.cardToShow)
         .showPlayCard(isPresented: $gameState.playCard, 
                       show: gameState.cardToShow,
@@ -103,11 +109,19 @@ extension View {
             }
         }
     }
-    func compareCards(isPresented: Binding<Bool>, cards: [Card]) -> some View {
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
         ZStack {
             self
             if isPresented.wrappedValue {
-                CompareCardView(isShowing: isPresented, cards: cards)
+                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
+            }
+        }
+    }
+    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
             }
         }
     }
