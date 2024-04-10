@@ -8,13 +8,24 @@ import SwiftUI
 struct GameLobbyView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @State private var ready: Bool = true
+    @State var readyTime: ReadyTimer = ReadyTimer()
+    @State var readyTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack(alignment: .leading) {
-                    Text("Room Name - \(viewModel.lobbyData.name)")
-                        .font(.custom("Quasimodo", size: 28))
+                    HStack {
+                        Spacer()
+                        Text("\(viewModel.lobbyData.name)!")
+                            .font(.custom("Quasimodo", size: 28))
+                            .multilineTextAlignment(.center)
+                            .padding()
+
+                        Spacer()
+                    }.padding()
+
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -50,12 +61,46 @@ struct GameLobbyView: View {
                             }
                         }
                     }
+
+                    Spacer()
+
+                    VStack {
+                        if viewModel.lobbyData.allReady == true {
+                            HStack {
+                                Spacer()
+
+                                Text("Game Starting In .. \(readyTime.timeRemaining)")
+                                    .font(.custom("Quasimodo", size: 20))
+                                    .multilineTextAlignment(.center)
+                                    .onReceive(readyTimer) {_ in
+                                        // Continue coutndown
+                                        if readyTime.timeRemaining > 0 {
+                                            readyTime.timeRemaining -= 1
+                                        } else {
+                                            print("Start Game")
+                                            viewModel.startGame()
+                                        }
+                                    }
+                                Spacer()
+                            }
+                        }
+                    }.onReceive(readyTimer) { _ in
+                        if viewModel.lobbyData.allReady != true {
+                            readyTime.reset()
+                        }
+                    }
+
+                    Spacer()
+
                     CustomButton(text: ready ? "Ready" : "Unready",
                                  onClick: readyButtonClicked,
                                  buttonColor: ready ? Color.lootGreen : Color.red)
                     .padding(.top, 30)
+
+                    Spacer()
                 }
                 .padding([.leading, .trailing], 20)
+
             }
             .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
             .navigationBarTitleDisplayMode(.inline)
@@ -77,6 +122,15 @@ struct GameLobbyView: View {
         viewModel.changeReadyStatus(ready)
         withAnimation(.spring) {
             ready.toggle()
+        }
+    }
+
+    struct ReadyTimer {
+        var minTime = 10
+        var timeRemaining = 10
+
+        mutating func reset() {
+            self.timeRemaining = self.minTime
         }
     }
 }
