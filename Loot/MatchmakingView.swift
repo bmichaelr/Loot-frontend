@@ -17,7 +17,7 @@ struct MatchmakingView: View {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack {
-                    NavigationBar()
+                    // NavigationBar()
                     Text("Available Games")
                         .font(Font.custom("Quasimodo", size: 30))
                         .foregroundStyle(Color.black)
@@ -77,7 +77,13 @@ struct MatchmakingView: View {
                     Spacer()
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackground()
-                    
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Image("dragon")
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
                 }
             }
             .sheet(isPresented: $createButtonPressed) {
