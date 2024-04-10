@@ -9,24 +9,23 @@ import SwiftUI
 
 struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
-
     @State private var createButtonPressed = false
-    @State private var refreshedPressed = false
-
+    @State private var refreshOpacity: CGFloat = 1.0
     var body: some View {
-
         let mainBoxWidth = 350
-
         NavigationStack {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack {
                     NavigationBar()
+                    Text("Available Games")
+                        .font(Font.custom("Quasimodo", size: 30))
+                        .foregroundStyle(Color.black)
+                        .padding(.top, 30)
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color.lootBrown)
                             .frame(width: CGFloat(mainBoxWidth), height: 500)
-
                         VStack {
                             HStack {
                                 Spacer()
@@ -40,39 +39,42 @@ struct MatchmakingView: View {
                             .font(Font.custom("Quasimodo", size: 16).weight(.medium))
                             .foregroundColor(.lootBeige)
                             .padding()
-
+                            Divider()
+                                .frame(height: 1)
+                                .background(Color.black)
+                                .padding([.leading, .trailing], 25)
                             ScrollView {
                                 Spacer()
                                 ForEach(viewModel.serverList, id: \.key) { server in
                                     Server(server: server)
                                         .onTapGesture {
-                                            // This is where the connect to server function goes
-                                            print("Server \(server.name) tapped, key: \(server.key)")
                                             viewModel.joinGame(server.key)
                                         }
                                 }
-                            }.frame(width: 350, height: 400)
-
-                            // Refresh Button
+                            }
+                            .frame(width: 350, height: 390)
                             Image(systemName: "arrow.clockwise")
+                                .opacity(refreshOpacity)
                                 .frame(width: CGFloat(mainBoxWidth - 50), alignment: .trailing)
                                 .foregroundColor(.lootBeige)
                                 .bold()
                                 .onTapGesture {
-                                    refreshedPressed.toggle()
-                                    print("Refreshing server list...")
-                                    viewModel.reloadServerList()
+                                    withAnimation {
+                                        refreshOpacity = 0.75
+                                    } completion: {
+                                        viewModel.reloadServerList()
+                                        withAnimation {
+                                            refreshOpacity = 1.0
+                                        }
+                                    }
                             }
                         }
 
-                    }.padding()
-
-                    Spacer()
-
+                    }
+                    .padding()
                     CustomButton(text: "Create Game", onClick: { createButtonPressed.toggle() })
-
+                        .padding([.leading, .trailing], 25)
                     Spacer()
-
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackground()
                     
