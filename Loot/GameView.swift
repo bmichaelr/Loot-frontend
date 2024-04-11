@@ -24,7 +24,6 @@ struct GameView: View {
                 buildMyPlayingView(from: gameState.me)
                     .offset(y: 20)
             }
-            .environmentObject(gameState)
         }
         .compareCards(isPresented: $gameState.showCompareCards, cardNames: gameState.cardNamesToCompare, onTap: {
             gameState.syncPlayers()
@@ -39,10 +38,12 @@ struct GameView: View {
                       game: gameState,
                       myTurn: $gameState.myTurn
         )
+        .chatOverlay()
         .onAppear(perform: {
             gameState.subscribeToGameChannels()
             gameState.syncPlayers()
         })
+        .environmentObject(gameState)
     }
     @ViewBuilder
     private func buildPlayerView(from player: GamePlayer) -> some View {

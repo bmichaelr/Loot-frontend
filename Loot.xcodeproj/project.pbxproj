@@ -29,6 +29,7 @@
 		0FEB84D42BBD0C2B000C4894 /* NextTurnResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D32BBD0C2B000C4894 /* NextTurnResponse.swift */; };
 		0FEB84D62BBD0C4D000C4894 /* RoundStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D52BBD0C4D000C4894 /* RoundStatusResponse.swift */; };
 		0FEB84D82BBD0C97000C4894 /* PlayedCardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */; };
+		32132BE92BC83343001BEEE0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32132BE82BC83343001BEEE0 /* ChatView.swift */; };
 		3268B6772BBDDDEA00F6218A /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6762BBDDDEA00F6218A /* CustomViews.swift */; };
 		3268B6792BBDE2D100F6218A /* CreateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6782BBDE2D100F6218A /* CreateGameView.swift */; };
 		3268B67B2BBDFDCB00F6218A /* LobbyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */; };
@@ -88,6 +89,7 @@
 		0FEB84D32BBD0C2B000C4894 /* NextTurnResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTurnResponse.swift; sourceTree = "<group>"; };
 		0FEB84D52BBD0C4D000C4894 /* RoundStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundStatusResponse.swift; sourceTree = "<group>"; };
 		0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardResponse.swift; sourceTree = "<group>"; };
+		32132BE82BC83343001BEEE0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		3268B6762BBDDDEA00F6218A /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		3268B6782BBDE2D100F6218A /* CreateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameView.swift; sourceTree = "<group>"; };
 		3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyPlayerView.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				32B9CBC12BC5AB570031B563 /* ShowCardView.swift */,
 				32B9CBC32BC5AB700031B563 /* PlayCardView.swift */,
 				42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */,
+				32132BE82BC83343001BEEE0 /* ChatView.swift */,
 			);
 			path = GameViews;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				32B9CBBA2BC5A9EA0031B563 /* Hand.swift in Sources */,
 				32B9CBC22BC5AB570031B563 /* ShowCardView.swift in Sources */,
 				0FD38A9C2BA26F18003982B7 /* AppViewModel.swift in Sources */,
+				32132BE92BC83343001BEEE0 /* ChatView.swift in Sources */,
 				32FF759D2BB331000046B2B8 /* Colors.swift in Sources */,
 				0F23D1932BB3BDDD00D75431 /* ServerResponse.swift in Sources */,
 				0FEB84D02BBD0B3F000C4894 /* StartRoundResponse.swift in Sources */,
