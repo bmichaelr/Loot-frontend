@@ -70,6 +70,17 @@ struct ShowCardView: View {
     }
 }
 
+extension View {
+    func showCard(isPresented: Binding<Bool>, show card: Card) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ShowCardView(isShowing: isPresented, cardToShow: card)
+            }
+        }
+    }
+}
+
 struct ShowCardView_Previews: PreviewProvider {
     struct Wrapper: View {
         var card: Card {

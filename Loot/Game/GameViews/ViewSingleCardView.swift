@@ -100,6 +100,17 @@ struct ViewSingleCardView: View {
     }
 }
 
+extension View {
+    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
+            }
+        }
+    }
+}
+
 #Preview {
     ViewSingleCardView(isShowing: .constant(true), card: Card(number: 5), onTap: {
         print("syced")

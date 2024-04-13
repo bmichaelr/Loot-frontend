@@ -38,6 +38,7 @@ struct GameView: View {
                       game: gameState,
                       myTurn: $gameState.myTurn
         )
+        .showRules()
         .chatOverlay()
         .onAppear(perform: {
             gameState.subscribeToGameChannels()
@@ -101,40 +102,9 @@ struct GameView: View {
     }
 }
 
-extension View {
-    func showCard(isPresented: Binding<Bool>, show card: Card) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                ShowCardView(isShowing: isPresented, cardToShow: card)
-            }
-        }
-    }
-    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
-            }
-        }
-    }
-    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
-            }
-        }
-    }
-}
-
-extension View {
-    func showPlayCard(isPresented: Binding<Bool>, show card: Card, game: GameState, myTurn: Binding<Bool>) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                PlayCardView(isShowing: isPresented, isMyTurn: myTurn, gameState: game, cardToShow: card)
-            }
-        }
+struct GameView_Previews: PreviewProvider {
+    static var previews: some View {
+        GameView()
+            .environmentObject(GameState.testInit())
     }
 }

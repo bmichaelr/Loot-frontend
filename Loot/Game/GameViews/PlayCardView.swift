@@ -117,11 +117,11 @@ struct PlayCardView: View {
                     Spacer()
                     CustomButton(text: "Play", onClick: {
                         if cardNotAbleToBePlayed() { return }
-                        gameState.playCard(player: pickedPlayer, card: pickedCard, play: cardToShow)
                         withAnimation {
                             playing = false
                         } completion: {
                             close()
+                            gameState.playCard(player: pickedPlayer, card: pickedCard, play: cardToShow)
                         }
                     })
                     .matchedGeometryEffect(id: "playBtn", in: animation)
@@ -197,6 +197,17 @@ struct PlayCardView: View {
             return pickedPlayer.isEmpty
         default:
             return false
+        }
+    }
+}
+
+extension View {
+    func showPlayCard(isPresented: Binding<Bool>, show card: Card, game: GameState, myTurn: Binding<Bool>) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                PlayCardView(isShowing: isPresented, isMyTurn: myTurn, gameState: game, cardToShow: card)
+            }
         }
     }
 }

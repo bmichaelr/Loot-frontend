@@ -76,26 +76,6 @@ struct CompareCardView: View {
         }
         .offset(y: offset)
     }
-//    @ViewBuilder func buildCompareDismissButton() -> some View {
-//        ZStack {
-//            RoundedRectangle(cornerRadius: 25)
-//                .foregroundStyle(Color.green)
-//            Text("Dismiss")
-//                .font(.custom("Quasimodo", size: 24))
-//        }
-//        .frame(width: 200, height: 60, alignment: .center)
-//        .overlay(RoundedRectangle(cornerRadius: 25).stroke())
-//        .onAppear {
-//            withAnimation(.spring()) {
-//                offset = 0
-//            }
-//        }
-//        .onTapGesture {
-//            onTap()
-//            close()
-//        }
-//        .offset(y: offset)
-//    }
     private func close() {
         withAnimation {
             opacity = 0
@@ -103,6 +83,17 @@ struct CompareCardView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isShowing = false
+        }
+    }
+}
+
+extension View {
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
+            }
         }
     }
 }

@@ -88,7 +88,6 @@ struct PopoutButton: View {
 
 struct Log: View {
     var data: Binding<[String]>
-    let height = UIScreen.main.bounds.height - 120
     var body: some View {
         VStack {
             Text("Game Event Log")
@@ -104,9 +103,12 @@ struct Log: View {
                         .padding(.bottom, 10)
                         .padding([.leading, .trailing], 5)
                 }
+                .padding()
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 15).stroke(lineWidth: 2.5)
             }
         }
-        .frame(maxHeight: height)
         .background(RoundedRectangle(cornerRadius: 5).foregroundStyle(Color.lootBrown))
     }
 }
@@ -132,4 +134,8 @@ extension View {
             ChatView()
         }
     }
+}
+
+#Preview {
+    Log(data: .constant(data))
 }
