@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct LootApp: App {
-    @ObservedObject var displayViewController = DisplayViewController.sharedViewDisplayController
+    @ObservedObject var displayViewController = DisplayedViewController.sharedViewDisplayController
     @ObservedObject var model: AppViewModel = AppViewModel()
     @State private var showCustomLoadingView: Bool = true
     var body: some Scene {
@@ -20,11 +20,17 @@ struct LootApp: App {
                     case .gameLobbyView:
                         GameLobbyView()
                     case .homeMenuView:
-                        HomeMenuView()
+                        MatchmakingView()
                     case .gameView:
                         GameView()
+                            .environmentObject(
+                                GameState(players: model.lobbyData.players,
+                                          myId: model.clientUUID, roomKey:
+                                            model.lobbyData.roomKey,
+                                          stompClient: model.stompClient)
+                            )
                     case .startNewGameView:
-                        StartView()
+                        ConnectView()
                     }
                 }
                 if showCustomLoadingView {
@@ -32,9 +38,9 @@ struct LootApp: App {
                         .transition(.move(edge: .leading))
                 }
             }
+            .showCustomAlert(alert: $model.alert)
             .zIndex(2.0) // This zIndex will ensure that the loading view is on top of other views
             .environmentObject(model)
         }
     }
 }
-

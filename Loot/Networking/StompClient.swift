@@ -12,8 +12,16 @@ class StompClient {
     let swiftStomp: SwiftStomp
     var channelListeners: [String: (Data) -> Void] = [:]
     var connectedCall: ((Bool) -> Void)?
+    var debug: Bool = false
     init() {
-        let url = URL(string: "http://172.235.36.92:8080/game-websocket")
+        let urlString = debug ? "http://localhost:8080/game-websocket" : "http://ciloot.lol:8080/game-websocket"
+        let url = URL(string: urlString)
+        swiftStomp = SwiftStomp(host: url!)
+        swiftStomp.delegate = self
+        swiftStomp.autoReconnect = true
+    }
+    init(_ debugUrl: String) {
+        let url = URL(string: debugUrl)
         swiftStomp = SwiftStomp(host: url!)
         swiftStomp.delegate = self
         swiftStomp.autoReconnect = true
@@ -23,6 +31,10 @@ class StompClient {
         swiftStomp.subscribe(to: url, mode: .clientIndividual)
     }
     func sendData<T: Codable>(body: T, to url: String) {
+        if let stringBody = body as? String {
+            swiftStomp.send(body: stringBody, to: url)
+            return
+        }
         do {
             let jsonData = try JSONEncoder().encode(body)
             let jsonString = String(data: jsonData, encoding: .utf8)

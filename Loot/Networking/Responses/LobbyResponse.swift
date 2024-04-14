@@ -9,11 +9,15 @@ import Foundation
 
 struct LobbyResponse: Codable {
     var roomKey: String
+    var name: String
     var players: [Player]
+    var maxPlayers: Int
     var allReady: Bool
     init() {
         self.roomKey = ""
+        self.name = ""
         self.players = []
         self.allReady = false
+        self.maxPlayers = 4
     }
 }

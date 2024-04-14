@@ -12,19 +12,22 @@ struct Player: Codable {
         self.name = name
         self.id = id
         self.isSafe = false
-        self.loadedIn = false
+        self.isOut = false
         self.ready = false
+        self.isHost = false
     }
     init(name: String, id: UUID, ready: Bool) {
         self.name = name
         self.id = id
         self.ready = ready
         self.isSafe = false
-        self.loadedIn = false
+        self.isOut = false
+        self.isHost = false
     }
-    let name: String
     let id: UUID
+    let name: String
     let ready: Bool
     let isSafe: Bool
-    let loadedIn: Bool
+    let isOut: Bool
+    let isHost: Bool
 }
