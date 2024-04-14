@@ -27,7 +27,7 @@ struct Player: Codable {
     let id: UUID
     let name: String
     let ready: Bool
-    let isSafe: Bool
-    let isOut: Bool
+    var isSafe: Bool
+    var isOut: Bool
     let isHost: Bool
 }

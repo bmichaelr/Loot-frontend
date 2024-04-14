@@ -3,6 +3,7 @@
 //  Loot
 //
 //  Created by Joshua on 3/30/24.
+//  Edited by Ben 😈 on 4/14/24
 //
 
 import SwiftUI
@@ -24,11 +25,22 @@ struct HandView: View {
     @ViewBuilder
     private func getPlayerStatus() -> some View {
         if player.isOut {
-            Image(systemName: "xmark")
-                .foregroundStyle(Color.red)
+            ZStack {
+                RoundedRectangle(cornerRadius: 10).fill(.red.opacity(0.40))
+                Image(systemName: "xmark")
+                    .font(.system(size: 75))
+                    .foregroundStyle(.red)
+            }
         } else if player.isSafe {
-            Image(systemName: "shield.fill")
-                .foregroundStyle(Color.blue)
+            ZStack {
+                RoundedRectangle(cornerRadius: 10).fill(.blue.opacity(0.40))
+                Image(systemName: "shield.fill")
+                    .foregroundStyle(Color.white.opacity(0.80))
+                    .font(.system(size: 75))
+                Image(systemName: "shield.fill")
+                    .foregroundStyle(Color.blue)
+                    .font(.system(size: 70))
+            }
         }
         EmptyView()
     }
@@ -50,14 +62,19 @@ struct HandView: View {
             .fixedSize(horizontal: true, vertical: true)
             .padding(5)
             .padding(.top, 20)
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke()
+                    .foregroundStyle(.white)
+            )
             .overlay(alignment: .top) {
                 Text(player.name)
                     .font(.custom("CaslonAntique", size: 22))
+                    .foregroundStyle(.white)
                     .padding(.top, 8)
-                    .overlay(alignment: .leading) {
-                        getPlayerStatus()
-                    }
+            }
+            .overlay {
+                getPlayerStatus()
             }
         case .large:
             ScrollView(.horizontal, showsIndicators: false) {
@@ -75,7 +92,7 @@ struct HandView: View {
             }
             .frame(height: 110)
             .padding()
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
         }
     }
     @ViewBuilder
@@ -130,6 +147,9 @@ struct HandView: View {
         }
     }
     static var previews: some View {
-        Wrapper()
+        ZStack {
+            Image("CardTableTexture")
+            Wrapper()
+        }
     }
  }

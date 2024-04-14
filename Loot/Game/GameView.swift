@@ -6,6 +6,9 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea(.all)
+            Image("CardTableTexture")
+                .resizable()
+                .ignoresSafeArea(.all)
             VStack {
                 HStack {
                     Text(gameState.message)
@@ -14,6 +17,7 @@ struct GameView: View {
                         DeckView(deck: gameState.deck, namespace: animation)
                         Text("Deck")
                             .font(.custom("CaslonAntique", size: 22))
+                            .foregroundStyle(.white)
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -80,6 +84,7 @@ struct GameView: View {
             .overlay(alignment: .topLeading) {
                 Text("Discard")
                     .font(.custom("CaslonAntique", size: 22))
+                    .foregroundStyle(.white)
                     .padding([.leading, .top])
             }
             HandView(
@@ -91,7 +96,7 @@ struct GameView: View {
                 cardSize: .large
             )
         }
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
         .padding(.leading, 10)
     }
     // MARK: Private functions

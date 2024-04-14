@@ -201,6 +201,7 @@ class GameState: ObservableObject {
             print("Unable to decode the round status response!")
             return
         }
+        gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
         // TODO: show message of who one, and give them a token
         cleanUpCards()
