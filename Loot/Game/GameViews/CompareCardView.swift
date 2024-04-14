@@ -89,7 +89,7 @@ struct CompareCardView: View {
 }
 
 extension View {
-    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], 
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct],
                       onTap: @escaping () -> Void) -> some View {
         ZStack {
             self

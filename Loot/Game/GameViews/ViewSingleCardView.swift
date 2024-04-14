@@ -63,7 +63,7 @@ struct ViewSingleCardView: View {
         }
         .foregroundStyle(Color.black)
         .frame(width: 250, height: 400)
-        .overlay(RoundedRectangle(cornerRadius: 35)
+        .overlay(RoundedRectangle(cornerRadius: 25)
             .stroke(lineWidth: 7)
             .foregroundStyle(Color.lootBrown)
         )
