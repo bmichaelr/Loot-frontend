@@ -42,7 +42,7 @@ struct ShowCardView: View {
             .foregroundStyle(Color.black)
             .zIndex(2.0)
             .frame(width: 250, height: 400)
-            .overlay(RoundedRectangle(cornerRadius: 35).stroke(lineWidth: 7))
+            .overlay(RoundedRectangle(cornerRadius: 35).stroke(lineWidth: 7).foregroundStyle(Color.lootBrown))
             .onAppear {
                 withAnimation(.spring()) {
                     offset = 0

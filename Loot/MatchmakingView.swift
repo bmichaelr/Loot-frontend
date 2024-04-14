@@ -17,7 +17,6 @@ struct MatchmakingView: View {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack {
-                    // NavigationBar()
                     Text("Available Games")
                         .font(Font.custom("Quasimodo", size: 30))
                         .foregroundStyle(Color.black)

@@ -13,7 +13,7 @@ struct GameView: View {
                     VStack {
                         DeckView(deck: gameState.deck, namespace: animation)
                         Text("Deck")
-                            .fontWeight(.bold)
+                            .font(.custom("CaslonAntique", size: 22))
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -39,7 +39,7 @@ struct GameView: View {
                       myTurn: $gameState.myTurn
         )
         .showRules()
-        .chatOverlay()
+        .withGameLog(for: gameState.gameLog)
         .onAppear(perform: {
             gameState.subscribeToGameChannels()
             gameState.syncPlayers()
@@ -77,6 +77,11 @@ struct GameView: View {
                     namespace: animation,
                     onCardTap: { gameState.showCard(card: $0) },
                     cardSize: .small)
+            .overlay(alignment: .topLeading) {
+                Text("Discard")
+                    .font(.custom("CaslonAntique", size: 22))
+                    .padding([.leading, .top])
+            }
             HandView(
                 hand: player.getHand(type: .holding),
                 player: player,

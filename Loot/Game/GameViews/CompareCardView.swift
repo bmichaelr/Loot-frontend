@@ -48,6 +48,7 @@ struct CompareCardView: View {
             Text("\(cardName.name)'s card")
                 .multilineTextAlignment(.center)
                 .font(.custom("Quasimodo", size: 16))
+                .foregroundStyle(Color.white)
             VStack(alignment: .leading) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 25)
@@ -60,14 +61,14 @@ struct CompareCardView: View {
                         Image("loot_\(cardName.card.number)")
                             .resizable()
                             .scaledToFit()
-                            .offset(y: -20)
+                        Spacer()
                     }
                     .padding()
                 }
             }
             .foregroundStyle(Color.black)
             .frame(width: 150, height: 240)
-            .overlay(RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 7))
+            .overlay(RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 5).foregroundStyle(Color.lootBrown))
             .onAppear {
                 withAnimation(.spring()) {
                     offset = 0
@@ -88,7 +89,8 @@ struct CompareCardView: View {
 }
 
 extension View {
-    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], 
+                      onTap: @escaping () -> Void) -> some View {
         ZStack {
             self
             if isPresented.wrappedValue {

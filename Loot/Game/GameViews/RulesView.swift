@@ -129,7 +129,8 @@ struct RuleView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("1. Shuffle the deck. Remove one card face down (do not flip any face up.)")
                     Text("2. Deal each player one card.")
-                    Text("3. Each player, in turn, draws one card then discards one card. Apply any effects on the card discarded.")
+                    Text("3. Each player, in turn, draws one card then discards one card. " +
+                         "Apply any effects on the card discarded.")
                     Text(lastRule)
                 }
                 .font(.custom("CaslonAntique", size: 28))

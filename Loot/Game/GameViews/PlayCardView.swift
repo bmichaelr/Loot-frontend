@@ -35,6 +35,7 @@ struct PlayCardView: View {
                                 playing.toggle()
                             }
                         })
+                        .frame(width: 250)
                         .matchedGeometryEffect(id: "playBtn", in: animation)
                         .padding()
                     }
@@ -88,7 +89,10 @@ struct PlayCardView: View {
             .padding()
         }
         .frame(width: 250, height: 400)
-        .overlay(RoundedRectangle(cornerRadius: 30).stroke(lineWidth: 7))
+        .overlay(RoundedRectangle(cornerRadius: 30)
+            .stroke(lineWidth: 7)
+            .foregroundStyle(Color.lootBrown)
+        )
     }
     @ViewBuilder
     private func buildPlayingView() -> some View {
@@ -118,9 +122,9 @@ struct PlayCardView: View {
                     CustomButton(text: "Play", onClick: {
                         if cardNotAbleToBePlayed() { return }
                         withAnimation {
-                            playing = false
-                        } completion: {
                             close()
+                        } completion: {
+                            playing = false
                             gameState.playCard(player: pickedPlayer, card: pickedCard, play: cardToShow)
                         }
                     })
@@ -202,7 +206,8 @@ struct PlayCardView: View {
 }
 
 extension View {
-    func showPlayCard(isPresented: Binding<Bool>, show card: Card, game: GameState, myTurn: Binding<Bool>) -> some View {
+    func showPlayCard(isPresented: Binding<Bool>, show card: Card,
+                      game: GameState, myTurn: Binding<Bool>) -> some View {
         ZStack {
             self
             if isPresented.wrappedValue {
@@ -212,7 +217,7 @@ extension View {
     }
 }
 
-// #Preview {
-//    PlayCardView(isShowing: .constant(true), isMyTurn: .constant(true), cardToShow: Card(number: 5))
-//        .environmentObject(GameState(players: [Player](), myId: UUID(), roomKey: "beans", stompClient: StompClient()))
-// }
+ #Preview {
+     PlayCardView(isShowing: .constant(true), isMyTurn: .constant(true),
+                  gameState: GameState.testInit(), cardToShow: Card(number: 5))
+ }

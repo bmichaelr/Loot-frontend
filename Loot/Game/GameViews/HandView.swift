@@ -36,10 +36,32 @@ struct HandView: View {
     private func getCardView() -> some View {
         switch cardSize {
         case .small:
-            VStack {
+            HStack(spacing: -25) {
+                ForEach(hand.cards) { card in
+                    CardView(card: card, namespace: namespace, size: cardSize)
+                        .onTapGesture {
+                            if let onTap = onCardTap {
+                                onTap(card)
+                            }
+                        }
+                }
+            }
+            .frame(width: 120, height: 110)
+            .fixedSize(horizontal: true, vertical: true)
+            .padding(5)
+            .padding(.top, 20)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+            .overlay(alignment: .top) {
                 Text(player.name)
-                    .overlay(getPlayerStatus().offset(x: -50))
-                HStack(spacing: -25) {
+                    .font(.custom("CaslonAntique", size: 22))
+                    .padding(.top, 8)
+                    .overlay(alignment: .leading) {
+                        getPlayerStatus()
+                    }
+            }
+        case .large:
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: -40) {
                     ForEach(hand.cards) { card in
                         CardView(card: card, namespace: namespace, size: cardSize)
                             .onTapGesture {
@@ -49,30 +71,11 @@ struct HandView: View {
                             }
                     }
                 }
+                .padding(5)
             }
-            .frame(width: 120, height: 110)
-            .fixedSize(horizontal: true, vertical: true)
+            .frame(height: 110)
             .padding()
             .overlay(RoundedRectangle(cornerRadius: 10).stroke())
-        case .large:
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: -40) {
-                        ForEach(hand.cards) { card in
-                            CardView(card: card, namespace: namespace, size: cardSize)
-                                .onTapGesture {
-                                    if let onTap = onCardTap {
-                                        onTap(card)
-                                    }
-                                }
-                        }
-                    }
-                    .padding(5)
-                }
-                .frame(height: 110)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke())
-            }
         }
     }
     @ViewBuilder
@@ -110,26 +113,23 @@ struct HandView: View {
     }
 }
 
-// struct HandView_Previews: PreviewProvider {
-//    struct Wrapper: View {
-//        @Namespace var namespace
-//        
-//        var hand: Hand {
-//            let hand = Hand()
-//            hand.cards.append(contentsOf: [
-//                Card(number: 1),
-//                Card(number: 2),
-//            ])
-//            return hand
-//        }
-//        
-//        var body: some View {
-//            //HandView(hand: hand, player: Player(from: player1), 
-//              namespace: namespace, onCardTap: { _ in }, cardSize: .small)
-//        }
-//    }
-//    
-//    static var previews: some View {
-//        Wrapper()
-//    }
-// }
+ struct HandView_Previews: PreviewProvider {
+    struct Wrapper: View {
+        @Namespace var namespace
+        var hand: Hand {
+            let hand = Hand()
+            hand.cards.append(contentsOf: [
+                Card(number: 1),
+                Card(number: 2)
+            ])
+            return hand
+        }
+        var body: some View {
+            HandView(hand: hand, player: GamePlayer(from: mainPlayer),
+              namespace: namespace, onCardTap: { _ in }, cardSize: .small)
+        }
+    }
+    static var previews: some View {
+        Wrapper()
+    }
+ }
