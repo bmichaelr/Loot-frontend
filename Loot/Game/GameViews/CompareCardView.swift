@@ -48,6 +48,7 @@ struct CompareCardView: View {
             Text("\(cardName.name)'s card")
                 .multilineTextAlignment(.center)
                 .font(.custom("Quasimodo", size: 16))
+                .foregroundStyle(Color.white)
             VStack(alignment: .leading) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 25)
@@ -60,14 +61,14 @@ struct CompareCardView: View {
                         Image("loot_\(cardName.card.number)")
                             .resizable()
                             .scaledToFit()
-                            .offset(y: -20)
+                        Spacer()
                     }
                     .padding()
                 }
             }
             .foregroundStyle(Color.black)
             .frame(width: 150, height: 240)
-            .overlay(RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 7))
+            .overlay(RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 5).foregroundStyle(Color.lootBrown))
             .onAppear {
                 withAnimation(.spring()) {
                     offset = 0
@@ -76,26 +77,6 @@ struct CompareCardView: View {
         }
         .offset(y: offset)
     }
-//    @ViewBuilder func buildCompareDismissButton() -> some View {
-//        ZStack {
-//            RoundedRectangle(cornerRadius: 25)
-//                .foregroundStyle(Color.green)
-//            Text("Dismiss")
-//                .font(.custom("Quasimodo", size: 24))
-//        }
-//        .frame(width: 200, height: 60, alignment: .center)
-//        .overlay(RoundedRectangle(cornerRadius: 25).stroke())
-//        .onAppear {
-//            withAnimation(.spring()) {
-//                offset = 0
-//            }
-//        }
-//        .onTapGesture {
-//            onTap()
-//            close()
-//        }
-//        .offset(y: offset)
-//    }
     private func close() {
         withAnimation {
             opacity = 0
@@ -103,6 +84,18 @@ struct CompareCardView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isShowing = false
+        }
+    }
+}
+
+extension View {
+    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct],
+                      onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
+            }
         }
     }
 }

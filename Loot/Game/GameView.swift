@@ -6,6 +6,9 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea(.all)
+            Image("CardTableTexture")
+                .resizable()
+                .ignoresSafeArea(.all)
             VStack {
                 HStack {
                     Text(gameState.message)
@@ -13,7 +16,8 @@ struct GameView: View {
                     VStack {
                         DeckView(deck: gameState.deck, namespace: animation)
                         Text("Deck")
-                            .fontWeight(.bold)
+                            .font(.custom("CaslonAntique", size: 22))
+                            .foregroundStyle(.white)
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -24,7 +28,6 @@ struct GameView: View {
                 buildMyPlayingView(from: gameState.me)
                     .offset(y: 20)
             }
-            .environmentObject(gameState)
         }
         .compareCards(isPresented: $gameState.showCompareCards, cardNames: gameState.cardNamesToCompare, onTap: {
             gameState.syncPlayers()
@@ -39,10 +42,13 @@ struct GameView: View {
                       game: gameState,
                       myTurn: $gameState.myTurn
         )
+        .showRules()
+        .withGameLog(for: gameState.gameLog)
         .onAppear(perform: {
             gameState.subscribeToGameChannels()
             gameState.syncPlayers()
         })
+        .environmentObject(gameState)
     }
     @ViewBuilder
     private func buildPlayerView(from player: GamePlayer) -> some View {
@@ -75,6 +81,12 @@ struct GameView: View {
                     namespace: animation,
                     onCardTap: { gameState.showCard(card: $0) },
                     cardSize: .small)
+            .overlay(alignment: .topLeading) {
+                Text("Discard")
+                    .font(.custom("CaslonAntique", size: 22))
+                    .foregroundStyle(.white)
+                    .padding([.leading, .top])
+            }
             HandView(
                 hand: player.getHand(type: .holding),
                 player: player,
@@ -84,7 +96,7 @@ struct GameView: View {
                 cardSize: .large
             )
         }
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
         .padding(.leading, 10)
     }
     // MARK: Private functions
@@ -100,40 +112,9 @@ struct GameView: View {
     }
 }
 
-extension View {
-    func showCard(isPresented: Binding<Bool>, show card: Card) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                ShowCardView(isShowing: isPresented, cardToShow: card)
-            }
-        }
-    }
-    func compareCards(isPresented: Binding<Bool>, cardNames: [CardNameStruct], onTap: @escaping () -> Void) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                CompareCardView(isShowing: isPresented, nameCards: cardNames, onTap: onTap)
-            }
-        }
-    }
-    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
-            }
-        }
-    }
-}
-
-extension View {
-    func showPlayCard(isPresented: Binding<Bool>, show card: Card, game: GameState, myTurn: Binding<Bool>) -> some View {
-        ZStack {
-            self
-            if isPresented.wrappedValue {
-                PlayCardView(isShowing: isPresented, isMyTurn: myTurn, gameState: game, cardToShow: card)
-            }
-        }
+struct GameView_Previews: PreviewProvider {
+    static var previews: some View {
+        GameView()
+            .environmentObject(GameState.testInit())
     }
 }

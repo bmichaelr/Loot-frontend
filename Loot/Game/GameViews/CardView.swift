@@ -12,7 +12,6 @@ struct CardView: View {
     @Namespace var animation
     let namespace: Namespace.ID
     let size: CardSize
-
     var body: some View {
         let width: CGFloat = size == .small ? 60 : 80
         let height: CGFloat = size == .small ? 90 : 110
@@ -21,7 +20,10 @@ struct CardView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(color)
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(lineWidth: strokeSize))
+                .overlay(RoundedRectangle(cornerRadius: 20)
+                    .stroke(lineWidth: strokeSize)
+                    .foregroundStyle(Color.lootBrown)
+                )
             buildCard()
         }
         .frame(width: width, height: height)

@@ -20,7 +20,6 @@ struct DeckView: View {
 }
 
 struct DeckView_Previews: PreviewProvider {
-    // Create a wrapper view that will let us hold a @Namespace to pass to the view
     struct Wrapper: View {
         @Namespace var namespace
         var deck: Hand {

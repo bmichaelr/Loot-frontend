@@ -18,6 +18,7 @@ class GameState: ObservableObject {
     @Published var myTurn: Bool = false
     @Published var cardToShow: Card = Card(number: 5)
     @Published var message: String = ""
+    @Published var gameLog: GameLog = GameLog()
     @Published var showCompareCards = false
     @Published var cardNamesToCompare = [CardNameStruct]()
     @Published var showPeekCard = false
@@ -146,6 +147,7 @@ class GameState: ObservableObject {
     }
     // -- MARK: Handling functions for server
     func handleStartRoundResponse(_ message: Data) {
+        gameLog.newRound()
         self.message = "Starting the game!"
         print("got handle start round request")
         guard let response = try? JSONDecoder().decode(StartRoundResponse.self, from: message) else {
@@ -177,6 +179,8 @@ class GameState: ObservableObject {
             return
         }
         self.message = "It is now \(response.player.name)'s turn!"
+        let log = "It is now \(response.player.name)'s turn!"
+        gameLog.addMessage(text: log, type: .turnUpdate)
         if response.player.id == me.clientId {
             myTurn = true
         }
@@ -193,6 +197,12 @@ class GameState: ObservableObject {
     }
     func handleRoundStatusResponse(_ message: Data) {
         print("Recieved a handle round status response!")
+        guard let response = try? JSONDecoder().decode(RoundStatusResponse.self, from: message) else {
+            print("Unable to decode the round status response!")
+            return
+        }
+        gameLog.addMessage(text: "The round is over.", type: .roundOver)
+        gameLog.roundOver(name: "\(response.winner.name)")
         // TODO: show message of who one, and give them a token
         cleanUpCards()
         syncPlayers()
@@ -229,12 +239,14 @@ class GameState: ObservableObject {
             let outcome = dreadGazeboResult.outcome
             handleDreadGazeboResult(playing: playerWhoPlayed, result: outcome)
         case .base:
-            print("Have a base card.")
+            let log = "\(playerWhoPlayed.name) played \(card.name)"
+            gameLog.addMessage(text: log, type: .cardPlayed)
             syncPlayers()
         }
         playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
     }
     private func handlePottedResult(playing: GamePlayer, result: PottedPlantResult) {
+        var msgBuilder = "\(playing.name) guessed \(result.guessedCard.name) on \(result.playedOn.name), they guessed "
         if result.correctGuess {
             guard let guessedOn = getPlayer(from: result.playedOn.id) else {
                 print("Unable to find guessed on player!")
@@ -244,9 +256,13 @@ class GameState: ObservableObject {
                 print("Unable to find guessed card!")
                 return
             }
+            msgBuilder.append("right! \(result.playedOn.name) is out.")
             discard(card: guessedCard, player: guessedOn)
             guessedOn.updatePlayer(with: result.playedOn)
+        } else {
+            msgBuilder.append("wrong")
         }
+        gameLog.addMessage(text: msgBuilder, type: .cardPlayed)
         syncPlayers()
     }
     private func handleMaulRatResult(playing: GamePlayer, result: MaulRatResult) {
@@ -254,6 +270,8 @@ class GameState: ObservableObject {
             print("unable to find opponent in mual rat")
             return
         }
+        let log = "\(playing.name) played Maul Rat on \(opponent.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         if me.clientId == playing.clientId {
             cardToPeek = Card(from: result.opponentsCard)
             showPeekCard = true
@@ -274,13 +292,20 @@ class GameState: ObservableObject {
             print("Unable to find opponents card in duck result")
             return
         }
-        // Compare for both people and sync after dismissal
+        var log = "\(playing.name) played Duck of Doom on \(opponent.name). "
         if let playerToDiscard = result.playerToDiscard {
             if playerToDiscard.id == playing.clientId {
+                log.append("\(playing.name) is out.")
+                gameLog.addMessage(text: log, type: .cardPlayed)
                 discard(card: playersCard, player: playing)
             } else {
+                log.append("\(opponent.name) is out.")
+                gameLog.addMessage(text: log, type: .cardPlayed)
                 discard(card: opponentsCard, player: opponent)
             }
+        } else {
+            log.append("It's a tie, no one is out.")
+            gameLog.addMessage(text: log, type: .cardPlayed)
         }
         opponent.updatePlayer(with: result.playedOn)
         if me.clientId == playing.clientId || me.clientId == opponent.clientId {
@@ -300,6 +325,8 @@ class GameState: ObservableObject {
             print("Unable to find the discarded card from player in net troll resul!")
             return
         }
+        let log = "\(playing.name) played Net Troll on \(playedOn.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         discard(card: discardedCard, player: playedOn)
         if let drawnCard = result.drawnCard {
             dealCard(to: playedOn, card: Card(from: drawnCard))
@@ -319,6 +346,8 @@ class GameState: ObservableObject {
             print("Unable to find players card that they have from gazebo result")
             return
         }
+        let log = "\(playing.name) played Dread Gazebo on \(playedOn.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         moveCard(card: opponentCard, from: playedOn, to: playing) {
             self.moveCard(card: otherCard, from: playing, to: playedOn)
         }
@@ -331,7 +360,6 @@ extension String {
         return !self.isEmpty
     }
 }
-
 // -- MARK: Ping calls
 extension GameState {
     func syncPlayers() {
@@ -354,7 +382,6 @@ extension GameState {
         stompClient.unregisterListener("/topic/game/turnStatus/\(roomKey)")
     }
 }
-
 // -- MARK: Animation Functions
 extension GameState {
     func discard(card: Card, player: GamePlayer) {

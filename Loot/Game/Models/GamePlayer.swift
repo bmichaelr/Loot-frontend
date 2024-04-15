@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class GamePlayer: ObservableObject, Identifiable {
     let id = UUID()
@@ -31,8 +32,10 @@ class GamePlayer: ObservableObject, Identifiable {
         }
     }
     func updatePlayer(with player: Player) {
-        self.isOut = player.isOut
-        self.isSafe = player.isSafe
+        withAnimation {
+            self.isOut = player.isOut
+            self.isSafe = player.isSafe
+        }
     }
     func resetBooleans() {
         self.isOut = false
