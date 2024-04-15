@@ -7,7 +7,7 @@
 
 import Foundation
 
-let mainPlayer: Player = Player(name: "O_o", id: UUID())
+var mainPlayer: Player = Player(name: "Bartholemew 1st", id: UUID())
 let testPlayers: [Player] = [
     Player(name: "Josh", id: UUID()),
     Player(name: "Ian", id: UUID()),

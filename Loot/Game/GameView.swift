@@ -87,6 +87,18 @@ struct GameView: View {
                     .foregroundStyle(.white)
                     .padding([.leading, .top])
             }
+            .overlay(alignment: .bottomLeading) {
+                Image(systemName: "square.fill")
+                    .padding([.bottom, .leading], 3)
+                    .foregroundStyle(.yellow)
+                    .font(.title)
+                    .overlay(alignment: .center) {
+                        Text(String(player.numberOfWins))
+                            .font(.custom("CaslonAntique", size: 20))
+                            .foregroundStyle(.black.opacity(0.8))
+                            .padding([.bottom, .leading], 3)
+                    }
+            }
             HandView(
                 hand: player.getHand(type: .holding),
                 player: player,
@@ -95,6 +107,7 @@ struct GameView: View {
                 onCardTap: { gameState.playCard(card: $0) },
                 cardSize: .large
             )
+            .shadow(color: .yellow, radius: gameState.myTurn ? 10 : 0)
         }
         .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
         .padding(.leading, 10)

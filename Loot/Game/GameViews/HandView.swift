@@ -58,6 +58,7 @@ struct HandView: View {
                         }
                 }
             }
+            .shadow(color: .yellow, radius: player.currentTurn ? 10 : 0)
             .frame(width: 120, height: 110)
             .fixedSize(horizontal: true, vertical: true)
             .padding(5)
@@ -67,11 +68,24 @@ struct HandView: View {
                     .stroke()
                     .foregroundStyle(.white)
             )
-            .overlay(alignment: .top) {
-                Text(player.name)
+            .overlay(alignment: .topLeading) {
+                Text(formatPlayerName(name: player.name))
                     .font(.custom("CaslonAntique", size: 22))
                     .foregroundStyle(.white)
-                    .padding(.top, 8)
+                    .padding(.leading, 8)
+                    .padding(.top, 4)
+            }
+            .overlay(alignment: .topTrailing) {
+                Image(systemName: "square.fill")
+                    .padding([.top, .trailing], 3)
+                    .foregroundStyle(.yellow)
+                    .font(.title)
+                    .overlay(alignment: .center) {
+                        Text(String(player.numberOfWins))
+                            .font(.custom("CaslonAntique", size: 20))
+                            .foregroundStyle(.black.opacity(0.8))
+                            .padding([.top, .trailing], 3)
+                    }
             }
             .overlay {
                 getPlayerStatus()
@@ -127,6 +141,12 @@ struct HandView: View {
                 }
             }
         }
+    }
+    private func formatPlayerName(name: String) -> String {
+        if name.count < 9 {
+            return name
+        }
+        return name.prefix(9) + ".."
     }
 }
 

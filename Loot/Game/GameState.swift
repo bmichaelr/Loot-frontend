@@ -192,6 +192,7 @@ class GameState: ObservableObject {
         if player.clientId == me.clientId {
             card.faceDown = false
         }
+        player.changeTurnStatus()
         player.updatePlayer(with: response.player)
         dealCard(to: player, card: card)
     }
@@ -204,6 +205,8 @@ class GameState: ObservableObject {
         gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
         // TODO: show message of who one, and give them a token
+        guard let winner = getPlayer(from: response.winner.id) else {return}
+        winner.numberOfWins += 1
         cleanUpCards()
         syncPlayers()
     }
@@ -244,6 +247,7 @@ class GameState: ObservableObject {
             syncPlayers()
         }
         playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
+        playerWhoPlayed.changeTurnStatus()
     }
     private func handlePottedResult(playing: GamePlayer, result: PottedPlantResult) {
         var msgBuilder = "\(playing.name) guessed \(result.guessedCard.name) on \(result.playedOn.name), they guessed "
