@@ -62,6 +62,7 @@
 		3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */; };
 		3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7388C2BC5B3500036664A /* NavigationBar.swift */; };
 		42C89F4E2BC63BC6003C8B40 /* ViewSingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */; };
+		42E611F32BCEEDBE00B36C62 /* WinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E611F22BCEEDBE00B36C62 /* WinnerView.swift */; };
 		6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */; };
 		6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */; };
 		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
@@ -135,6 +136,7 @@
 		3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
 		3CF7388C2BC5B3500036664A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSingleCardView.swift; sourceTree = "<group>"; };
+		42E611F22BCEEDBE00B36C62 /* WinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerView.swift; sourceTree = "<group>"; };
 		6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedViewController.swift; sourceTree = "<group>"; };
 		6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToDisplay.swift; sourceTree = "<group>"; };
 		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				32B9CBB62BC5A99C0031B563 /* Models */,
 				336C98B32BBF098B005053DA /* GameViews */,
 				336C98B62BBF098B005053DA /* GameState.swift */,
+				42E611F22BCEEDBE00B36C62 /* WinnerView.swift */,
 				6F566D012B9F676C00EC7C3D /* GameView.swift */,
 			);
 			path = Game;
@@ -536,6 +539,7 @@
 				0FD38A9E2BA26F92003982B7 /* LobbyResponse.swift in Sources */,
 				0F91CFEF2BCC3EF80057402E /* MessageRow.swift in Sources */,
 				32B9CBC42BC5AB700031B563 /* PlayCardView.swift in Sources */,
+				42E611F32BCEEDBE00B36C62 /* WinnerView.swift in Sources */,
 				0F46F77B2BC64CF200062511 /* AlertToShow.swift in Sources */,
 				0F46F77D2BC64DB700062511 /* ErrorResponse.swift in Sources */,
 				42C89F4E2BC63BC6003C8B40 /* ViewSingleCardView.swift in Sources */,
@@ -697,7 +701,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = 886646DU8M;
+				DEVELOPMENT_TEAM = VYLWLYD5Z4;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -713,7 +717,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.LootCI8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.LootCI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -729,7 +733,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = 886646DU8M;
+				DEVELOPMENT_TEAM = VYLWLYD5Z4;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -745,7 +749,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.LootCI8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.csuci.comp350.LootCI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
