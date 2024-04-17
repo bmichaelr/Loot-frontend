@@ -46,20 +46,28 @@ struct WinnerView: View {
                 RoundedRectangle(cornerRadius: 25)
                     .foregroundStyle(Color.lootBeige)
                 VStack(alignment: .center) {
+                    ZStack {
+                        Circle()
+                        .foregroundStyle(.blue)
+                        .frame(width: 150)
+                        .overlay(
+                            Image("loot_3")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                        )
+                        
+                    }
+                    Spacer()
                     Text("Ben Won the game!")
                         .font(.custom("Quasimodo", size: 18))
-                    Image("loot_3")
-                        .frame(width: 20)
-                    Spacer()
-                    Text(card.description)
-                        .font(.custom("Quasimodo", size: 16))
-                        .multilineTextAlignment(.leading)
+                        .padding()
                 }
                 .padding(.top, 30)
             }
         }
         .foregroundStyle(Color.black)
-        .frame(width: 250, height: 400)
+        .frame(width: 250, height: 250)
         .overlay(RoundedRectangle(cornerRadius: 25)
             .stroke(lineWidth: 7)
             .foregroundStyle(.yellow)
