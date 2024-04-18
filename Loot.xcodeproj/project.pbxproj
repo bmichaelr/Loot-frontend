@@ -42,6 +42,7 @@
 		0FEB84D42BBD0C2B000C4894 /* NextTurnResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D32BBD0C2B000C4894 /* NextTurnResponse.swift */; };
 		0FEB84D62BBD0C4D000C4894 /* RoundStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D52BBD0C4D000C4894 /* RoundStatusResponse.swift */; };
 		0FEB84D82BBD0C97000C4894 /* PlayedCardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */; };
+		32255E8F2BD19DA6007AFC29 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32255E8E2BD19DA6007AFC29 /* APIRequest.swift */; };
 		3268B6772BBDDDEA00F6218A /* CustomViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6762BBDDDEA00F6218A /* CustomViews.swift */; };
 		3268B6792BBDE2D100F6218A /* CreateGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B6782BBDE2D100F6218A /* CreateGameView.swift */; };
 		3268B67B2BBDFDCB00F6218A /* LobbyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */; };
@@ -116,6 +117,7 @@
 		0FEB84D32BBD0C2B000C4894 /* NextTurnResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTurnResponse.swift; sourceTree = "<group>"; };
 		0FEB84D52BBD0C4D000C4894 /* RoundStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundStatusResponse.swift; sourceTree = "<group>"; };
 		0FEB84D72BBD0C97000C4894 /* PlayedCardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayedCardResponse.swift; sourceTree = "<group>"; };
+		32255E8E2BD19DA6007AFC29 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		3268B6762BBDDDEA00F6218A /* CustomViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViews.swift; sourceTree = "<group>"; };
 		3268B6782BBDE2D100F6218A /* CreateGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGameView.swift; sourceTree = "<group>"; };
 		3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyPlayerView.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				0FD38AA52BA28351003982B7 /* Responses */,
 				0FD38AA42BA2834A003982B7 /* Requests */,
 				0FD38A8D2BA261D3003982B7 /* StompClient.swift */,
+				32255E8E2BD19DA6007AFC29 /* APIRequest.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				0F91CFFA2BCC3FC10057402E /* GameLogViewExtension.swift in Sources */,
 				6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */,
 				0F23D1952BB3C4B200D75431 /* MatchmakingView.swift in Sources */,
+				32255E8F2BD19DA6007AFC29 /* APIRequest.swift in Sources */,
 				0FD38AA02BA274BC003982B7 /* Player.swift in Sources */,
 				0F91CFE92BCC3DF20057402E /* SideMenuTab.swift in Sources */,
 				0F0F37D62B8BCDE60018B090 /* LootApp.swift in Sources */,
