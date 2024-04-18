@@ -13,7 +13,6 @@ enum Endpoint: String, CaseIterable {
     case updatePlayer = "/api/player/update"
     case getPlayer = "/api/player/get"
     case deletePlayer = "/api/player/delete"
-   
     func getStringLiteral() -> String {
         switch self {
         case .createPlayer: "/api/player/create"
@@ -164,4 +163,111 @@ public class APIRequest<Response: Decodable> {
             }
         }.resume()
     }
+}
+
+struct PlayerAccount: Codable {
+    let uuid: UUID
+    let uniqueName: String
+    var name: String
+    var profilePicture: Int
+    var profileColor: String
+}
+
+let examplePlayer = PlayerAccount(uuid: UUID(),
+                                  uniqueName: "ben.michael#1234",
+                                  name: "Ben",
+                                  profilePicture: 8,
+                                  profileColor: "#FFFFFF")
+
+class ConnectViewModel: ObservableObject {
+    @Published var callInProgress: Bool = false
+    @Published var playerAccountInText = ""
+    func createPlayerAccount(account: PlayerAccount) {
+        APIRequest<DummyResponse>(endpoint: .createPlayer)
+            .expectResponseCode(code: 201)
+            .withJsonBody(body: account)
+            .withHandler(callback: handleResponselessCallback)
+            .call()
+    }
+    func updatePlayerAccount(id: UUID, newName name: String) {
+        APIRequest<DummyResponse>(endpoint: .updatePlayer)
+            .withHeaderParams(parameters: ["id": id.uuidString, "name": name])
+            .withHandler(callback: handleResponselessCallback)
+            .call()
+    }
+    func deletePlayerAccount(id: UUID) {
+        APIRequest<DummyResponse>(endpoint: .deletePlayer)
+            .withHeaderParams(parameters: ["id": id.uuidString])
+            .withHandler(callback: handleResponselessCallback)
+            .call()
+    }
+    func getPlayerAccountInformation(id: UUID) {
+        APIRequest<PlayerAccount>(endpoint: .getPlayer)
+            .expectingResponse()
+            .withHeaderParams(parameters: ["id" : id.uuidString])
+            .withHandler(callback: handleResponseWithBody)
+            .call()
+    }
+    func handleResponselessCallback(status: Bool, data: DummyResponse?, error: ApiThrownError?) {
+        if status {
+            print("Call was successful!")
+            return
+        }
+        if let error = error {
+            print("Call failed, error: \(error.reason)")
+        }
+    }
+    func handleResponseWithBody(status: Bool, data: PlayerAccount?, error: ApiThrownError?) {
+        if status {
+            if let data = data {
+                print("Call was successful, data: \(data)")
+                playerAccountInText = getStringRepresentation(of: data)
+            }
+            return
+        }
+        if let error = error {
+            print("Call failed, error: \(error.reason)")
+        }
+    }
+    private func getStringRepresentation(of player: PlayerAccount) -> String {
+        return """
+                {
+                    id: \(player.uuid.uuidString),
+                    name: \(player.name),
+                    uniqueName: \(player.uniqueName),
+                    profilePicture: \(player.profilePicture),
+                    profileColor: \(player.profileColor)
+                }
+                """
+    }
+}
+
+struct ApiRequestView: View {
+    @StateObject var viewModel = ConnectViewModel()
+    @State var updatedName: String = ""
+    var body: some View {
+        VStack {
+            Button("Make create call") {
+                viewModel.createPlayerAccount(account: examplePlayer)
+            }
+            TextField("Enter in a new name...", text: $updatedName)
+            Button("Make an update call") {
+                viewModel.updatePlayerAccount(id: examplePlayer.uuid, newName: updatedName)
+            }
+            Button("Make a delete call") {
+                viewModel.deletePlayerAccount(id: examplePlayer.uuid)
+            }
+            Button("Make a get call") {
+                viewModel.getPlayerAccountInformation(id: examplePlayer.uuid)
+            }
+            Text("The retrieved player model:")
+            Text(viewModel.playerAccountInText)
+        }
+        .padding()
+        .buttonStyle(DefaultButtonStyle())
+    }
+}
+
+#Preview {
+    ApiRequestView()
 }
