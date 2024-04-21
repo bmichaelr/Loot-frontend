@@ -76,16 +76,23 @@ struct HandView: View {
                     .padding(.top, 4)
             }
             .overlay(alignment: .topTrailing) {
-                Image(systemName: "square.fill")
-                    .padding([.top, .trailing], 3)
-                    .foregroundStyle(.yellow)
-                    .font(.title)
-                    .overlay(alignment: .center) {
-                        Text(String(player.numberOfWins))
-                            .font(.custom("CaslonAntique", size: 20))
-                            .foregroundStyle(.black.opacity(0.8))
-                            .padding([.top, .trailing], 3)
+                ZStack {
+                    if player.hasCoin {
+                        Image("lootCoin")
+                            .matchedGeometryEffect(id: "coin", in: namespace)
+                            .offset(CGSize(width: 0, height: 5))
                     }
+                    Image(systemName: "square.fill")
+                        .padding([.top, .trailing], 3)
+                        .foregroundStyle(.yellow)
+                        .font(.title)
+                        .overlay(alignment: .center) {
+                            Text(String(player.numberOfWins))
+                                .font(.custom("CaslonAntique", size: 20))
+                                .foregroundStyle(.black.opacity(0.8))
+                                .padding([.top, .trailing], 3)
+                    }
+                }
             }
             .overlay {
                 getPlayerStatus()

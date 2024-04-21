@@ -23,7 +23,7 @@ class GameState: ObservableObject {
     @Published var cardNamesToCompare = [CardNameStruct]()
     @Published var showPeekCard = false
     @Published var cardToPeek: Card = Card(number: 5)
-    @Published var currentLoot: [Int] = []
+    @Published var hasCoin: Bool = true
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
@@ -146,6 +146,9 @@ class GameState: ObservableObject {
         }
         return player
     }
+}
+// Handle response extension
+extension GameState {
     // -- MARK: Handling functions for server
     func handleStartRoundResponse(_ message: Data) {
         gameLog.newRound()
@@ -205,14 +208,14 @@ class GameState: ObservableObject {
         }
         gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
-        // TODO: show message of who one, and give them a token
         guard let winner = getPlayer(from: response.winner.id) else {return}
         winner.numberOfWins += 1
         withAnimation {
-            currentLoot.append(1)
-            winner.currentLoot.append(currentLoot.removeFirst())
+            hasCoin.toggle()
+            winner.hasCoin.toggle()
         } completion: {
-            winner.currentLoot.removeAll()
+            winner.hasCoin = false
+            self.hasCoin.toggle()
         }
         cleanUpCards()
         syncPlayers()

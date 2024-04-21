@@ -13,7 +13,7 @@ struct GameView: View {
                 HStack {
                     Text(gameState.message)
                     Spacer()
-                    buildLootPileView(namespace: animation, game: game)
+                    buildLootPileView(namespace: animation, game: gameState)
                     Spacer()
                     VStack {
                         DeckView(deck: gameState.deck, namespace: animation)
@@ -90,16 +90,22 @@ struct GameView: View {
                     .padding([.leading, .top])
             }
             .overlay(alignment: .bottomLeading) {
-                Image(systemName: "square.fill")
-                    .padding([.bottom, .leading], 3)
-                    .foregroundStyle(.yellow)
-                    .font(.title)
-                    .overlay(alignment: .center) {
-                        Text(String(player.numberOfWins))
-                            .font(.custom("CaslonAntique", size: 20))
-                            .foregroundStyle(.black.opacity(0.8))
-                            .padding([.bottom, .leading], 3)
+                ZStack {
+                    if player.hasCoin {
+                        Image("lootCoin")
+                            .matchedGeometryEffect(id: "coin", in: animation)
                     }
+                    Image(systemName: "square.fill")
+                        .padding([.bottom, .leading], 3)
+                        .foregroundStyle(.yellow)
+                        .font(.title)
+                        .overlay(alignment: .center) {
+                            Text(String(player.numberOfWins))
+                                .font(.custom("CaslonAntique", size: 20))
+                                .foregroundStyle(.black.opacity(0.8))
+                                .padding([.bottom, .leading], 3)
+                    }
+                }
             }
             HandView(
                 hand: player.getHand(type: .holding),
@@ -117,7 +123,10 @@ struct GameView: View {
     @ViewBuilder
     private func buildLootPileView(namespace: Namespace.ID, game: GameState) -> some View {
         ZStack {
-            !game.currentLoot.isEmpty ? Image("lootCoin") : Image("")
+            if game.hasCoin {
+                Image("lootCoin")
+                    .matchedGeometryEffect(id: "coin", in: namespace)
+            }
             Image("gameLootPile")
         }
     }
@@ -135,8 +144,30 @@ struct GameView: View {
 }
 
 struct GameView_Previews: PreviewProvider {
+    static var game: GameState = GameState.testInit()
     static var previews: some View {
-        GameView()
-            .environmentObject(GameState.testInit())
+        ZStack {
+            GameView()
+                .environmentObject(game)
+            CustomButton(text: "test coin") {
+                withAnimation {
+                    game.hasCoin.toggle()
+                    game.players.first?.hasCoin.toggle()
+                    game.players.first?.numberOfWins += 1
+                } completion: {
+                    game.players.first?.hasCoin = false
+                    game.hasCoin.toggle()
+                    
+                    withAnimation {
+                        game.hasCoin.toggle()
+                        game.me.hasCoin.toggle()
+                        game.me.numberOfWins += 1
+                    } completion: {
+                        game.me.hasCoin = false
+                        game.hasCoin.toggle()
+                    }
+                }
+            }
+        }
     }
 }
