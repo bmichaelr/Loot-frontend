@@ -11,10 +11,18 @@ struct GameView: View {
                 .ignoresSafeArea(.all)
             VStack {
                 HStack {
-                    Text(gameState.message)
+                    VStack {
+                        HStack{
+                            Text("Round:")
+                            Text(String(gameState.gameLog.roundLogs.count))
+                        }
+                            .font(.custom("CaslonAntique", size: 22))
+                        Text(gameState.message)
+                    }
+                    .padding(.leading)
+                    .foregroundStyle(.white)
                     Spacer()
                     buildLootPileView(namespace: animation, game: gameState)
-                    Spacer()
                     VStack {
                         DeckView(deck: gameState.deck, namespace: animation)
                         Text("Deck")
@@ -107,12 +115,12 @@ struct GameView: View {
                     }
                 }
             }
-            .overlay(alignment: .topTrailing){
+            .overlay(alignment: .topTrailing) {
                 if player.isSafe {
                     Image(systemName: "shield.fill")
                         .foregroundStyle(Color.blue.opacity(0.7))
                         .font(.system(size: 30))
-                        .padding([.top,.trailing], 8)
+                        .padding([.top, .trailing], 8)
                 }
             }
             HandView(
@@ -127,7 +135,7 @@ struct GameView: View {
         }
         .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white)
         )
-        .overlay{
+        .overlay {
             if player.isOut {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10).fill(.red.opacity(0.40))
@@ -168,8 +176,7 @@ struct GameView_Previews: PreviewProvider {
         ZStack {
             GameView()
                 .environmentObject(game)
-            CustomButton(text: "try me"){
-                game.me.isOut.toggle()
+            CustomButton(text: "try me") {
                 print(game.me.isOut)
             }
         }
