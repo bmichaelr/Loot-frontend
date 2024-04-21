@@ -18,6 +18,7 @@ class GamePlayer: ObservableObject, Identifiable {
     @Published var playerId: UUID
     @Published var currentTurn: Bool = false
     @Published var numberOfWins: Int = 0
+    @Published var currentLoot: [Int] = []
     init(from player: Player) {
         self.clientId = player.id
         self.name = player.name

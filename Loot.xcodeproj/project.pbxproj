@@ -63,6 +63,7 @@
 		3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7388C2BC5B3500036664A /* NavigationBar.swift */; };
 		42C89F4E2BC63BC6003C8B40 /* ViewSingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */; };
 		42E611F32BCEEDBE00B36C62 /* WinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E611F22BCEEDBE00B36C62 /* WinnerView.swift */; };
+		42EF9A012BD58841007D5F06 /* CardNameStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EF9A002BD58841007D5F06 /* CardNameStruct.swift */; };
 		6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */; };
 		6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */; };
 		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
@@ -137,6 +138,7 @@
 		3CF7388C2BC5B3500036664A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSingleCardView.swift; sourceTree = "<group>"; };
 		42E611F22BCEEDBE00B36C62 /* WinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerView.swift; sourceTree = "<group>"; };
+		42EF9A002BD58841007D5F06 /* CardNameStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNameStruct.swift; sourceTree = "<group>"; };
 		6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedViewController.swift; sourceTree = "<group>"; };
 		6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToDisplay.swift; sourceTree = "<group>"; };
 		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				32B9CBB72BC5A9E50031B563 /* Card.swift */,
 				32B9CBB92BC5A9EA0031B563 /* Hand.swift */,
 				32B9CBBB2BC5A9F30031B563 /* GamePlayer.swift */,
+				42EF9A002BD58841007D5F06 /* CardNameStruct.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				0F91CFF42BCC3F440057402E /* Message.swift in Sources */,
 				0F91CFED2BCC3EDD0057402E /* RoundLogList.swift in Sources */,
 				6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */,
+				42EF9A012BD58841007D5F06 /* CardNameStruct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

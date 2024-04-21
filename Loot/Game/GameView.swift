@@ -6,12 +6,14 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea(.all)
-            Image("CardTableTexture")
+            Image("CardTableBackground")
                 .resizable()
                 .ignoresSafeArea(.all)
             VStack {
                 HStack {
                     Text(gameState.message)
+                    Spacer()
+                    buildLootPileView(namespace: animation, game: game)
                     Spacer()
                     VStack {
                         DeckView(deck: gameState.deck, namespace: animation)
@@ -111,6 +113,13 @@ struct GameView: View {
         }
         .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
         .padding(.leading, 10)
+    }
+    @ViewBuilder
+    private func buildLootPileView(namespace: Namespace.ID, game: GameState) -> some View {
+        ZStack {
+            !game.currentLoot.isEmpty ? Image("lootCoin") : Image("")
+            Image("gameLootPile")
+        }
     }
     // MARK: Private functions
     private func changeStatus() {

@@ -24,7 +24,7 @@ struct WinnerView: View {
                 .onTapGesture {
                     close()
                 }
-                CustomButton(text: "Dismiss") {
+                CustomButton(text: "Home") {
                     onTap()
                     close()
                 }
@@ -56,7 +56,6 @@ struct WinnerView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .clipShape(Circle())
                         )
-                        
                     }
                     Spacer()
                     Text("Ben Won the game!")

@@ -23,6 +23,7 @@ class GameState: ObservableObject {
     @Published var cardNamesToCompare = [CardNameStruct]()
     @Published var showPeekCard = false
     @Published var cardToPeek: Card = Card(number: 5)
+    @Published var currentLoot: [Int] = []
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
@@ -207,6 +208,12 @@ class GameState: ObservableObject {
         // TODO: show message of who one, and give them a token
         guard let winner = getPlayer(from: response.winner.id) else {return}
         winner.numberOfWins += 1
+        withAnimation {
+            currentLoot.append(1)
+            winner.currentLoot.append(currentLoot.removeFirst())
+        } completion: {
+            winner.currentLoot.removeAll()
+        }
         cleanUpCards()
         syncPlayers()
     }
@@ -470,10 +477,4 @@ extension GameState {
         }
         deck.cards.append(Card(number: 0))
     }
-}
-
-struct CardNameStruct: Identifiable {
-    var id = UUID()
-    let card: Card
-    let name: String
 }
