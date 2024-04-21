@@ -107,6 +107,14 @@ struct GameView: View {
                     }
                 }
             }
+            .overlay(alignment: .topTrailing){
+                if player.isSafe {
+                    Image(systemName: "shield.fill")
+                        .foregroundStyle(Color.blue.opacity(0.7))
+                        .font(.system(size: 30))
+                        .padding([.top,.trailing], 8)
+                }
+            }
             HandView(
                 hand: player.getHand(type: .holding),
                 player: player,
@@ -117,7 +125,18 @@ struct GameView: View {
             )
             .shadow(color: .yellow, radius: gameState.myTurn ? 10 : 0)
         }
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke().foregroundStyle(.white)
+        )
+        .overlay{
+            if player.isOut {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10).fill(.red.opacity(0.40))
+                    Image(systemName: "xmark")
+                        .font(.system(size: 75))
+                        .foregroundStyle(.red)
+                }
+            }
+        }
         .padding(.leading, 10)
     }
     @ViewBuilder
@@ -149,24 +168,9 @@ struct GameView_Previews: PreviewProvider {
         ZStack {
             GameView()
                 .environmentObject(game)
-            CustomButton(text: "test coin") {
-                withAnimation {
-                    game.hasCoin.toggle()
-                    game.players.first?.hasCoin.toggle()
-                    game.players.first?.numberOfWins += 1
-                } completion: {
-                    game.players.first?.hasCoin = false
-                    game.hasCoin.toggle()
-                    
-                    withAnimation {
-                        game.hasCoin.toggle()
-                        game.me.hasCoin.toggle()
-                        game.me.numberOfWins += 1
-                    } completion: {
-                        game.me.hasCoin = false
-                        game.hasCoin.toggle()
-                    }
-                }
+            CustomButton(text: "try me"){
+                game.me.isOut.toggle()
+                print(game.me.isOut)
             }
         }
     }
