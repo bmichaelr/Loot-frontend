@@ -10,6 +10,8 @@ import SwiftUI
 struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @State private var createButtonPressed = false
+    @State private var tutorialButtonPressed = false
+
     @State private var refreshOpacity: CGFloat = 1.0
     var body: some View {
         let mainBoxWidth = 350
@@ -81,6 +83,21 @@ struct MatchmakingView: View {
                             Image("dragon")
                                 .resizable()
                                 .scaledToFit()
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                                                Button(action: {
+                                                    tutorialButtonPressed.toggle()
+                                                }) {
+                                                    Image(systemName: "questionmark.circle.fill")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .foregroundStyle(Color.lootBeige)
+                                                }
+                        }
+                    }.sheet(isPresented: $tutorialButtonPressed) {
+                        NavigationView {
+                            TutorialView()
+                                .presentationDetents([.medium])
                         }
                     }
                 }
