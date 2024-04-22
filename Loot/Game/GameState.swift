@@ -17,7 +17,6 @@ class GameState: ObservableObject {
     @Published var playCard: Bool = false
     @Published var myTurn: Bool = false
     @Published var cardToShow: Card = Card(number: 5)
-    @Published var message: String = ""
     @Published var gameLog: GameLog = GameLog()
     @Published var showCompareCards = false
     @Published var cardNamesToCompare = [CardNameStruct]()
@@ -26,6 +25,8 @@ class GameState: ObservableObject {
     @Published var hasCoin: Bool = true
     @Published var winningCard: Card = Card(number: 5)
     @Published var showWinningView: Bool = false
+    @Published var outCardHand = Hand()
+    var displayViewController = DisplayedViewController.sharedViewDisplayController
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
@@ -154,7 +155,6 @@ extension GameState {
     // -- MARK: Handling functions for server
     func handleStartRoundResponse(_ message: Data) {
         gameLog.newRound()
-        self.message = "Starting the game!"
         print("got handle start round request")
         guard let response = try? JSONDecoder().decode(StartRoundResponse.self, from: message) else {
             print("Error getting the start round response")
@@ -184,7 +184,6 @@ extension GameState {
             print("Unable to decode the next turn response!")
             return
         }
-        self.message = "It is now \(response.player.name)'s turn!"
         let log = "It is now \(response.player.name)'s turn!"
         gameLog.addMessage(text: log, type: .turnUpdate)
         if response.player.id == me.clientId {
@@ -211,7 +210,12 @@ extension GameState {
         gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
         guard let winner = getPlayer(from: response.winner.id) else {return}
+        let gameOver = response.gameOver
+        if gameOver {
+            showWinningView = true
+        }
         winner.numberOfWins += 1
+        winner.counter += 1
         withAnimation {
             hasCoin.toggle()
             winner.hasCoin.toggle()
@@ -227,7 +231,6 @@ extension GameState {
             print("FATAL ERROR : Could not decode the PlayedCardResponse!")
             return
         }
-        self.message = "\(response.playerWhoPlayed.name) just played \(response.cardPlayed.name)"
         guard let playerWhoPlayed = getPlayer(from: response.playerWhoPlayed.id) else {
             print("Unable to find the player that played! (start round response)")
             return

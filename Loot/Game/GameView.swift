@@ -3,7 +3,6 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var gameState: GameState
     @Namespace private var animation
-    var goHome: () -> Void
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea(.all)
@@ -13,22 +12,24 @@ struct GameView: View {
             VStack {
                 HStack {
                     VStack {
-                        HStack{
-                            Text("Round:")
-                            Text(String(gameState.gameLog.roundLogs.count))
-                        }
+                        DeckView(deck: gameState.outCardHand, namespace: animation)
+                        Text("Excluded")
                             .font(.custom("CaslonAntique", size: 22))
-                        Text(gameState.message)
+                            .foregroundStyle(.white)
                     }
+                    Text(String("Round: \(gameState.gameLog.roundLogs.count)"))
+                        .font(.custom("CaslonAntique", size: 22))
                     .padding(.leading)
                     .foregroundStyle(.white)
                     Spacer()
                     buildLootPileView(namespace: animation, game: gameState)
-                    VStack {
-                        DeckView(deck: gameState.deck, namespace: animation)
-                        Text("Deck")
-                            .font(.custom("CaslonAntique", size: 22))
-                            .foregroundStyle(.white)
+                    HStack {
+                        VStack {
+                            DeckView(deck: gameState.deck, namespace: animation)
+                            Text("Deck")
+                                .font(.custom("CaslonAntique", size: 22))
+                                .foregroundStyle(.white)
+                        }
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -37,6 +38,7 @@ struct GameView: View {
                 }
                 Spacer()
                 buildMyPlayingView(from: gameState.me)
+                    .confettiCannon(counter: $gameState.me.counter, num: 15)
                     .offset(y: 20)
             }
         }
@@ -46,7 +48,7 @@ struct GameView: View {
         })
         .winnerView(isPresented: $gameState.showWinningView, card: gameState.winningCard, onTap: {
             gameState.unsubscribeFromGameChannels()
-            goHome()
+            gameState.displayViewController.changeView(view: .homeMenuView)
         })
         .viewSingleCard(isPresented: $gameState.showPeekCard, card: gameState.cardToPeek, onTap: {
             gameState.syncPlayers()
@@ -108,7 +110,7 @@ struct GameView: View {
                         Image("lootCoin")
                             .matchedGeometryEffect(id: "coin", in: animation)
                     }
-                    Image(systemName: "square.fill")
+                    Image(systemName: "circle.fill")
                         .padding([.bottom, .leading], 3)
                         .foregroundStyle(.yellow)
                         .font(.title)
@@ -117,7 +119,7 @@ struct GameView: View {
                                 .font(.custom("CaslonAntique", size: 20))
                                 .foregroundStyle(.black.opacity(0.8))
                                 .padding([.bottom, .leading], 3)
-                    }
+                        }
                 }
             }
             .overlay(alignment: .topTrailing) {
@@ -179,12 +181,19 @@ struct GameView_Previews: PreviewProvider {
     static var game: GameState = GameState.testInit()
     static var previews: some View {
         ZStack {
-            GameView(goHome: {
-                print("returning home")
-            })
-                .environmentObject(game)
+            GameView()
+            .environmentObject(game)
             CustomButton(text: "try me") {
-                print(game.me.isOut)
+                let card = Card(number: 4)
+                game.deck.cards.append(card)
+                withAnimation {
+                    guard let index = game.deck.cards.firstIndex(of: card) else {
+                        print("Could not find card in deck!")
+                        return
+                    }
+                    let dealtCard = game.deck.cards.remove(at: index)
+                    game.outCardHand.cards.append(dealtCard)
+                }
             }
         }
     }

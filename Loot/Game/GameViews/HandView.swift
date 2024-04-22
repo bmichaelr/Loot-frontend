@@ -82,7 +82,9 @@ struct HandView: View {
                             .matchedGeometryEffect(id: "coin", in: namespace)
                             .offset(CGSize(width: 0, height: 5))
                     }
-                    Image(systemName: "square.fill")
+                    Image("lootCoinBackground_large")
+                        .resizable()
+                        .frame(width: 35, height: 35)
                         .padding([.top, .trailing], 3)
                         .foregroundStyle(.yellow)
                         .font(.title)
@@ -90,8 +92,8 @@ struct HandView: View {
                             Text(String(player.numberOfWins))
                                 .font(.custom("CaslonAntique", size: 20))
                                 .foregroundStyle(.black.opacity(0.8))
-                                .padding([.top, .trailing], 3)
-                    }
+                                .padding([.trailing], 3)
+                        }.confettiCannon(counter: $player.counter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
                 }
             }
             .overlay {

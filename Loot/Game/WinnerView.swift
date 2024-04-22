@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import ConfettiSwiftUI
 
 struct WinnerView: View {
     @Binding var isShowing: Bool
     @State private var offset: CGFloat = 1000
     @State private var opacity: CGFloat = 0.0
+    @State private var confetti: Int = 0
     @Namespace private var namespace
     var card: Card
     var onTap: () -> Void
@@ -58,6 +60,7 @@ struct WinnerView: View {
                         .foregroundStyle(Color.lootBeige)
                         .font(.custom("Quasimodo", size: 36))
                     buildCustomCardView(card: card)
+                        .confettiCannon(counter: $confetti, num: 50)
                 }
             }
         }
@@ -66,6 +69,8 @@ struct WinnerView: View {
         .onAppear {
             withAnimation(.spring()) {
                 offset = 100
+            } completion: {
+                self.confetti += 1
             }
         }
         .offset(y: offset)
