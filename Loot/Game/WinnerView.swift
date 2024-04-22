@@ -11,6 +11,7 @@ struct WinnerView: View {
     @Binding var isShowing: Bool
     @State private var offset: CGFloat = 1000
     @State private var opacity: CGFloat = 0.0
+    @Namespace private var namespace
     var card: Card
     var onTap: () -> Void
     var body: some View {
@@ -41,43 +42,52 @@ struct WinnerView: View {
     }
     @ViewBuilder
     private func buildCompareCardView(card: Card) -> some View {
-        VStack(alignment: .center) {
+        VStack {
             ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .foregroundStyle(Color.lootBeige)
-                VStack(alignment: .center) {
-                    ZStack {
-                        Circle()
-                        .foregroundStyle(.blue)
-                        .frame(width: 150)
-                        .overlay(
-                            Image("loot_3")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(Circle())
-                        )
-                    }
-                    Spacer()
-                    Text("Ben Won the game!")
-                        .font(.custom("Quasimodo", size: 18))
-                        .padding()
+                Image("CardTableBackground")
+                    .resizable()
+                    .frame(height: 400)
+                    .clipShape(RoundedRectangle(cornerRadius: 45))
+                    .overlay(RoundedRectangle(cornerRadius: 45)
+                        .stroke(lineWidth: 7)
+                        .foregroundStyle(.orange)
+                    )
+                Image("crown").offset(CGSize(width: 0.0, height: -300))
+                VStack {
+                    Text("Ben Won")
+                        .foregroundStyle(Color.lootBeige)
+                        .font(.custom("Quasimodo", size: 36))
+                    buildCustomCardView(card: card)
                 }
-                .padding(.top, 30)
             }
         }
         .foregroundStyle(Color.black)
-        .frame(width: 250, height: 250)
-        .overlay(RoundedRectangle(cornerRadius: 25)
-            .stroke(lineWidth: 7)
-            .foregroundStyle(.yellow)
-            .shadow(color: .yellow, radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-        )
+        .frame(width: 300)
         .onAppear {
             withAnimation(.spring()) {
-                offset = 0
+                offset = 100
             }
         }
         .offset(y: offset)
+    }
+    @ViewBuilder
+    private func buildCustomCardView(card: Card) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 25.0)
+                .foregroundStyle(Color.lootBeige)
+            VStack(alignment: .leading) {
+                Text(String(card.number))
+                    .font(.custom("Quasimodo", size: 24))
+                    .padding(.leading, 12)
+                    .padding(.top, 16)
+                Image("loot_\(card.number)")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+        .frame(width: 175, height: 230)
+        .overlay(RoundedRectangle(cornerRadius: 25.0)
+            .stroke(lineWidth: 8))
     }
     private func close() {
         withAnimation {

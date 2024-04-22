@@ -3,6 +3,7 @@ import SwiftUI
 struct GameView: View {
     @EnvironmentObject var gameState: GameState
     @Namespace private var animation
+    var goHome: () -> Void
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea(.all)
@@ -42,6 +43,10 @@ struct GameView: View {
         .compareCards(isPresented: $gameState.showCompareCards, cardNames: gameState.cardNamesToCompare, onTap: {
             gameState.syncPlayers()
             gameState.cardNamesToCompare.removeAll()
+        })
+        .winnerView(isPresented: $gameState.showWinningView, card: gameState.winningCard, onTap: {
+            gameState.unsubscribeFromGameChannels()
+            goHome()
         })
         .viewSingleCard(isPresented: $gameState.showPeekCard, card: gameState.cardToPeek, onTap: {
             gameState.syncPlayers()
@@ -174,7 +179,9 @@ struct GameView_Previews: PreviewProvider {
     static var game: GameState = GameState.testInit()
     static var previews: some View {
         ZStack {
-            GameView()
+            GameView(goHome: {
+                print("returning home")
+            })
                 .environmentObject(game)
             CustomButton(text: "try me") {
                 print(game.me.isOut)

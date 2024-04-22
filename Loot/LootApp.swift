@@ -22,7 +22,9 @@ struct LootApp: App {
                     case .homeMenuView:
                         MatchmakingView()
                     case .gameView:
-                        GameView()
+                        GameView(goHome: {
+                            displayViewController.changeView(view: .homeMenuView)
+                        })
                             .environmentObject(
                                 GameState(players: model.lobbyData.players,
                                           myId: model.clientUUID, roomKey:

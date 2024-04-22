@@ -24,6 +24,8 @@ class GameState: ObservableObject {
     @Published var showPeekCard = false
     @Published var cardToPeek: Card = Card(number: 5)
     @Published var hasCoin: Bool = true
+    @Published var winningCard: Card = Card(number: 5)
+    @Published var showWinningView: Bool = false
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
