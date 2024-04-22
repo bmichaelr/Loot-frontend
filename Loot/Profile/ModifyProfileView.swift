@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct PlayerProfileView: View {
+struct ModifyProfileView: View {
     @State var name: String = ""
     private var imageName: String = "loot_"
     @State private var imageNumber: Int = 1
     @State private var bgColor = Color.lootBeige
+    @State private var bgColorHex: String = "#000000" // Needs to be from saved profile...
     @State private var profileImagePressed = false
 
     var body: some View {
@@ -36,17 +37,7 @@ struct PlayerProfileView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
 
-                            ZStack {
-                                Circle()
-                                    .fill(Color(bgColor))
-                                    .stroke(.black, lineWidth: 10)
-                                Image(imageName + String(imageNumber))
-                                    .resizable()
-                                    .padding()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-
-                            }
+                            PlayerProfileView(name: name, imageNumber: imageNumber, bgColor: bgColorHex)
                             .padding()
                             .frame(width: 300, height: 300, alignment: .center)
                             .onTapGesture {
@@ -70,6 +61,10 @@ struct PlayerProfileView: View {
                                 Spacer()
 
                                 ColorPicker("", selection: $bgColor, supportsOpacity: false) .labelsHidden()
+                                    .onChange(of: bgColor) { _ in
+                                        // Save Hex value
+                                        bgColorHex = bgColor.toHexString()
+                                    }
 
                                 Spacer()
 
@@ -92,8 +87,18 @@ struct PlayerProfileView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
 
-                            CustomButton(text: "Update Profile") {
+                            CustomButton(text: "Save Profile") {
                                 print("Create/Modify Profile")
+                                // TODO: 
+                                // Save Profile
+//                                let hexStringFromColor: String? = backgroundColor.toHexString(includeAlpha: false)
+
+//                                do {
+//                                    try await store.save(scrums: store.scrums)
+//                                } catch {
+//                                    fatalError(error.localizedDescription)
+//                                }
+
                             }.padding()
 
                         }
@@ -121,5 +126,5 @@ struct PlayerProfileView: View {
 }
 
 #Preview {
-    PlayerProfileView()
+    ModifyProfileView()
 }
