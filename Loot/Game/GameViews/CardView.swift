@@ -61,7 +61,7 @@ struct CardView_Previews: PreviewProvider {
             return card
         }
         var body: some View {
-            CardView(card: card, namespace: animation, size: .small)
+            CardView(card: card, namespace: animation, size: .large)
                 .padding()
                 .background(Color.gray)
         }

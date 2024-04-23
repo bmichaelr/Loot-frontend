@@ -7,7 +7,7 @@
 
 import Foundation
 
-let mainPlayer: Player = Player(name: "O_o", id: UUID())
+var mainPlayer: Player = Player(name: "Bartholemew 1st", id: UUID())
 let testPlayers: [Player] = [
     Player(name: "Josh", id: UUID()),
     Player(name: "Ian", id: UUID()),
@@ -20,6 +20,7 @@ extension GameState {
     static func testInit() -> GameState {
         let stompClient = StompClient()
         let roomKey: String = "ABC123"
-        return GameState(players: testPlayers, myId: testId, roomKey: roomKey, stompClient: stompClient)
+        let state = GameState(players: testPlayers, myId: testId, roomKey: roomKey, stompClient: stompClient)
+        return state
     }
 }
