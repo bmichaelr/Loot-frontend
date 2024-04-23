@@ -61,6 +61,7 @@
 		336C98BE2BBF098B005053DA /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B62BBF098B005053DA /* GameState.swift */; };
 		336C98C12BBF22ED005053DA /* CardRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98C02BBF22ED005053DA /* CardRequests.swift */; };
 		3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */; };
+		3CAD55E42BD5AA03004D3A96 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */; };
 		3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7388C2BC5B3500036664A /* NavigationBar.swift */; };
 		42C89F4E2BC63BC6003C8B40 /* ViewSingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */; };
 		42E611F32BCEEDBE00B36C62 /* WinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E611F22BCEEDBE00B36C62 /* WinnerView.swift */; };
@@ -138,6 +139,7 @@
 		336C98B62BBF098B005053DA /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		336C98C02BBF22ED005053DA /* CardRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRequests.swift; sourceTree = "<group>"; };
 		3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
+		3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		3CF7388C2BC5B3500036664A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSingleCardView.swift; sourceTree = "<group>"; };
 		42E611F22BCEEDBE00B36C62 /* WinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
 				6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */,
 				3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */,
+				3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */,
 				3CF7388C2BC5B3500036664A /* NavigationBar.swift */,
 				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 				32FF759E2BB331860046B2B8 /* ConnectView.swift */,
@@ -519,6 +522,7 @@
 				336C98BA2BBF098B005053DA /* HandView.swift in Sources */,
 				0FEB84D62BBD0C4D000C4894 /* RoundStatusResponse.swift in Sources */,
 				32FF759F2BB331860046B2B8 /* ConnectView.swift in Sources */,
+				3CAD55E42BD5AA03004D3A96 /* TutorialView.swift in Sources */,
 				6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */,
 				6F20F73D2BCDC0F8000C0D8E /* ImageOptionsView.swift in Sources */,
 				6F20F73B2BCDB1BA000C0D8E /* PlayerProfileView.swift in Sources */,

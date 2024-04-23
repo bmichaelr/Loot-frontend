@@ -58,11 +58,12 @@ final class ObjectDecodingTests: XCTestCase {
 
         stompClient.registerListener("/topic/test/decoding/\(id.uuidString.lowercased())") { data in
             do {
-                let lobbyResponse = try JSONDecoder().decode(LobbyResponse.self, from: data)
+                let lobbyResponse = try JSONDecoder().decode(LobbyResponse?.self, from: data)
                 XCTAssertNotNil(lobbyResponse)
                 responseExpectation.fulfill()
             } catch {
-                XCTFail("Unable to decode the lobby response")
+                let jsonString = String(data: data, encoding: .utf8)
+                XCTFail("Unable to decode the lobby responseL \(jsonString)")
             }
         }
         stompClient.sendData(body: request, to: "/app/test/decoding")

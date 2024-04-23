@@ -25,6 +25,7 @@ class GameState: ObservableObject {
     @Published var hasCoin: Bool = true
     @Published var winningCard: Card = Card(number: 5)
     @Published var showWinningView: Bool = false
+    @Published var gameWinner = GamePlayer(from: Player(name: "", id: UUID()))
     @Published var outCardHand = Hand()
     var displayViewController = DisplayedViewController.sharedViewDisplayController
     var roomKey: String
@@ -43,6 +44,11 @@ class GameState: ObservableObject {
             .map { GamePlayer(from: $0) }
         self.deck.cards.append(Card(number: 0))
         self.deck.cards.append(Card(number: 0))
+    }
+    func leaveGame() {
+        let player = Player(name: me.name, id: myId)
+        let request = LobbyRequest(player: player, roomKey: roomKey)
+        stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
     }
     func getPlayer(from id: UUID) -> GamePlayer? {
         if id == me.clientId {
@@ -160,6 +166,16 @@ extension GameState {
             print("Error getting the start round response")
             return
         }
+        let card = Card(number: 4)
+        deck.cards.append(card)
+        withAnimation {
+            guard let index = deck.cards.firstIndex(of: card) else {
+                print("Could not find card in deck!")
+                return
+            }
+            let dealtCard = deck.cards.remove(at: index)
+            outCardHand.cards.append(dealtCard)
+        }
         func dealStartingCard(for index: Int, list: [PlayerCardPair]) {
             if index >= list.count { return }
             guard let player = getPlayer(from: list[index].player.id) else {
@@ -210,9 +226,18 @@ extension GameState {
         gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
         guard let winner = getPlayer(from: response.winner.id) else {return}
+        print("Round over: \(response.roundOver)")
+        print("Game over: \(response.gameOver)")
         let gameOver = response.gameOver
         if gameOver {
+            guard let foundWinnersCard = winner.getHand(type: .holding).cards.first else {
+                print("Unable to find winning player's card")
+                return
+            }
+            winningCard = foundWinnersCard
+            gameWinner = winner
             showWinningView = true
+            return
         }
         winner.numberOfWins += 1
         winner.counter += 1

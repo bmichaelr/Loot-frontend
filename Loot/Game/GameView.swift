@@ -46,9 +46,10 @@ struct GameView: View {
             gameState.syncPlayers()
             gameState.cardNamesToCompare.removeAll()
         })
-        .winnerView(isPresented: $gameState.showWinningView, card: gameState.winningCard, onTap: {
+        .winnerView(isPresented: $gameState.showWinningView, card: gameState.winningCard, winner: gameState.gameWinner, onTap: {
             gameState.unsubscribeFromGameChannels()
             gameState.displayViewController.changeView(view: .homeMenuView)
+            gameState.leaveGame()
         })
         .viewSingleCard(isPresented: $gameState.showPeekCard, card: gameState.cardToPeek, onTap: {
             gameState.syncPlayers()
@@ -110,7 +111,7 @@ struct GameView: View {
                         Image("lootCoin")
                             .matchedGeometryEffect(id: "coin", in: animation)
                     }
-                    Image(systemName: "circle.fill")
+                    Image("lootCoinBackground")
                         .padding([.bottom, .leading], 3)
                         .foregroundStyle(.yellow)
                         .font(.title)
@@ -118,7 +119,8 @@ struct GameView: View {
                             Text(String(player.numberOfWins))
                                 .font(.custom("CaslonAntique", size: 20))
                                 .foregroundStyle(.black.opacity(0.8))
-                                .padding([.bottom, .leading], 3)
+                                .padding([ .leading], 3)
+                                .padding([.bottom], 9)
                         }
                 }
             }

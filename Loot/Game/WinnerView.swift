@@ -14,6 +14,7 @@ struct WinnerView: View {
     @State private var opacity: CGFloat = 0.0
     @State private var confetti: Int = 0
     @Namespace private var namespace
+    var winner: GamePlayer
     var card: Card
     var onTap: () -> Void
     var body: some View {
@@ -56,7 +57,7 @@ struct WinnerView: View {
                     )
                 Image("crown").offset(CGSize(width: 0.0, height: -300))
                 VStack {
-                    Text("Ben Won")
+                    Text("\(winner.name) Won")
                         .foregroundStyle(Color.lootBeige)
                         .font(.custom("Quasimodo", size: 36))
                     buildCustomCardView(card: card)
@@ -106,18 +107,18 @@ struct WinnerView: View {
 }
 
 extension View {
-    func winnerView(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
+    func winnerView(isPresented: Binding<Bool>, card: Card, winner: GamePlayer, onTap: @escaping () -> Void) -> some View {
         ZStack {
             self
             if isPresented.wrappedValue {
-                WinnerView(isShowing: isPresented, card: card, onTap: onTap)
+                WinnerView(isShowing: isPresented, winner: winner, card: card, onTap: onTap)
             }
         }
     }
 }
 
 #Preview {
-    WinnerView(isShowing: .constant(true), card: Card(number: 5), onTap: {
+    WinnerView(isShowing: .constant(true), winner: GamePlayer(from: Player(name: "Josh", id: UUID())), card: Card(number: 5), onTap: {
         print("syced")
     })
 }
