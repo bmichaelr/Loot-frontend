@@ -13,7 +13,6 @@ struct LootApp: App {
     @ObservedObject var model: AppViewModel = AppViewModel()
     @State private var showCustomLoadingView: Bool = true
     @State private var transitioningFromConnectView: Bool = false
-    
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -21,21 +20,19 @@ struct LootApp: App {
                 case .gameLobbyView:
                     GameLobbyView()
                 case .homeMenuView:
-                    if transitioningFromConnectView {
-                        MatchmakingView()
-                            .transition(.opacity)
-                            .onAppear {
-                                withAnimation {
-                                    showCustomLoadingView = true
-                                }
+                    TabView {
+                        LeaderboardView(model: 
+                                            LeaderboardViewModel(
+                                                id: model.clientUUID,
+                                                name: model.playerName,
+                                                stomp: model.stompClient))
+                            .tabItem {
+                                Label("Leaderboard", systemImage: "trophy.fill")
                             }
-                            .onDisappear {
-                                withAnimation {
-                                    showCustomLoadingView = false
-                                }
-                            }
-                    } else {
                         MatchmakingView()
+                            .tabItem {
+                                Label("Games", systemImage: "play.fill")
+                            }
                     }
                 case .gameView:
                     GameView()
@@ -51,7 +48,6 @@ struct LootApp: App {
                             transitioningFromConnectView = true
                         }
                 }
-                
                 if showCustomLoadingView {
                     CustomLoadingView(showCustomLoadingView: $showCustomLoadingView)
                         .transition(.move(edge: .leading))
