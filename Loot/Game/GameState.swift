@@ -166,7 +166,7 @@ extension GameState {
             print("Error getting the start round response")
             return
         }
-        let card = Card(number: 4)
+        let card = Card(from: response.cardKeptOut)
         deck.cards.append(card)
         withAnimation {
             guard let index = deck.cards.firstIndex(of: card) else {
@@ -230,26 +230,41 @@ extension GameState {
         print("Game over: \(response.gameOver)")
         let gameOver = response.gameOver
         if gameOver {
-            guard let foundWinnersCard = winner.getHand(type: .holding).cards.first else {
-                print("Unable to find winning player's card")
+            guard let winningCardFromResponse = response.winningCard else {
+                print("Unable to obtain winning card from response")
                 return
             }
-            winningCard = foundWinnersCard
+            winningCard = Card(from: winningCardFromResponse)
             gameWinner = winner
-            showWinningView = true
+            withAnimation {
+                outCardHand.cards.forEach { card in
+                    card.faceDown = false
+                }
+            } completion: {
+                sleep(1)
+                self.showWinningView = true
+            }
             return
         }
-        winner.numberOfWins += 1
-        winner.counter += 1
         withAnimation {
-            hasCoin.toggle()
-            winner.hasCoin.toggle()
+            outCardHand.cards.forEach { card in
+                card.faceDown = false
+            }
         } completion: {
-            winner.hasCoin = false
-            self.hasCoin.toggle()
+            self.outCardHand.cards.removeAll()
+            winner.numberOfWins += 1
+            winner.counter += 1
+            withAnimation {
+                sleep(1)
+                self.hasCoin.toggle()
+                winner.hasCoin.toggle()
+            } completion: {
+                winner.hasCoin = false
+                self.hasCoin.toggle()
+            }
+            self.cleanUpCards()
+            self.syncPlayers()
         }
-        cleanUpCards()
-        syncPlayers()
     }
     func handlePlayedCardResponse(_ message: Data) {
         guard let response = try? JSONDecoder().decode(PlayedCardResponse.self, from: message) else {

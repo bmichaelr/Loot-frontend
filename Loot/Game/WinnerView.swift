@@ -26,7 +26,6 @@ struct WinnerView: View {
                     buildCompareCardView(card: card)
                 }
                 .onTapGesture {
-                    close()
                 }
                 CustomButton(text: "Home") {
                     onTap()
@@ -94,6 +93,7 @@ struct WinnerView: View {
         .frame(width: 175, height: 230)
         .overlay(RoundedRectangle(cornerRadius: 25.0)
             .stroke(lineWidth: 8))
+        .foregroundStyle(Color.lootBrown)
     }
     private func close() {
         withAnimation {
