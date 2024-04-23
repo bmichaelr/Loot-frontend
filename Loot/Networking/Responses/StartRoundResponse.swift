@@ -9,6 +9,7 @@ import Foundation
 
 struct StartRoundResponse: Codable {
     let playersAndCards: [PlayerCardPair]
+    let cardKeptOut: CardResponse
 }
 
 struct PlayerCardPair: Codable {
