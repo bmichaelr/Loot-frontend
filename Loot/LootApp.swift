@@ -21,17 +21,17 @@ struct LootApp: App {
                     GameLobbyView()
                 case .homeMenuView:
                     TabView {
-                        LeaderboardView(model: 
+                        MatchmakingView()
+                            .tabItem {
+                                Label("Play", systemImage: "play.fill")
+                            }
+                        LeaderboardView(model:
                                             LeaderboardViewModel(
                                                 id: model.clientUUID,
                                                 name: model.playerName,
                                                 stomp: model.stompClient))
                             .tabItem {
                                 Label("Leaderboard", systemImage: "trophy.fill")
-                            }
-                        MatchmakingView()
-                            .tabItem {
-                                Label("Games", systemImage: "play.fill")
                             }
                     }
                 case .gameView:

@@ -17,16 +17,34 @@ struct LeaderboardView: View {
                     Text("Leaderboard")
                         .font(.custom("Quasimodo", size: 36))
                         .padding()
-                    List {
-                        ForEach(model.leaderboard.entries.indices, id: \.self) { index in
-                            let entry = model.leaderboard.entries[index]
-                            LeaderboardEntryView(entry: entry, ranking: index)
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
+                    VStack {
+                        HStack {
+                            Text("Rank")
+                                .padding(.leading, 30)
+                            Text("Name")
+                                .padding(.leading)
+                            Spacer()
+                            Text("Wins")
+                                .padding(.trailing, 40)
                         }
+                        .padding(.top)
+                        .font(.custom("CaslonAntique", size: 24))
+                        .foregroundStyle(Color.lootBeige)
+                        Divider()
+                            .frame(height: 5)
+                            .overlay(Color.lootBeige)
+                        List {
+                            ForEach(model.leaderboard.entries.indices, id: \.self) { index in
+                                let entry = model.leaderboard.entries[index]
+                                LeaderboardEntryView(entry: entry, ranking: index + 1)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                            }
+                        }
+                        .listRowSpacing(0)
+                        .frame(maxHeight: 500)
+                        .listStyle(.plain)
                     }
-                    .frame(maxHeight: 500)
-                    .listStyle(.plain)
                     .background {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundStyle(Color.lootBrown)
@@ -43,6 +61,9 @@ struct LeaderboardView: View {
                         .resizable()
                         .scaledToFit()
                 }
+            }
+            .onAppear {
+                model.setup()
             }
         }
     }

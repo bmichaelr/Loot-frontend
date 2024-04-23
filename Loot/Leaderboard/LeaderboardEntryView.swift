@@ -14,6 +14,7 @@ struct LeaderboardEntryView: View {
         HStack {
             Image(systemName: "trophy.fill")
                 .scaledToFit()
+                .foregroundStyle(getTrophyColor(ranking))
             Text(String(ranking))
             Text(entry.playerName)
                 .padding(.leading)
@@ -24,8 +25,15 @@ struct LeaderboardEntryView: View {
         .padding()
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .foregroundStyle(Color.lootBeige)
-                .shadow(radius: 10)
+                .foregroundStyle(Color.white)
+        }
+    }
+    private func getTrophyColor(_ num: Int) -> Color {
+        switch num {
+        case 1: Color.yellow
+        case 2: Color.gray
+        case 3: Color.brown
+        default: Color.black
         }
     }
 }
