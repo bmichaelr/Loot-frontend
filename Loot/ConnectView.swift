@@ -11,6 +11,8 @@ struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
+    @State private var presentProfile = false
+
     private func hideKeyboard() {
             nameFieldFocused = false
         }
@@ -53,9 +55,34 @@ struct ConnectView: View {
                         }
                 }
                 VStack {
-                    CustomTextField(text: $viewModel.playerName,
-                                    isFocused: _nameFieldFocused,
-                                    prompt: "Enter your name here...")
+                    // Exisiting profile
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(height: 200)
+                            .background(Color.lootBeige)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.black, lineWidth: 2)
+                            )
+                        HStack {
+//                            PlayerProfileView(
+//                                name: profileStore.playerProfile.name,
+//                                imageNumber: profileStore.playerProfile.imageNum,
+//                                bgColor: profileStore.playerProfile.background)
+                                Circle().frame(width: 200, height: 200)
+
+                            Spacer()
+                            Text("NAME")
+                                .font(.custom("Quasimodo", size: 18))
+                            Spacer()
+
+                        }
+                        .padding([.leading, .trailing], 20)
+                    }.onTapGesture {
+                        presentProfile.toggle()
+                    }
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
                 .offset(y: -30)
