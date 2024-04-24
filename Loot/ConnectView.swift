@@ -59,7 +59,7 @@ struct ConnectView: View {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
-                            .frame(height: 250)
+                            .frame(height: 210)
                             .background(Color.lootBeige)
                             .cornerRadius(10)
                             .overlay(
