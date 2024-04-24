@@ -8,7 +8,18 @@
 import SwiftUI
 
 struct TutorialView: View {
-    var pages: [AnyView] = [AnyView(Page1()), AnyView(Page2()), AnyView(Page3())]
+    var pages: [AnyView] = [
+        AnyView(Page1()),
+        AnyView(Page2()),
+        AnyView(Page3()),
+        AnyView(Page4()),
+        AnyView(Page5()),
+        AnyView(Page6()),
+        AnyView(Page7()),
+        AnyView(Page8()),
+        AnyView(Page9()),
+        AnyView(Page10())
+    ]
     var body: some View {
         ZStack {
             Color.lootBrown.ignoresSafeArea(.all)
