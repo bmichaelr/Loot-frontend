@@ -12,7 +12,7 @@ struct ConnectView: View {
     @EnvironmentObject var profileStore: ProfileStore
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
-    @State private var presentProfile = false
+    @State private var presentProfileModifcations = false
 
     private func hideKeyboard() {
             nameFieldFocused = false
@@ -59,7 +59,7 @@ struct ConnectView: View {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
-                            .frame(height: 200)
+                            .frame(height: 250)
                             .background(Color.lootBeige)
                             .cornerRadius(10)
                             .overlay(
@@ -87,7 +87,7 @@ struct ConnectView: View {
                         }
                         .padding([.leading, .trailing], 20)
                     }.onTapGesture {
-                        presentProfile.toggle()
+                        presentProfileModifcations.toggle()
                     }
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
@@ -103,9 +103,9 @@ struct ConnectView: View {
                         }
                     }
                 })
-                .sheet(isPresented: $presentProfile) {
+                .sheet(isPresented: $presentProfileModifcations) {
                     NavigationView {
-                        ModifyProfileView()
+                        ModifyProfileView(displayModifyProfile: $presentProfileModifcations)
                             .presentationDetents([.medium])
                     }
                 }

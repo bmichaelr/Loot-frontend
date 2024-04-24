@@ -16,6 +16,8 @@ struct ModifyProfileView: View {
 
     @State private var profileImagePressed = false
 
+    @Binding var displayModifyProfile: Bool
+
     var body: some View {
         var profile = profileStore.playerProfile
         NavigationStack {
@@ -103,6 +105,7 @@ struct ModifyProfileView: View {
                                         fatalError(error.localizedDescription)
                                     }
                                 }
+                                displayModifyProfile = false
                             }.padding()
 
                         }
@@ -138,8 +141,4 @@ struct ModifyProfileView: View {
             }
         })
     }
-}
-
-#Preview {
-    ModifyProfileView()
 }
