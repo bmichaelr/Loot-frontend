@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ModifyProfileView: View {
+    @EnvironmentObject var viewModel: AppViewModel
     @EnvironmentObject var profileStore: ProfileStore
 //    @State var name: String = ""
 //    @State private var bgColor = Color.lootBeige
@@ -88,7 +89,7 @@ struct ModifyProfileView: View {
                                 .padding()
 
                             CustomButton(text: "Save Profile") {
-                                print("Create/Modify Profile")
+                                print("Save Profile")
                                 profile.name = name
                                 profile.imageNum = imageNumber
                                 profile.background = bgColor.toHexString()
