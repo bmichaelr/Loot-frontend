@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-struct PlayerProfileView: View {
-    @State var name: String = ""
-    private var imageName: String = "loot_"
+struct ModifyProfileView: View {
+    @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @State private var imageNumber: Int = 1
-    @State private var bgColor = Color.lootBeige
+    @State var name = ""
+    @State var bgColor = Color.lootBeige
+
     @State private var profileImagePressed = false
 
+    @Binding var displayModifyProfile: Bool
+
     var body: some View {
+        var profile = profileStore.playerProfile
         NavigationStack {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
@@ -36,17 +41,7 @@ struct PlayerProfileView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
 
-                            ZStack {
-                                Circle()
-                                    .fill(Color(bgColor))
-                                    .stroke(.black, lineWidth: 10)
-                                Image(imageName + String(imageNumber))
-                                    .resizable()
-                                    .padding()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-
-                            }
+                            PlayerProfileView(name: name, imageNumber: imageNumber, bgColor: bgColor.toHexString())
                             .padding()
                             .frame(width: 300, height: 300, alignment: .center)
                             .onTapGesture {
@@ -92,12 +87,28 @@ struct PlayerProfileView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
 
-                            CustomButton(text: "Update Profile") {
-                                print("Create/Modify Profile")
+                            CustomButton(text: "Save Profile") {
+                                print("Save Profile")
+                                profile.name = name
+                                profile.imageNum = imageNumber
+                                profile.background = bgColor.toHexString()
+
+                                if !UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                                    UserDefaults.standard.set(true, forKey: "hasBeenLaunchedBeforeFlag")
+                                    UserDefaults.standard.synchronize()
+
+                                }
+                                Task {
+                                    do {
+                                        try await profileStore.save(profile: profile)
+                                    } catch {
+                                        fatalError(error.localizedDescription)
+                                    }
+                                }
+                                displayModifyProfile = false
                             }.padding()
 
                         }
-
                     }
                     .padding([.leading, .trailing], 20)
 
@@ -112,14 +123,22 @@ struct PlayerProfileView: View {
                     }
                 }.padding()
 
-            }.sheet(isPresented: $profileImagePressed) {
-                ImageOptionsView(imageNumber: $imageNumber)
-                    .presentationDetents([.medium])
             }
-        }
+        }.onAppear(perform: {
+            if UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                // Load Existing Profile
+                Task {
+                    do {
+                        try await profileStore.load()
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+                profile = profileStore.playerProfile
+                imageNumber = profile.imageNum
+                name = profile.name
+                bgColor = Color(hex: profile.background)
+            }
+        })
     }
-}
-
-#Preview {
-    PlayerProfileView()
 }

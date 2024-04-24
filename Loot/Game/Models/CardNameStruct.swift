@@ -12,4 +12,3 @@ struct CardNameStruct: Identifiable {
     let card: Card
     let name: String
 }
-

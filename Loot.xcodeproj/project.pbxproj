@@ -74,13 +74,15 @@
 		336C98BE2BBF098B005053DA /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98B62BBF098B005053DA /* GameState.swift */; };
 		336C98C12BBF22ED005053DA /* CardRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336C98C02BBF22ED005053DA /* CardRequests.swift */; };
 		3C016C142BA24BB90004F3D2 /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */; };
-		3CAD55E42BD5AA03004D3A96 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */; };
 		3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF7388C2BC5B3500036664A /* NavigationBar.swift */; };
 		42C89F4E2BC63BC6003C8B40 /* ViewSingleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */; };
 		42E611F32BCEEDBE00B36C62 /* WinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E611F22BCEEDBE00B36C62 /* WinnerView.swift */; };
 		42EF9A012BD58841007D5F06 /* CardNameStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EF9A002BD58841007D5F06 /* CardNameStruct.swift */; };
-		6F20F73B2BCDB1BA000C0D8E /* PlayerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F20F73A2BCDB1BA000C0D8E /* PlayerProfileView.swift */; };
-		6F20F73D2BCDC0F8000C0D8E /* ImageOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F20F73C2BCDC0F8000C0D8E /* ImageOptionsView.swift */; };
+		6F1213F72BD6CD3500785114 /* PlayerProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1213F62BD6CD3500785114 /* PlayerProfileView.swift */; };
+		6F1987E62BD6DCB7007C20A5 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1987E52BD6DCB7007C20A5 /* ProfileStore.swift */; };
+		6F20F73B2BCDB1BA000C0D8E /* ModifyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F20F73A2BCDB1BA000C0D8E /* ModifyProfileView.swift */; };
+		6F3915992BD8CCAD009AE1AC /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3915982BD8CCAD009AE1AC /* Profile.swift */; };
+		6F39159B2BD9142D009AE1AC /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F39159A2BD9142D009AE1AC /* TutorialView.swift */; };
 		6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */; };
 		6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */; };
 		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
@@ -164,13 +166,15 @@
 		336C98B62BBF098B005053DA /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		336C98C02BBF22ED005053DA /* CardRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRequests.swift; sourceTree = "<group>"; };
 		3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
-		3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		3CF7388C2BC5B3500036664A /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		42C89F4D2BC63BC6003C8B40 /* ViewSingleCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSingleCardView.swift; sourceTree = "<group>"; };
 		42E611F22BCEEDBE00B36C62 /* WinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinnerView.swift; sourceTree = "<group>"; };
 		42EF9A002BD58841007D5F06 /* CardNameStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNameStruct.swift; sourceTree = "<group>"; };
-		6F20F73A2BCDB1BA000C0D8E /* PlayerProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileView.swift; sourceTree = "<group>"; };
-		6F20F73C2BCDC0F8000C0D8E /* ImageOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOptionsView.swift; sourceTree = "<group>"; };
+		6F1213F62BD6CD3500785114 /* PlayerProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerProfileView.swift; sourceTree = "<group>"; };
+		6F1987E52BD6DCB7007C20A5 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
+		6F20F73A2BCDB1BA000C0D8E /* ModifyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyProfileView.swift; sourceTree = "<group>"; };
+		6F3915982BD8CCAD009AE1AC /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		6F39159A2BD9142D009AE1AC /* TutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TutorialView.swift; path = ../../../../../Downloads/TutorialView.swift; sourceTree = "<group>"; };
 		6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedViewController.swift; sourceTree = "<group>"; };
 		6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToDisplay.swift; sourceTree = "<group>"; };
 		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -226,7 +230,6 @@
 				329B54BC2BB4A4420057CA2E /* Resources */,
 				0FD38AA32BA2833D003982B7 /* Networking */,
 				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
-				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
 				336C98B82BBF098B005053DA /* Game */,
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
 				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
@@ -238,9 +241,9 @@
 				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
 				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
 				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
+				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
 				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
-				6F20F73A2BCDB1BA000C0D8E /* PlayerProfileView.swift */,
-				6F20F73C2BCDC0F8000C0D8E /* ImageOptionsView.swift */,
+				6F1987E72BD6E308007C20A5 /* Profile */,
 			);
 			path = Loot;
 			sourceTree = "<group>";
@@ -266,8 +269,8 @@
 			children = (
 				0F4DBD702BD8910A00DB8E31 /* Pages */,
 				0F4DBD6E2BD8909D00DB8E31 /* TutorialText.swift */,
-				3CAD55E32BD5AA03004D3A96 /* TutorialView.swift */,
 				0F4DBD772BD8915800DB8E31 /* CardDescriptionView.swift */,
+				6F39159A2BD9142D009AE1AC /* TutorialView.swift */,
 			);
 			path = Tutorial;
 			sourceTree = "<group>";
@@ -424,6 +427,17 @@
 				6F566D012B9F676C00EC7C3D /* GameView.swift */,
 			);
 			path = Game;
+			sourceTree = "<group>";
+		};
+		6F1987E72BD6E308007C20A5 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				6F1987E52BD6DCB7007C20A5 /* ProfileStore.swift */,
+				6F1213F62BD6CD3500785114 /* PlayerProfileView.swift */,
+				6F20F73A2BCDB1BA000C0D8E /* ModifyProfileView.swift */,
+				6F3915982BD8CCAD009AE1AC /* Profile.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,11 +597,9 @@
 				0FEB84D62BBD0C4D000C4894 /* RoundStatusResponse.swift in Sources */,
 				0F4DBD762BD8911C00DB8E31 /* Page3.swift in Sources */,
 				32FF759F2BB331860046B2B8 /* ConnectView.swift in Sources */,
-				3CAD55E42BD5AA03004D3A96 /* TutorialView.swift in Sources */,
 				0F4DBD7E2BD8BA0700DB8E31 /* Page6.swift in Sources */,
 				6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */,
-				6F20F73D2BCDC0F8000C0D8E /* ImageOptionsView.swift in Sources */,
-				6F20F73B2BCDB1BA000C0D8E /* PlayerProfileView.swift in Sources */,
+				6F20F73B2BCDB1BA000C0D8E /* ModifyProfileView.swift in Sources */,
 				32B9CBBA2BC5A9EA0031B563 /* Hand.swift in Sources */,
 				32B9CBC22BC5AB570031B563 /* ShowCardView.swift in Sources */,
 				0F4DBD862BD8C1CE00DB8E31 /* Page10.swift in Sources */,
@@ -601,11 +613,15 @@
 				0FEB84D02BBD0B3F000C4894 /* StartRoundResponse.swift in Sources */,
 				0FD399B02BB73EC1004856EF /* CreateLobbyRequest.swift in Sources */,
 				32B9CBBE2BC5AB1B0031B563 /* DeckView.swift in Sources */,
+				6F1213F72BD6CD3500785114 /* PlayerProfileView.swift in Sources */,
+				6F39159B2BD9142D009AE1AC /* TutorialView.swift in Sources */,
 				336C98C12BBF22ED005053DA /* CardRequests.swift in Sources */,
+				6F1987E62BD6DCB7007C20A5 /* ProfileStore.swift in Sources */,
 				3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */,
 				0F91CFFA2BCC3FC10057402E /* GameLogViewExtension.swift in Sources */,
 				6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */,
 				0F23D1952BB3C4B200D75431 /* MatchmakingView.swift in Sources */,
+				6F3915992BD8CCAD009AE1AC /* Profile.swift in Sources */,
 				0FD38AA02BA274BC003982B7 /* Player.swift in Sources */,
 				0F91CFE92BCC3DF20057402E /* SideMenuTab.swift in Sources */,
 				0F4DBD822BD8BDF000DB8E31 /* Page8.swift in Sources */,
@@ -785,7 +801,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
@@ -818,6 +836,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";

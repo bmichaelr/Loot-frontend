@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @State private var createButtonPressed = false
     @State private var tutorialButtonPressed = false
 
@@ -107,7 +108,10 @@ struct MatchmakingView: View {
                     .presentationDetents([.medium])
             }
         }
-        .onAppear(perform: self.viewModel.subscribeToMatchmakingChannels)
+        .onAppear(perform: {
+            self.viewModel.playerName = profileStore.playerProfile.name
+            self.viewModel.subscribeToMatchmakingChannels()
+        })
         .onDisappear(perform: self.viewModel.unsubscribeFromMatchmakingChannels)
     }
 }

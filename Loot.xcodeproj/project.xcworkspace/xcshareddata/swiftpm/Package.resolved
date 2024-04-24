@@ -1,4 +1,5 @@
 {
+  "originHash" : "303e2f67a1ed30090068cf945c0600ef099876c78712b5df6ee7dbbbc0c806b8",
   "pins" : [
     {
       "identity" : "biguipaging",
@@ -118,5 +119,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
