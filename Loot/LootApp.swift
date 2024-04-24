@@ -13,7 +13,6 @@ struct LootApp: App {
     @ObservedObject var model: AppViewModel = AppViewModel()
     @State private var showCustomLoadingView: Bool = true
     @State private var transitioningFromConnectView: Bool = false
-    
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -51,7 +50,6 @@ struct LootApp: App {
                             transitioningFromConnectView = true
                         }
                 }
-                
                 if showCustomLoadingView {
                     CustomLoadingView(showCustomLoadingView: $showCustomLoadingView)
                         .transition(.move(edge: .leading))
