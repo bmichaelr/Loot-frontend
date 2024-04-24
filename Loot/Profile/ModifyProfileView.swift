@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct ModifyProfileView: View {
-    @State var name: String = ""
-    private var imageName: String = "loot_"
+    @EnvironmentObject var profileStore: ProfileStore
+//    @State var name: String = ""
+//    @State private var bgColor = Color.lootBeige
     @State private var imageNumber: Int = 1
-    @State private var bgColor = Color.lootBeige
-    @State private var bgColorHex: String = "#000000" // Needs to be from saved profile...
+    @State var name = ""
+    @State var bgColor = Color.lootBeige
+
     @State private var profileImagePressed = false
 
     var body: some View {
+        var profile = profileStore.playerProfile
+
         NavigationStack {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
@@ -37,7 +41,7 @@ struct ModifyProfileView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
 
-                            PlayerProfileView(name: name, imageNumber: imageNumber, bgColor: bgColorHex)
+                            PlayerProfileView(name: name, imageNumber: imageNumber, bgColor: bgColor.toHexString())
                             .padding()
                             .frame(width: 300, height: 300, alignment: .center)
                             .onTapGesture {
@@ -61,10 +65,6 @@ struct ModifyProfileView: View {
                                 Spacer()
 
                                 ColorPicker("", selection: $bgColor, supportsOpacity: false) .labelsHidden()
-                                    .onChange(of: bgColor) { _ in
-                                        // Save Hex value
-                                        bgColorHex = bgColor.toHexString()
-                                    }
 
                                 Spacer()
 
@@ -89,20 +89,26 @@ struct ModifyProfileView: View {
 
                             CustomButton(text: "Save Profile") {
                                 print("Create/Modify Profile")
-                                // TODO: 
-                                // Save Profile
-//                                let hexStringFromColor: String? = backgroundColor.toHexString(includeAlpha: false)
+                                profile.name = name
+                                profile.imageNum = imageNumber
+                                profile.background = bgColor.toHexString()
 
-//                                do {
-//                                    try await store.save(scrums: store.scrums)
-//                                } catch {
-//                                    fatalError(error.localizedDescription)
-//                                }
+                                if !UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                                    UserDefaults.standard.set(true, forKey: "hasBeenLaunchedBeforeFlag")
+                                    UserDefaults.standard.synchronize()
 
+                                }
+                                // Save Profile Locally
+                                Task {
+                                    do {
+                                        try await profileStore.save(profile: profile)
+                                    } catch {
+                                        fatalError(error.localizedDescription)
+                                    }
+                                }
                             }.padding()
 
                         }
-
                     }
                     .padding([.leading, .trailing], 20)
 
@@ -117,11 +123,20 @@ struct ModifyProfileView: View {
                     }
                 }.padding()
 
-            }.sheet(isPresented: $profileImagePressed) {
-                ImageOptionsView(imageNumber: $imageNumber)
-                    .presentationDetents([.medium])
             }
-        }
+        }.onAppear(perform: {
+            if UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                // Load Profile from previous
+                Task {
+                    do {
+                        try await profileStore.load()
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+                profile = profileStore.playerProfile
+            }
+        })
     }
 }
 

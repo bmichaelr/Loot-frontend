@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
     @State private var presentProfile = false
@@ -67,16 +68,22 @@ struct ConnectView: View {
                                     .stroke(.black, lineWidth: 2)
                             )
                         HStack {
-//                            PlayerProfileView(
-//                                name: profileStore.playerProfile.name,
-//                                imageNumber: profileStore.playerProfile.imageNum,
-//                                bgColor: profileStore.playerProfile.background)
-                                Circle().frame(width: 200, height: 200)
-
-                            Spacer()
-                            Text("NAME")
-                                .font(.custom("Quasimodo", size: 18))
-                            Spacer()
+                            if !UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                                Spacer()
+                                Text("Create Profile")
+                                    .font(.custom("Quasimodo", size: 20))
+                                Spacer()
+                            } else {
+                                // Display Exisitng
+                                PlayerProfileView(
+                                    name: profileStore.playerProfile.name,
+                                    imageNumber: profileStore.playerProfile.imageNum,
+                                    bgColor: profileStore.playerProfile.background)
+                                .frame(width: 200, height: 200)
+                                Spacer()
+                                Text(profileStore.playerProfile.name)
+                                    .font(.custom("Quasimodo", size: 18))
+                            }
 
                         }
                         .padding([.leading, .trailing], 20)
@@ -85,8 +92,24 @@ struct ConnectView: View {
                     }
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
+
                 .offset(y: -30)
                 .padding([.leading, .trailing], 20)
+                .onAppear(perform: {
+                    Task {
+                        do {
+                            try await profileStore.load()
+                        } catch {
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                })
+                .sheet(isPresented: $presentProfile) {
+                    NavigationView {
+                        ModifyProfileView()
+                            .presentationDetents([.medium])
+                    }
+                }
             }
             .padding(EdgeInsets(top: 39, leading: 10, bottom: 39, trailing: 10))
             .cornerRadius(10)
