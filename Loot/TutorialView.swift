@@ -51,7 +51,7 @@ struct TutorialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.black, lineWidth: 2)
                     )) // rectangle frame around vstack aka topics
-                    
+
                     VStack {
                         Text("Game Setup:")
                             .font(.custom("Quasimodo", size: 20))
@@ -94,7 +94,7 @@ struct TutorialView: View {
                     )) // rectangle frame around vstack aka topics
                     // removed custom create button so you know what to reference
                     Spacer()
-                    
+
                     VStack {
                         Text("Gameplay:")
                             .font(.custom("Quasimodo", size: 20))
@@ -149,7 +149,7 @@ struct TutorialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.black, lineWidth: 2)
                     )) // rectangle frame around vstack aka topics
-                    
+
                     VStack {
                         Text("Card Effects:")
                             .font(.custom("Quasimodo", size: 20))
@@ -214,7 +214,7 @@ struct TutorialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.black, lineWidth: 2)
                     )) // rectangle frame around vstack aka topics
-                    
+
                     VStack {
                         Text("Elimination:")
                             .font(.custom("Quasimodo", size: 20))
@@ -247,7 +247,7 @@ struct TutorialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.black, lineWidth: 2)
                     )) // rectangle frame around vstack aka topics
-                    
+
                     VStack {
                         Text("End of Round:")
                             .font(.custom("Quasimodo", size: 20))
@@ -275,7 +275,7 @@ struct TutorialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(.black, lineWidth: 2)
                     )) // rectangle frame around vstack aka topics
-                    
+
                     VStack {
                         Text("Winning the Game:")
                             .font(.custom("Quasimodo", size: 20))

@@ -6,11 +6,11 @@ enum ImageEnum: String, CaseIterable {
     case loot5 = "loot_5"
     case loot7 = "loot_7"
     case loot6 = "loot_6"
-    
+
     static func randomOrder() -> [ImageEnum] {
         return ImageEnum.allCases.shuffled()
     }
-    
+
     func next() -> ImageEnum {
         let shuffledCases = ImageEnum.randomOrder()
         guard let currentIndex = shuffledCases.firstIndex(of: self) else { return self }
@@ -32,7 +32,7 @@ struct CustomLoadingView: View {
     @State private var img = ImageEnum.randomOrder().first ?? .loot2 // Initial image is randomly selected
     @State private var fadeOut = false
     @Binding var showCustomLoadingView: Bool
-    
+
     var body: some View {
         if isActive {
             GameLobbyView()

@@ -23,10 +23,10 @@ struct GameLobbyView: View {
                             .font(.custom("Quasimodo", size: 28))
                             .multilineTextAlignment(.center)
                             .padding()
-                        
+
                         Spacer()
                     }.padding()
-                    
+
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -62,14 +62,14 @@ struct GameLobbyView: View {
                             }
                         }
                     }
-                    
+
                     Spacer()
-                    
+
                     VStack {
                         if viewModel.lobbyData.allReady == true {
                             HStack {
                                 Spacer()
-                                
+
                                 Text("Game Starting In .. \(readyTime.timeRemaining)")
                                     .font(.custom("Quasimodo", size: 20))
                                     .multilineTextAlignment(.center)
@@ -89,18 +89,18 @@ struct GameLobbyView: View {
                             readyTime.reset()
                         }
                     }
-                    
+
                     Spacer()
-                    
+
                     CustomButton(text: ready ? "Ready" : "Unready",
                                  onClick: readyButtonClicked,
                                  buttonColor: ready ? Color.lootGreen : Color.red)
                     .padding(.top, 30)
-                    
+
                     Spacer()
                 }
                 .padding([.leading, .trailing], 20)
-                
+
             }
             .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
             .navigationBarTitleDisplayMode(.inline)
