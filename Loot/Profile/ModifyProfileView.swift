@@ -10,8 +10,6 @@ import SwiftUI
 struct ModifyProfileView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @EnvironmentObject var profileStore: ProfileStore
-//    @State var name: String = ""
-//    @State private var bgColor = Color.lootBeige
     @State private var imageNumber: Int = 1
     @State var name = ""
     @State var bgColor = Color.lootBeige
@@ -20,7 +18,6 @@ struct ModifyProfileView: View {
 
     var body: some View {
         var profile = profileStore.playerProfile
-
         NavigationStack {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
@@ -99,7 +96,6 @@ struct ModifyProfileView: View {
                                     UserDefaults.standard.synchronize()
 
                                 }
-                                // Save Profile Locally
                                 Task {
                                     do {
                                         try await profileStore.save(profile: profile)
@@ -127,7 +123,7 @@ struct ModifyProfileView: View {
             }
         }.onAppear(perform: {
             if UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
-                // Load Profile from previous
+                // Load Existing Profile
                 Task {
                     do {
                         try await profileStore.load()
@@ -136,6 +132,9 @@ struct ModifyProfileView: View {
                     }
                 }
                 profile = profileStore.playerProfile
+                imageNumber = profile.imageNum
+                name = profile.name
+                bgColor = Color(hex: profile.background)
             }
         })
     }

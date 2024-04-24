@@ -56,7 +56,6 @@ struct ConnectView: View {
                         }
                 }
                 VStack {
-                    // Exisiting profile
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -74,7 +73,7 @@ struct ConnectView: View {
                                     .font(.custom("Quasimodo", size: 20))
                                 Spacer()
                             } else {
-                                // Display Exisitng
+                                // Display Previous Existing Profile
                                 PlayerProfileView(
                                     name: profileStore.playerProfile.name,
                                     imageNumber: profileStore.playerProfile.imageNum,
