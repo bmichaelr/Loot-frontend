@@ -63,7 +63,7 @@ struct CardDescriptionView: View {
             + "they have - you can guess any card except the Potted Plant. "
             + "Remember, there are only so many of each card in the game, so use the "
             + "information to your advantage."
-            
+
         case 2:
             "Choose another player in the round that is not safe, you may look at "
             + "their hand. This reveals that players card to you."
