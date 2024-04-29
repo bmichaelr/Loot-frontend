@@ -92,26 +92,18 @@ struct MatchmakingView: View {
                                 .frame(alignment: .leading)
                                 .padding()
                             Spacer()
-
-                            // ToolbarItem(placement: .principal) {
-                                Image("dragon")
-                                    .resizable()
-                                    .scaledToFit().frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                            // }
+                            Image("dragon")
+                                .resizable()
+                                .scaledToFit().frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             Spacer()
-                           // ToolbarItem(placement: .navigationBarTrailing) {
-                                                    Button(action: {
-                                                        tutorialButtonPressed.toggle()
-                                                    }) {
-                                                        Image(systemName: "questionmark.circle.fill")
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .foregroundStyle(Color.lootBeige)
-                                                    }.frame(alignment: .leading)
-                           // }
-                           // ToolbarItem(placement: .navigationBarLeading) {
-
-                          //  }
+                            Button(action: {
+                                    tutorialButtonPressed.toggle()
+                                }) {
+                            Image(systemName: "questionmark.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundStyle(Color.lootBeige)
+                            }.frame(alignment: .leading)
                         }
                     }
                     .sheet(isPresented: $tutorialButtonPressed) {
