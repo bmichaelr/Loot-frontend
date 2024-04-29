@@ -17,11 +17,17 @@ class GameState: ObservableObject {
     @Published var playCard: Bool = false
     @Published var myTurn: Bool = false
     @Published var cardToShow: Card = Card(number: 5)
-    @Published var message: String = ""
+    @Published var gameLog: GameLog = GameLog()
     @Published var showCompareCards = false
     @Published var cardNamesToCompare = [CardNameStruct]()
     @Published var showPeekCard = false
     @Published var cardToPeek: Card = Card(number: 5)
+    @Published var hasCoin: Bool = true
+    @Published var winningCard: Card = Card(number: 5)
+    @Published var showWinningView: Bool = false
+    @Published var gameWinner = GamePlayer(from: Player(name: "", id: UUID()))
+    @Published var outCardHand = Hand()
+    var displayViewController = DisplayedViewController.sharedViewDisplayController
     var roomKey: String
     var stompClient: StompClient
     init(players: [Player], myId: UUID, roomKey: String, stompClient: StompClient) {
@@ -38,6 +44,11 @@ class GameState: ObservableObject {
             .map { GamePlayer(from: $0) }
         self.deck.cards.append(Card(number: 0))
         self.deck.cards.append(Card(number: 0))
+    }
+    func leaveGame() {
+        let player = Player(name: me.name, id: myId)
+        let request = LobbyRequest(player: player, roomKey: roomKey)
+        stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
     }
     func getPlayer(from id: UUID) -> GamePlayer? {
         if id == me.clientId {
@@ -144,13 +155,26 @@ class GameState: ObservableObject {
         }
         return player
     }
+}
+// Handle response extension
+extension GameState {
     // -- MARK: Handling functions for server
     func handleStartRoundResponse(_ message: Data) {
-        self.message = "Starting the game!"
+        gameLog.newRound()
         print("got handle start round request")
         guard let response = try? JSONDecoder().decode(StartRoundResponse.self, from: message) else {
             print("Error getting the start round response")
             return
+        }
+        let card = Card(from: response.cardKeptOut)
+        deck.cards.append(card)
+        withAnimation {
+            guard let index = deck.cards.firstIndex(of: card) else {
+                print("Could not find card in deck!")
+                return
+            }
+            let dealtCard = deck.cards.remove(at: index)
+            outCardHand.cards.append(dealtCard)
         }
         func dealStartingCard(for index: Int, list: [PlayerCardPair]) {
             if index >= list.count { return }
@@ -176,7 +200,8 @@ class GameState: ObservableObject {
             print("Unable to decode the next turn response!")
             return
         }
-        self.message = "It is now \(response.player.name)'s turn!"
+        let log = "It is now \(response.player.name)'s turn!"
+        gameLog.addMessage(text: log, type: .turnUpdate)
         if response.player.id == me.clientId {
             myTurn = true
         }
@@ -188,21 +213,64 @@ class GameState: ObservableObject {
         if player.clientId == me.clientId {
             card.faceDown = false
         }
+        player.changeTurnStatus()
         player.updatePlayer(with: response.player)
         dealCard(to: player, card: card)
     }
     func handleRoundStatusResponse(_ message: Data) {
         print("Recieved a handle round status response!")
-        // TODO: show message of who one, and give them a token
-        cleanUpCards()
-        syncPlayers()
+        guard let response = try? JSONDecoder().decode(RoundStatusResponse.self, from: message) else {
+            print("Unable to decode the round status response!")
+            return
+        }
+        gameLog.addMessage(text: "The round is over.", type: .roundOver)
+        gameLog.roundOver(name: "\(response.winner.name)")
+        guard let winner = getPlayer(from: response.winner.id) else {return}
+        print("Round over: \(response.roundOver)")
+        print("Game over: \(response.gameOver)")
+        let gameOver = response.gameOver
+        if gameOver {
+            guard let winningCardFromResponse = response.winningCard else {
+                print("Unable to obtain winning card from response")
+                return
+            }
+            winningCard = Card(from: winningCardFromResponse)
+            gameWinner = winner
+            withAnimation {
+                outCardHand.cards.forEach { card in
+                    card.faceDown = false
+                }
+            } completion: {
+                sleep(1)
+                self.showWinningView = true
+            }
+            return
+        }
+        withAnimation {
+            outCardHand.cards.forEach { card in
+                card.faceDown = false
+            }
+        } completion: {
+            self.outCardHand.cards.removeAll()
+            winner.numberOfWins += 1
+            winner.counter += 1
+            withAnimation {
+                sleep(1)
+                self.hasCoin.toggle()
+                winner.hasCoin.toggle()
+            } completion: {
+                winner.hasCoin = false
+                self.hasCoin.toggle()
+            }
+            self.cleanUpCards()
+            self.syncPlayers()
+        }
     }
     func handlePlayedCardResponse(_ message: Data) {
         guard let response = try? JSONDecoder().decode(PlayedCardResponse.self, from: message) else {
             print("FATAL ERROR : Could not decode the PlayedCardResponse!")
             return
         }
-        self.message = "\(response.playerWhoPlayed.name) just played \(response.cardPlayed.name)"
         guard let playerWhoPlayed = getPlayer(from: response.playerWhoPlayed.id) else {
             print("Unable to find the player that played! (start round response)")
             return
@@ -229,12 +297,15 @@ class GameState: ObservableObject {
             let outcome = dreadGazeboResult.outcome
             handleDreadGazeboResult(playing: playerWhoPlayed, result: outcome)
         case .base:
-            print("Have a base card.")
+            let log = "\(playerWhoPlayed.name) played \(card.name)"
+            gameLog.addMessage(text: log, type: .cardPlayed)
             syncPlayers()
         }
         playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
+        playerWhoPlayed.changeTurnStatus()
     }
     private func handlePottedResult(playing: GamePlayer, result: PottedPlantResult) {
+        var msgBuilder = "\(playing.name) guessed \(result.guessedCard.name) on \(result.playedOn.name), they guessed "
         if result.correctGuess {
             guard let guessedOn = getPlayer(from: result.playedOn.id) else {
                 print("Unable to find guessed on player!")
@@ -244,9 +315,13 @@ class GameState: ObservableObject {
                 print("Unable to find guessed card!")
                 return
             }
+            msgBuilder.append("right! \(result.playedOn.name) is out.")
             discard(card: guessedCard, player: guessedOn)
             guessedOn.updatePlayer(with: result.playedOn)
+        } else {
+            msgBuilder.append("wrong")
         }
+        gameLog.addMessage(text: msgBuilder, type: .cardPlayed)
         syncPlayers()
     }
     private func handleMaulRatResult(playing: GamePlayer, result: MaulRatResult) {
@@ -254,6 +329,8 @@ class GameState: ObservableObject {
             print("unable to find opponent in mual rat")
             return
         }
+        let log = "\(playing.name) played Maul Rat on \(opponent.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         if me.clientId == playing.clientId {
             cardToPeek = Card(from: result.opponentsCard)
             showPeekCard = true
@@ -274,13 +351,20 @@ class GameState: ObservableObject {
             print("Unable to find opponents card in duck result")
             return
         }
-        // Compare for both people and sync after dismissal
+        var log = "\(playing.name) played Duck of Doom on \(opponent.name). "
         if let playerToDiscard = result.playerToDiscard {
             if playerToDiscard.id == playing.clientId {
+                log.append("\(playing.name) is out.")
+                gameLog.addMessage(text: log, type: .cardPlayed)
                 discard(card: playersCard, player: playing)
             } else {
+                log.append("\(opponent.name) is out.")
+                gameLog.addMessage(text: log, type: .cardPlayed)
                 discard(card: opponentsCard, player: opponent)
             }
+        } else {
+            log.append("It's a tie, no one is out.")
+            gameLog.addMessage(text: log, type: .cardPlayed)
         }
         opponent.updatePlayer(with: result.playedOn)
         if me.clientId == playing.clientId || me.clientId == opponent.clientId {
@@ -300,6 +384,8 @@ class GameState: ObservableObject {
             print("Unable to find the discarded card from player in net troll resul!")
             return
         }
+        let log = "\(playing.name) played Net Troll on \(playedOn.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         discard(card: discardedCard, player: playedOn)
         if let drawnCard = result.drawnCard {
             dealCard(to: playedOn, card: Card(from: drawnCard))
@@ -319,6 +405,8 @@ class GameState: ObservableObject {
             print("Unable to find players card that they have from gazebo result")
             return
         }
+        let log = "\(playing.name) played Dread Gazebo on \(playedOn.name)"
+        gameLog.addMessage(text: log, type: .cardPlayed)
         moveCard(card: opponentCard, from: playedOn, to: playing) {
             self.moveCard(card: otherCard, from: playing, to: playedOn)
         }
@@ -331,7 +419,6 @@ extension String {
         return !self.isEmpty
     }
 }
-
 // -- MARK: Ping calls
 extension GameState {
     func syncPlayers() {
@@ -354,7 +441,6 @@ extension GameState {
         stompClient.unregisterListener("/topic/game/turnStatus/\(roomKey)")
     }
 }
-
 // -- MARK: Animation Functions
 extension GameState {
     func discard(card: Card, player: GamePlayer) {
@@ -439,10 +525,4 @@ extension GameState {
         }
         deck.cards.append(Card(number: 0))
     }
-}
-
-struct CardNameStruct: Identifiable {
-    var id = UUID()
-    let card: Card
-    let name: String
 }

@@ -8,6 +8,7 @@ import SwiftUI
 struct GameLobbyView: View {
     @EnvironmentObject var viewModel: AppViewModel
     @State private var ready: Bool = true
+    @State private var tutorialButtonPressed = false
     @State var readyTime: ReadyTimer = ReadyTimer()
     @State var readyTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -118,6 +119,21 @@ struct GameLobbyView: View {
                     Text("Lobby")
                         .font(.custom("Quasimodo", size: 14))
                         .foregroundStyle(Color.lootBeige)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                                        Button(action: {
+                                            tutorialButtonPressed.toggle()
+                                        }) {
+                                            Image(systemName: "questionmark.circle.fill")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .foregroundStyle(Color.lootBeige)
+                                        }
+                }
+            }.sheet(isPresented: $tutorialButtonPressed) {
+                NavigationView {
+                    TutorialView()
+                        .presentationDetents([.medium])
                 }
             }
         }

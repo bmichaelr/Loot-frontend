@@ -11,28 +11,50 @@ import SwiftUI
 struct LootApp: App {
     @ObservedObject var displayViewController = DisplayedViewController.sharedViewDisplayController
     @ObservedObject var model: AppViewModel = AppViewModel()
+
+    @StateObject var profileStore: ProfileStore = ProfileStore()
+
     @State private var showCustomLoadingView: Bool = true
+    @State private var transitioningFromConnectView: Bool = false
+
     var body: some Scene {
         WindowGroup {
             ZStack {
-                if !showCustomLoadingView {
-                    switch displayViewController.currentView {
-                    case .gameLobbyView:
-                        GameLobbyView()
-                    case .homeMenuView:
+                switch displayViewController.currentView {
+                case .gameLobbyView:
+                    GameLobbyView()
+                case .homeMenuView:
+                    if transitioningFromConnectView {
                         MatchmakingView()
-                    case .gameView:
-                        GameView()
-                            .environmentObject(
-                                GameState(players: model.lobbyData.players,
-                                          myId: model.clientUUID, roomKey:
-                                            model.lobbyData.roomKey,
-                                          stompClient: model.stompClient)
-                            )
-                    case .startNewGameView:
-                        ConnectView()
+                            .transition(.opacity)
+                            .onAppear {
+                                withAnimation {
+                                    showCustomLoadingView = true
+                                }
+                            }
+                            .onDisappear {
+                                withAnimation {
+                                    showCustomLoadingView = false
+                                }
+                            }
+                    } else {
+                        MatchmakingView()
                     }
+                case .gameView:
+                    GameView()
+                        .environmentObject(
+                            GameState(players: model.lobbyData.players,
+                                      myId: model.clientUUID, roomKey:
+                                        model.lobbyData.roomKey,
+                                      stompClient: model.stompClient)
+                        )
+                case .startNewGameView:
+                    ConnectView()
+                        .onAppear {
+                            transitioningFromConnectView = true
+                        }
                 }
+
                 if showCustomLoadingView {
                     CustomLoadingView(showCustomLoadingView: $showCustomLoadingView)
                         .transition(.move(edge: .leading))
@@ -41,6 +63,7 @@ struct LootApp: App {
             .showCustomAlert(alert: $model.alert)
             .zIndex(2.0) // This zIndex will ensure that the loading view is on top of other views
             .environmentObject(model)
+            .environmentObject(profileStore)
         }
     }
 }

@@ -53,39 +53,24 @@ struct ViewSingleCardView: View {
                     Image("loot_\(card.number)")
                         .resizable()
                         .scaledToFit()
-                        .offset(y: -20)
                     Spacer()
+                    Text(card.description)
+                        .font(.custom("Quasimodo", size: 16))
+                        .multilineTextAlignment(.leading)
                 }
                 .padding()
             }
         }
         .foregroundStyle(Color.black)
         .frame(width: 250, height: 400)
-        .overlay(RoundedRectangle(cornerRadius: 35).stroke(lineWidth: 7))
+        .overlay(RoundedRectangle(cornerRadius: 25)
+            .stroke(lineWidth: 7)
+            .foregroundStyle(Color.lootBrown)
+        )
         .onAppear {
             withAnimation(.spring()) {
                 offset = 0
             }
-        }
-        .offset(y: offset)
-    }
-    @ViewBuilder func buildCompareDismissButton() -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 25)
-                .foregroundStyle(Color.green)
-            Text("Dismiss")
-                .font(.custom("Quasimodo", size: 24))
-        }
-        .frame(width: 200, height: 60, alignment: .center)
-        .overlay(RoundedRectangle(cornerRadius: 35).stroke(lineWidth: 7))
-        .onAppear {
-            withAnimation(.spring()) {
-                offset = 0
-            }
-        }
-        .onTapGesture {
-            onTap()
-            close()
         }
         .offset(y: offset)
     }
@@ -96,6 +81,17 @@ struct ViewSingleCardView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isShowing = false
+        }
+    }
+}
+
+extension View {
+    func viewSingleCard(isPresented: Binding<Bool>, card: Card, onTap: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            if isPresented.wrappedValue {
+                ViewSingleCardView(isShowing: isPresented, card: card, onTap: onTap)
+            }
         }
     }
 }

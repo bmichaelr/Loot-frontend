@@ -5,6 +5,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>quasimodo.ttf</string>
+		<string>Windlass.ttf</string>
+		<string>caslon-antique.regular.ttf</string>
 	</array>
 </dict>
 </plist>

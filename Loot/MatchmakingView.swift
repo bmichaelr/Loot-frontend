@@ -9,7 +9,10 @@ import SwiftUI
 
 struct MatchmakingView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @State private var createButtonPressed = false
+    @State private var tutorialButtonPressed = false
+
     @State private var refreshOpacity: CGFloat = 1.0
     var body: some View {
         let mainBoxWidth = 350
@@ -17,7 +20,6 @@ struct MatchmakingView: View {
             ZStack {
                 Color.lootBeige.ignoresSafeArea(.all)
                 VStack {
-                    // NavigationBar()
                     Text("Available Games")
                         .font(Font.custom("Quasimodo", size: 30))
                         .foregroundStyle(Color.black)
@@ -83,6 +85,21 @@ struct MatchmakingView: View {
                                 .resizable()
                                 .scaledToFit()
                         }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                                                Button(action: {
+                                                    tutorialButtonPressed.toggle()
+                                                }) {
+                                                    Image(systemName: "questionmark.circle.fill")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .foregroundStyle(Color.lootBeige)
+                                                }
+                        }
+                    }.sheet(isPresented: $tutorialButtonPressed) {
+                        NavigationView {
+                            TutorialView()
+                                .presentationDetents([.medium])
+                        }
                     }
                 }
             }
@@ -91,7 +108,10 @@ struct MatchmakingView: View {
                     .presentationDetents([.medium])
             }
         }
-        .onAppear(perform: self.viewModel.subscribeToMatchmakingChannels)
+        .onAppear(perform: {
+            self.viewModel.playerName = profileStore.playerProfile.name
+            self.viewModel.subscribeToMatchmakingChannels()
+        })
         .onDisappear(perform: self.viewModel.unsubscribeFromMatchmakingChannels)
     }
 }

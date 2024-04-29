@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class GamePlayer: ObservableObject, Identifiable {
     let id = UUID()
@@ -15,6 +16,10 @@ class GamePlayer: ObservableObject, Identifiable {
     @Published var isOut: Bool
     @Published var isSafe: Bool
     @Published var playerId: UUID
+    @Published var currentTurn: Bool = false
+    @Published var numberOfWins: Int = 0
+    @Published var hasCoin: Bool = false
+    @Published var counter: Int = 0
     init(from player: Player) {
         self.clientId = player.id
         self.name = player.name
@@ -31,8 +36,13 @@ class GamePlayer: ObservableObject, Identifiable {
         }
     }
     func updatePlayer(with player: Player) {
-        self.isOut = player.isOut
-        self.isSafe = player.isSafe
+        withAnimation {
+            self.isOut = player.isOut
+            self.isSafe = player.isSafe
+        }
+    }
+    func changeTurnStatus() {
+        self.currentTurn.toggle()
     }
     func resetBooleans() {
         self.isOut = false

@@ -11,4 +11,5 @@ struct RoundStatusResponse: Codable {
     let winner: Player
     let gameOver: Bool
     let roundOver: Bool
+    let winningCard: CardResponse?
 }

@@ -39,8 +39,8 @@ struct NavigationBar: View {
                         .padding(.bottom, -1)
                         .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.50), radius: 4, y: 4)
                         .padding(.vertical, -5)
-                } // end vstack
-            } // end zstack
+                }
+            }
         }
         .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
         .navigationBarTitleDisplayMode(.inline)

@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ConnectView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @FocusState private var nameFieldFocused: Bool
     @State private var buttonPressed = false
+    @State private var presentProfileModifcations = false
+
     private func hideKeyboard() {
             nameFieldFocused = false
         }
@@ -53,13 +56,59 @@ struct ConnectView: View {
                         }
                 }
                 VStack {
-                    CustomTextField(text: $viewModel.playerName,
-                                    isFocused: _nameFieldFocused,
-                                    prompt: "Enter your name here...")
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(height: 210)
+                            .background(Color.lootBeige)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.black, lineWidth: 2)
+                            )
+                        HStack {
+                            if !UserDefaults.standard.bool(forKey: "hasBeenLaunchedBeforeFlag") {
+                                Spacer()
+                                Text("Create Profile")
+                                    .font(.custom("Quasimodo", size: 20))
+                                Spacer()
+                            } else {
+                                // Display Previous Existing Profile
+                                PlayerProfileView(
+                                    name: profileStore.playerProfile.name,
+                                    imageNumber: profileStore.playerProfile.imageNum,
+                                    bgColor: profileStore.playerProfile.background)
+                                .frame(width: 200, height: 200)
+                                Spacer()
+                                Text(profileStore.playerProfile.name)
+                                    .font(.custom("Quasimodo", size: 18))
+                            }
+
+                        }
+                        .padding([.leading, .trailing], 20)
+                    }.onTapGesture {
+                        presentProfileModifcations.toggle()
+                    }
                     CustomButton(text: "Connect", onClick: viewModel.connectToSocket)
                 }
+
                 .offset(y: -30)
                 .padding([.leading, .trailing], 20)
+                .onAppear(perform: {
+                    Task {
+                        do {
+                            try await profileStore.load()
+                        } catch {
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                })
+                .sheet(isPresented: $presentProfileModifcations) {
+                    NavigationView {
+                        ModifyProfileView(displayModifyProfile: $presentProfileModifcations)
+                            .presentationDetents([.medium])
+                    }
+                }
             }
             .padding(EdgeInsets(top: 39, leading: 10, bottom: 39, trailing: 10))
             .cornerRadius(10)
