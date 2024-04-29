@@ -82,11 +82,11 @@
 		6F1987E62BD6DCB7007C20A5 /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F1987E52BD6DCB7007C20A5 /* ProfileStore.swift */; };
 		6F20F73B2BCDB1BA000C0D8E /* ModifyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F20F73A2BCDB1BA000C0D8E /* ModifyProfileView.swift */; };
 		6F3915992BD8CCAD009AE1AC /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3915982BD8CCAD009AE1AC /* Profile.swift */; };
-		6F39159B2BD9142D009AE1AC /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F39159A2BD9142D009AE1AC /* TutorialView.swift */; };
 		6F566CFE2B9F609A00EC7C3D /* DisplayedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */; };
 		6F566D002B9F624100EC7C3D /* ViewToDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */; };
 		6F566D022B9F676C00EC7C3D /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F566D012B9F676C00EC7C3D /* GameView.swift */; };
 		6FA3BFC02B8FC825005A6846 /* GameLobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */; };
+		6FF2A7802BE0264B00D6A22D /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF2A77F2BE0264B00D6A22D /* TutorialView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,11 +174,11 @@
 		6F1987E52BD6DCB7007C20A5 /* ProfileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStore.swift; sourceTree = "<group>"; };
 		6F20F73A2BCDB1BA000C0D8E /* ModifyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyProfileView.swift; sourceTree = "<group>"; };
 		6F3915982BD8CCAD009AE1AC /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		6F39159A2BD9142D009AE1AC /* TutorialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TutorialView.swift; path = ../../../../../Downloads/TutorialView.swift; sourceTree = "<group>"; };
 		6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayedViewController.swift; sourceTree = "<group>"; };
 		6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewToDisplay.swift; sourceTree = "<group>"; };
 		6F566D012B9F676C00EC7C3D /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLobbyView.swift; sourceTree = "<group>"; };
+		6FF2A77F2BE0264B00D6A22D /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,25 +224,19 @@
 		0F0F37D42B8BCDE60018B090 /* Loot */ = {
 			isa = PBXGroup;
 			children = (
-				0F4DBD6D2BD8908500DB8E31 /* Tutorial */,
+				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
+				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
+				32FF759E2BB331860046B2B8 /* ConnectView.swift */,
 				32FF75A32BB337250046B2B8 /* Info.plist */,
 				0F46F7792BC64CC100062511 /* AlertDialog */,
 				329B54BC2BB4A4420057CA2E /* Resources */,
-				0FD38AA32BA2833D003982B7 /* Networking */,
-				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
-				336C98B82BBF098B005053DA /* Game */,
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
-				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
-				6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */,
-				3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */,
-				3CF7388C2BC5B3500036664A /* NavigationBar.swift */,
-				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
-				32FF759E2BB331860046B2B8 /* ConnectView.swift */,
-				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
-				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
-				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
-				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
-				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
+				0FD38AA32BA2833D003982B7 /* Networking */,
+				6FF2A7842BE0360C00D6A22D /* General Views */,
+				0F4DBD6D2BD8908500DB8E31 /* Tutorial */,
+				336C98B82BBF098B005053DA /* Game */,
+				6FF2A7822BE035C000D6A22D /* Matchmaking */,
+				6FF2A7812BE02AF800D6A22D /* Lobby */,
 				6F1987E72BD6E308007C20A5 /* Profile */,
 			);
 			path = Loot;
@@ -270,7 +264,7 @@
 				0F4DBD702BD8910A00DB8E31 /* Pages */,
 				0F4DBD6E2BD8909D00DB8E31 /* TutorialText.swift */,
 				0F4DBD772BD8915800DB8E31 /* CardDescriptionView.swift */,
-				6F39159A2BD9142D009AE1AC /* TutorialView.swift */,
+				6FF2A77F2BE0264B00D6A22D /* TutorialView.swift */,
 			);
 			path = Tutorial;
 			sourceTree = "<group>";
@@ -425,6 +419,7 @@
 				336C98B62BBF098B005053DA /* GameState.swift */,
 				42E611F22BCEEDBE00B36C62 /* WinnerView.swift */,
 				6F566D012B9F676C00EC7C3D /* GameView.swift */,
+				6FF2A7832BE035D300D6A22D /* DisplayViewController */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -438,6 +433,43 @@
 				6F3915982BD8CCAD009AE1AC /* Profile.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		6FF2A7812BE02AF800D6A22D /* Lobby */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
+				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
+			);
+			path = Lobby;
+			sourceTree = "<group>";
+		};
+		6FF2A7822BE035C000D6A22D /* Matchmaking */ = {
+			isa = PBXGroup;
+			children = (
+				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
+				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
+			);
+			path = Matchmaking;
+			sourceTree = "<group>";
+		};
+		6FF2A7832BE035D300D6A22D /* DisplayViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
+				6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */,
+			);
+			path = DisplayViewController;
+			sourceTree = "<group>";
+		};
+		6FF2A7842BE0360C00D6A22D /* General Views */ = {
+			isa = PBXGroup;
+			children = (
+				3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */,
+				3CF7388C2BC5B3500036664A /* NavigationBar.swift */,
+				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
+			);
+			path = "General Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -610,11 +642,11 @@
 				0F4DBD802BD8BB7300DB8E31 /* Page7.swift in Sources */,
 				0F91CFF12BCC3F220057402E /* GameLogView.swift in Sources */,
 				0F23D1932BB3BDDD00D75431 /* ServerResponse.swift in Sources */,
+				6FF2A7802BE0264B00D6A22D /* TutorialView.swift in Sources */,
 				0FEB84D02BBD0B3F000C4894 /* StartRoundResponse.swift in Sources */,
 				0FD399B02BB73EC1004856EF /* CreateLobbyRequest.swift in Sources */,
 				32B9CBBE2BC5AB1B0031B563 /* DeckView.swift in Sources */,
 				6F1213F72BD6CD3500785114 /* PlayerProfileView.swift in Sources */,
-				6F39159B2BD9142D009AE1AC /* TutorialView.swift in Sources */,
 				336C98C12BBF22ED005053DA /* CardRequests.swift in Sources */,
 				6F1987E62BD6DCB7007C20A5 /* ProfileStore.swift in Sources */,
 				3CF7388D2BC5B3500036664A /* NavigationBar.swift in Sources */,
@@ -807,7 +839,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = VYLWLYD5Z4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -840,7 +872,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Loot/Preview Content\"";
-				DEVELOPMENT_TEAM = VYLWLYD5Z4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
