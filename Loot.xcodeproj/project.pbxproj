@@ -224,25 +224,24 @@
 		0F0F37D42B8BCDE60018B090 /* Loot */ = {
 			isa = PBXGroup;
 			children = (
+				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
+				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 				0F4DBD6D2BD8908500DB8E31 /* Tutorial */,
 				32FF75A32BB337250046B2B8 /* Info.plist */,
 				0F46F7792BC64CC100062511 /* AlertDialog */,
 				329B54BC2BB4A4420057CA2E /* Resources */,
 				0FD38AA32BA2833D003982B7 /* Networking */,
-				0F0F37D52B8BCDE60018B090 /* LootApp.swift */,
 				336C98B82BBF098B005053DA /* Game */,
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
 				6F566CFD2B9F609A00EC7C3D /* DisplayedViewController.swift */,
 				6F566CFF2B9F624100EC7C3D /* ViewToDisplay.swift */,
 				3C016C132BA24BB90004F3D2 /* CustomLoadingView.swift */,
 				3CF7388C2BC5B3500036664A /* NavigationBar.swift */,
-				0FD38A9B2BA26F18003982B7 /* AppViewModel.swift */,
 				32FF759E2BB331860046B2B8 /* ConnectView.swift */,
 				0F23D1942BB3C4B200D75431 /* MatchmakingView.swift */,
 				3268B6762BBDDDEA00F6218A /* CustomViews.swift */,
 				3268B6782BBDE2D100F6218A /* CreateGameView.swift */,
-				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
-				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
+				6FF2A7812BE02AF800D6A22D /* Lobby */,
 				6F1987E72BD6E308007C20A5 /* Profile */,
 			);
 			path = Loot;
@@ -438,6 +437,15 @@
 				6F3915982BD8CCAD009AE1AC /* Profile.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		6FF2A7812BE02AF800D6A22D /* Lobby */ = {
+			isa = PBXGroup;
+			children = (
+				6FA3BFBF2B8FC825005A6846 /* GameLobbyView.swift */,
+				3268B67A2BBDFDCB00F6218A /* LobbyPlayerView.swift */,
+			);
+			path = Lobby;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

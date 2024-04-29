@@ -12,6 +12,7 @@ struct MatchmakingView: View {
     @EnvironmentObject var profileStore: ProfileStore
     @State private var createButtonPressed = false
     @State private var tutorialButtonPressed = false
+    @State private var editProfileButtonPressed = false
 
     @State private var refreshOpacity: CGFloat = 1.0
     var body: some View {
@@ -80,22 +81,40 @@ struct MatchmakingView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackground()
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            Image("dragon")
-                                .resizable()
+                        HStack {
+                            PlayerProfileView(
+                                name: profileStore.playerProfile.name,
+                                imageNumber: profileStore.playerProfile.imageNum,
+                                bgColor: profileStore.playerProfile.background).onTapGesture {
+                                    editProfileButtonPressed.toggle()
+                                }
                                 .scaledToFit()
+                                .frame(alignment: .leading)
+                                .padding()
+                            Spacer()
+
+                            // ToolbarItem(placement: .principal) {
+                                Image("dragon")
+                                    .resizable()
+                                    .scaledToFit().frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            // }
+                            Spacer()
+                           // ToolbarItem(placement: .navigationBarTrailing) {
+                                                    Button(action: {
+                                                        tutorialButtonPressed.toggle()
+                                                    }) {
+                                                        Image(systemName: "questionmark.circle.fill")
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .foregroundStyle(Color.lootBeige)
+                                                    }.frame(alignment: .leading)
+                           // }
+                           // ToolbarItem(placement: .navigationBarLeading) {
+
+                          //  }
                         }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                                                Button(action: {
-                                                    tutorialButtonPressed.toggle()
-                                                }) {
-                                                    Image(systemName: "questionmark.circle.fill")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .foregroundStyle(Color.lootBeige)
-                                                }
-                        }
-                    }.sheet(isPresented: $tutorialButtonPressed) {
+                    }
+                    .sheet(isPresented: $tutorialButtonPressed) {
                         NavigationView {
                             TutorialView()
                                 .presentationDetents([.medium])
@@ -106,6 +125,13 @@ struct MatchmakingView: View {
             .sheet(isPresented: $createButtonPressed) {
                 CreateGameView()
                     .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $editProfileButtonPressed) {
+                NavigationView {
+                    ModifyProfileView(displayModifyProfile:
+                                        $editProfileButtonPressed)
+                        .presentationDetents([.medium])
+                }
             }
         }
         .onAppear(perform: {
