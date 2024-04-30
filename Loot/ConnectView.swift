@@ -51,9 +51,6 @@ struct ConnectView: View {
                         .resizable()
                         .scaledToFit()
                         .offset(y: -60)
-                        .onTapGesture {
-                            viewModel.viewController.changeView(view: .gameView)
-                        }
                 }
                 VStack {
                     ZStack {
