@@ -50,6 +50,7 @@ class StompClient {
     }
     func unregisterListener(_ url: String) {
         swiftStomp.unsubscribe(from: url, mode: .clientIndividual)
+        channelListeners.removeValue(forKey: url)
     }
 }
 
