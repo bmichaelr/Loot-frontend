@@ -94,7 +94,7 @@ struct MatchmakingView: View {
                             Spacer()
                             Image("dragon")
                                 .resizable()
-                                .scaledToFit().frame(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .scaledToFit().frame(alignment: .center)
                             Spacer()
                             Button(action: {
                                     tutorialButtonPressed.toggle()
@@ -130,7 +130,6 @@ struct MatchmakingView: View {
             self.viewModel.playerName = profileStore.playerProfile.name
             self.viewModel.subscribeToMatchmakingChannels()
         })
-        .onDisappear(perform: self.viewModel.unsubscribeFromMatchmakingChannels)
     }
 }
 
