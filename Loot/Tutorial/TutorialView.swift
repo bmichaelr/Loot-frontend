@@ -20,13 +20,33 @@ struct TutorialView: View {
         AnyView(Page9()),
         AnyView(Page10())
     ]
+    var showing: Binding<Bool>
+    init(_ binding: Binding<Bool>) {
+        showing = binding
+    }
     var body: some View {
         ZStack {
             Color.lootBrown.ignoresSafeArea(.all)
             VStack {
-                Text("Tutorial")
-                    .font(.custom("Quasimodo", size: 25))
-                    .foregroundStyle(Color.lootBeige)
+                HStack {
+                    Spacer()
+                    Text("Tutorial")
+                        .font(.custom("Quasimodo", size: 25))
+                        .foregroundStyle(Color.lootBeige)
+                    Spacer()
+                }
+                .overlay(alignment: .topTrailing) {
+                    ZStack {
+                        Image(systemName: "circle.fill")
+                            .font(.title)
+                            .foregroundStyle(.gray)
+                        Image(systemName: "xmark")
+                    }
+                    .offset(y: -10)
+                    .onTapGesture {
+                        showing.wrappedValue = false
+                    }
+                }
                 TabView {
                     ForEach(0..<pages.count, id: \.self) { index in
                         ZStack {
@@ -40,6 +60,7 @@ struct TutorialView: View {
                     }
                 }
             }
+            .padding(.top)
             .tabViewStyle(.page)
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
             .padding(10)
@@ -48,5 +69,5 @@ struct TutorialView: View {
 }
 
 #Preview {
-    TutorialView()
+    TutorialView(.constant(true))
 }
