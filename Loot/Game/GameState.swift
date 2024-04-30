@@ -27,6 +27,7 @@ class GameState: ObservableObject {
     @Published var showWinningView: Bool = false
     @Published var gameWinner = GamePlayer(from: Player(name: "", id: UUID()))
     @Published var outCardHand = Hand()
+    @Published var roundNumber: Int = 0
     var displayViewController = DisplayedViewController.sharedViewDisplayController
     var roomKey: String
     var stompClient: StompClient
@@ -160,8 +161,8 @@ class GameState: ObservableObject {
 extension GameState {
     // -- MARK: Handling functions for server
     func handleStartRoundResponse(_ message: Data) {
+        roundNumber += 1
         gameLog.newRound()
-        print("got handle start round request")
         guard let response = try? JSONDecoder().decode(StartRoundResponse.self, from: message) else {
             print("Error getting the start round response")
             return
@@ -182,7 +183,7 @@ extension GameState {
                 print("Unable to find player from id in start round response!")
                 return
             }
-            player.resetBooleans()
+            player.updatePlayer(with: list[index].player)
             let card = Card(from: list[index].card)
             if player.clientId == me.clientId {
                 card.faceDown = false
@@ -192,10 +193,11 @@ extension GameState {
             }
         }
         dealStartingCard(for: 0, list: response.playersAndCards)
-        syncPlayers()
+        DispatchQueue.main.asyncAfter(deadline: .now() + (0.5 * (Double(players.count) + 1.0))) {
+            self.syncPlayers()
+        }
     }
     func handleNextTurnResponse(_ message: Data) {
-        print("Recieved a next turn response!")
         guard let response = try? JSONDecoder().decode(NextTurnResponse.self, from: message) else {
             print("Unable to decode the next turn response!")
             return
@@ -218,7 +220,6 @@ extension GameState {
         dealCard(to: player, card: card)
     }
     func handleRoundStatusResponse(_ message: Data) {
-        print("Recieved a handle round status response!")
         guard let response = try? JSONDecoder().decode(RoundStatusResponse.self, from: message) else {
             print("Unable to decode the round status response!")
             return
@@ -226,8 +227,6 @@ extension GameState {
         gameLog.addMessage(text: "The round is over.", type: .roundOver)
         gameLog.roundOver(name: "\(response.winner.name)")
         guard let winner = getPlayer(from: response.winner.id) else {return}
-        print("Round over: \(response.roundOver)")
-        print("Game over: \(response.gameOver)")
         let gameOver = response.gameOver
         if gameOver {
             guard let winningCardFromResponse = response.winningCard else {
@@ -279,6 +278,7 @@ extension GameState {
             print("Unable to find card from card played in handle played card response")
             return
         }
+        playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
         discard(card: card, player: playerWhoPlayed)
         switch response.type.self {
         case .pottedPlant(let pottedResult):
@@ -301,7 +301,6 @@ extension GameState {
             gameLog.addMessage(text: log, type: .cardPlayed)
             syncPlayers()
         }
-        playerWhoPlayed.updatePlayer(with: response.playerWhoPlayed)
         playerWhoPlayed.changeTurnStatus()
     }
     private func handlePottedResult(playing: GamePlayer, result: PottedPlantResult) {
