@@ -135,6 +135,9 @@ struct HandView: View {
             }
             .fixedSize(horizontal: true, vertical: true)
             .frame(width: width, height: 110)
+            .overlay {
+                getPlayerStatus()
+            }
         case .large:
             let size = hand.cards.count
             let offset: Double = size > 1 ? 10 : 0
