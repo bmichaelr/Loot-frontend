@@ -25,7 +25,6 @@ struct ViewSingleCardView: View {
                     close()
                 }
                 CustomButton(text: "Dismiss") {
-                    onTap()
                     close()
                 }
                 .frame(width: 250)
@@ -75,6 +74,7 @@ struct ViewSingleCardView: View {
         .offset(y: offset)
     }
     private func close() {
+        onTap()
         withAnimation {
             opacity = 0
             offset = 1000

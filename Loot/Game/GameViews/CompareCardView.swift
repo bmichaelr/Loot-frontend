@@ -28,7 +28,6 @@ struct CompareCardView: View {
                     close()
                 }
                 CustomButton(text: "Dismiss") {
-                    onTap()
                     close()
                 }
                 .offset(y: offset)
@@ -78,6 +77,7 @@ struct CompareCardView: View {
         .offset(y: offset)
     }
     private func close() {
+        onTap()
         withAnimation {
             opacity = 0
             offset = 1000
