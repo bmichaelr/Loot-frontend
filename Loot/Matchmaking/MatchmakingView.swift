@@ -108,7 +108,7 @@ struct MatchmakingView: View {
                     }
                     .sheet(isPresented: $tutorialButtonPressed) {
                         NavigationView {
-                            TutorialView()
+                            TutorialView($tutorialButtonPressed)
                                 .presentationDetents([.medium])
                         }
                     }
