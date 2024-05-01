@@ -233,6 +233,7 @@
 				0F0F37DB2B8BCDE80018B090 /* Preview Content */,
 				0FD38AA32BA2833D003982B7 /* Networking */,
 				6FF2A7842BE0360C00D6A22D /* General Views */,
+				6FF2A7832BE035D300D6A22D /* DisplayViewController */,
 				0F4DBD6D2BD8908500DB8E31 /* Tutorial */,
 				336C98B82BBF098B005053DA /* Game */,
 				6FF2A7822BE035C000D6A22D /* Matchmaking */,
@@ -419,7 +420,6 @@
 				336C98B62BBF098B005053DA /* GameState.swift */,
 				42E611F22BCEEDBE00B36C62 /* WinnerView.swift */,
 				6F566D012B9F676C00EC7C3D /* GameView.swift */,
-				6FF2A7832BE035D300D6A22D /* DisplayViewController */,
 			);
 			path = Game;
 			sourceTree = "<group>";
