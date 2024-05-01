@@ -15,6 +15,8 @@ struct Player: Codable {
         self.isOut = false
         self.ready = false
         self.isHost = false
+        self.profileColor = "#000000"
+        self.profilePicture = 2
     }
     init(name: String, id: UUID, ready: Bool) {
         self.name = name
@@ -23,9 +25,23 @@ struct Player: Codable {
         self.isSafe = false
         self.isOut = false
         self.isHost = false
+        self.profileColor = "#000000"
+        self.profilePicture = 2
+    }
+    init(profile: Profile, id: UUID, ready: Bool) {
+        self.id = id
+        self.name = profile.name
+        self.profileColor = profile.background
+        self.profilePicture = profile.imageNum
+        self.ready = ready
+        self.isSafe = false
+        self.isOut = false
+        self.isHost = false
     }
     let id: UUID
     let name: String
+    let profilePicture: Int
+    let profileColor: String
     let ready: Bool
     let isSafe: Bool
     let isOut: Bool
