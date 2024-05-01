@@ -253,16 +253,18 @@ extension GameState {
             self.outCardHand.cards.removeAll()
             winner.numberOfWins += 1
             winner.counter += 1
+            sleep(UInt32(0.5))
             withAnimation {
-                sleep(1)
+                sleep(UInt32(0.5))
                 self.hasCoin.toggle()
                 winner.hasCoin.toggle()
             } completion: {
                 winner.hasCoin = false
                 self.hasCoin.toggle()
+                sleep(UInt32(0.5))
+                self.cleanUpCards()
+                self.syncPlayers()
             }
-            self.cleanUpCards()
-            self.syncPlayers()
         }
     }
     func handlePlayedCardResponse(_ message: Data) {
