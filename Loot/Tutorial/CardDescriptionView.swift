@@ -19,7 +19,7 @@ struct CardDescriptionView: View {
             }
             Divider()
             HStack {
-                Text("Number in deck: ")
+                Text("Number per deck: ")
                 Spacer()
                 Text(getNumberInDeck())
             }

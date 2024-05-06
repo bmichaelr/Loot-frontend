@@ -106,30 +106,31 @@ struct GameLobbyView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackground()
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.leaveGame(viewModel.lobbyData.roomKey)
-                    } label: {
-                        Text("Leave")
-                            .font(.custom("Quasimodo", size: 14))
-                            .foregroundStyle(Color.lootBeige)
-                    }
-                }
-                ToolbarItem(placement: .principal) {
-                    Text("Lobby")
-                        .font(.custom("Quasimodo", size: 14))
-                        .foregroundStyle(Color.lootBeige)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                                        Button(action: {
-                                            tutorialButtonPressed.toggle()
-                                        }) {
+                HStack {
+                                            Button {
+                                        viewModel.leaveGame(viewModel.lobbyData.roomKey)
+                                    } label: {
+                                        Text("Leave")
+                                            .font(.custom("Quasimodo", size: 14))
+                                            .foregroundStyle(Color.lootBeige)
+                                    }
+                                                .scaledToFit()
+                                                .frame(alignment: .leading)
+                                            Spacer()
+                                            Image("dragon")
+                                                .resizable()
+                                                .scaledToFit().frame(alignment: .center)
+                                            Spacer()
+                                            Button(action: {
+                                                    tutorialButtonPressed.toggle()
+                                                }) {
                                             Image(systemName: "questionmark.circle.fill")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .foregroundStyle(Color.lootBeige)
+                                            }.frame(alignment: .leading)
                                         }
-                }
+
             }.sheet(isPresented: $tutorialButtonPressed) {
                 NavigationView {
                     TutorialView($tutorialButtonPressed)
