@@ -123,17 +123,19 @@ struct RuleView: View {
             .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
         } else {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Sequence of Play")
-                    .font(.custom("Windlass", size: 36))
-                    .padding([.top])
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("1. Shuffle the deck. Remove one card face down (do not flip any face up.)")
-                    Text("2. Deal each player one card.")
-                    Text("3. Each player, in turn, draws one card then discards one card. " +
-                         "Apply any effects on the card discarded.")
-                    Text(lastRule)
-                }
-                .font(.custom("CaslonAntique", size: 28))
+                ScrollView(content: {
+                    Text("Sequence of Play")
+                        .font(.custom("Windlass", size: 36))
+                        .padding([.top])
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("1. Shuffle the deck. Remove one card face down (do not flip any face up.)")
+                        Text("2. Deal each player one card.")
+                        Text("3. Each player, in turn, draws one card then discards one card. " +
+                             "Apply any effects on the card discarded.")
+                        Text(lastRule)
+                    }
+                    .font(.custom("CaslonAntique", size: 28))
+                })
                 Spacer()
                 Text("Tap to see list of cards.")
                     .font(.custom("Windlass", size: 18))
