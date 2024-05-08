@@ -9,12 +9,13 @@ import SwiftUI
 
 struct LobbyPlayerView: View {
     var name: String = "Waiting"
+    var imageNum: Int = 1
+    var background: String = "#000000"
     var ready: Bool = false
     var body: some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .frame(height: 50)
                 .background(Color.lootBeige)
                 .cornerRadius(10)
                 .overlay(
@@ -22,6 +23,9 @@ struct LobbyPlayerView: View {
                         .stroke(.black, lineWidth: 2)
                 )
             HStack {
+                PlayerProfileView(name: name, imageNumber: imageNum, bgColor: background)
+                    .padding()
+                Spacer()
                 Text(name)
                     .font(.custom("Quasimodo", size: 18))
                 Spacer()
@@ -29,6 +33,7 @@ struct LobbyPlayerView: View {
                     .foregroundStyle(ready ? Color.green : Color.red)
             }
             .padding([.leading, .trailing], 20)
+
         }
     }
 }

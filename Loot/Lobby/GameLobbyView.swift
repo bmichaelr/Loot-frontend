@@ -7,6 +7,7 @@ import SwiftUI
 
 struct GameLobbyView: View {
     @EnvironmentObject var viewModel: AppViewModel
+    @EnvironmentObject var profileStore: ProfileStore
     @State private var ready: Bool = true
     @State private var tutorialButtonPressed = false
     @State var readyTime: ReadyTimer = ReadyTimer()
@@ -27,16 +28,8 @@ struct GameLobbyView: View {
                         Spacer()
                     }.padding()
 
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(height: 280)
-                            .background(Color.lootBrown)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.black, lineWidth: 2)
-                            )
+                    Spacer()
+
                         VStack(alignment: .center) {
                             HStack {
                                 Text("Player")
@@ -53,15 +46,22 @@ struct GameLobbyView: View {
                             ForEach(0..<viewModel.lobbyData.maxPlayers, id: \.self) { num in
                                 if num < numberOfPlayers {
                                     let player = viewModel.lobbyData.players[num]
-                                    LobbyPlayerView(name: player.name, ready: player.ready)
+                                    LobbyPlayerView(name: player.name, imageNum: player.profilePicture, background: player.profileColor, ready: player.ready)
                                         .padding([.leading, .trailing], 15)
-                                } else {
-                                    LobbyPlayerView()
-                                        .padding([.leading, .trailing], 15)
+                                        .frame(height: 100)
                                 }
                             }
-                        }
-                    }
+                        }.padding()
+                            .background(content: {
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    // .frame(height: 280)
+                                    .background(Color.lootBrown)
+                                    .cornerRadius(10)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(.black, lineWidth: 2)
+                                    )})
 
                     Spacer()
 
@@ -102,7 +102,12 @@ struct GameLobbyView: View {
                 .padding([.leading, .trailing], 20)
 
             }
-            .onAppear(perform: self.viewModel.subscribeToLobbyChannels)
+            .onAppear(perform: {
+                self.viewModel.subscribeToLobbyChannels()
+                self.viewModel.playerName = profileStore.playerProfile.name
+                self.viewModel.playerPhoto = profileStore.playerProfile.imageNum
+                self.viewModel.playerBackground = profileStore.playerProfile.background
+            })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackground()
             .toolbar {
