@@ -105,6 +105,10 @@ struct ModifyProfileView: View {
                                         fatalError(error.localizedDescription)
                                     }
                                 }
+                                // Update App View Model
+                                self.viewModel.playerName = name
+                                self.viewModel.playerPhoto = imageNumber
+                                self.viewModel.playerBackground = bgColor.toHexString()
                                 displayModifyProfile = false
                             }.padding()
 
@@ -138,6 +142,10 @@ struct ModifyProfileView: View {
                 imageNumber = profile.imageNum
                 name = profile.name
                 bgColor = Color(hex: profile.background)
+                // Update App View Model
+                self.viewModel.playerName = name
+                self.viewModel.playerPhoto = imageNumber
+                self.viewModel.playerBackground = bgColor.toHexString()
             }
         })
     }

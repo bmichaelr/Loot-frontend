@@ -10,6 +10,8 @@ import Foundation
 class AppViewModel: ObservableObject {
     let stompClient: StompClient = StompClient()
     @Published var playerName: String = ""
+    @Published var playerPhoto: Int = 1
+    @Published var playerBackground: String = "#000000"
     @Published var connecting: Bool = false
     @Published var lobbyData: LobbyResponse = LobbyResponse()
     @Published var serverList: [ServerResponse] = []
@@ -34,7 +36,11 @@ class AppViewModel: ObservableObject {
         stompClient.registerListener("/topic/matchmaking/servers/\(id)", using: handleServerListResponse)
         stompClient.registerListener("/topic/matchmaking/\(id)", using: handleLobbyResponse)
         stompClient.registerListener("/topic/error/\(id)", using: handleErrorResponse)
-        stompClient.sendData(body: Player(name: playerName, id: clientUUID), to: "/app/loadAvailableServers")
+        stompClient.sendData(body: Player(name: playerName,
+                                          id: clientUUID,
+                                          image: playerPhoto,
+                                          background: playerBackground),
+                             to: "/app/loadAvailableServers")
     }
     func unsubscribeFromMatchmakingChannels() {
         stompClient.unregisterListener("/topic/matchmaking/\(clientUUID.uuidString.lowercased())")
@@ -46,17 +52,26 @@ class AppViewModel: ObservableObject {
         stompClient.unregisterListener("/topic/lobby/\(lobbyData.roomKey)")
     }
     func reloadServerList() {
-        let player = Player(name: playerName, id: clientUUID)
+        let player = Player(name: playerName,
+                            id: clientUUID,
+                            image: playerPhoto,
+                            background: playerBackground)
         stompClient.sendData(body: player, to: "/app/loadAvailableServers")
     }
     func createGame(_ roomName: String, _ players: Int, _ wins: Int) {
-        let player = Player(name: playerName, id: clientUUID)
+        let player = Player(name: playerName,
+                                         id: clientUUID,
+                                         image: playerPhoto,
+                                         background: playerBackground)
         let settings = GameSettings(roomName: roomName, numberOfPlayers: players, numberOfWinsNeeded: wins)
         let request = CreateLobbyRequest(settings: settings, player: player)
         stompClient.sendData(body: request as CreateLobbyRequest, to: "/app/createGame")
     }
     func joinGame(_ key: String, roomName: String) {
-        let player = Player(name: playerName, id: clientUUID)
+        let player = Player(name: playerName,
+                            id: clientUUID,
+                            image: playerPhoto,
+                            background: playerBackground)
         let request = LobbyRequest(player: player, roomKey: key)
         alert = AlertToShow.joinGame(gameName: roomName, onOkPressed: {
             self.stompClient.sendData(body: request as LobbyRequest, to: "/app/joinGame")
@@ -64,7 +79,10 @@ class AppViewModel: ObservableObject {
     }
     func leaveGame(_ key: String) {
         unsubscribeFromLobbyChannels()
-        let player = Player(name: playerName, id: clientUUID)
+        let player = Player(name: playerName,
+                            id: clientUUID,
+                            image: playerPhoto,
+                            background: playerBackground)
         let request = LobbyRequest(player: player, roomKey: key)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/leaveGame")
         self.lobbyData = LobbyResponse()
@@ -72,12 +90,19 @@ class AppViewModel: ObservableObject {
         viewController.changeView(view: .homeMenuView)
     }
     func syncPlayers() {
-        let player = Player(name: playerName, id: clientUUID)
+        let player = Player(name: playerName,
+                            id: clientUUID,
+                            image: playerPhoto,
+                            background: playerBackground)
         let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
         stompClient.sendData(body: request, to: "/app/game/sync")
     }
     func changeReadyStatus(_ ready: Bool) {
-        let player = Player(name: playerName, id: clientUUID, ready: ready)
+        let player = Player(name: playerName,
+                            id: clientUUID,
+                            image: playerPhoto,
+                            background: playerBackground,
+                            ready: ready)
         let request = LobbyRequest(player: player, roomKey: lobbyData.roomKey)
         stompClient.sendData(body: request as LobbyRequest, to: "/app/ready")
     }

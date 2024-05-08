@@ -128,6 +128,8 @@ struct MatchmakingView: View {
         }
         .onAppear(perform: {
             self.viewModel.playerName = profileStore.playerProfile.name
+            self.viewModel.playerPhoto = profileStore.playerProfile.imageNum
+            self.viewModel.playerBackground = profileStore.playerProfile.background
             self.viewModel.subscribeToMatchmakingChannels()
         })
     }
